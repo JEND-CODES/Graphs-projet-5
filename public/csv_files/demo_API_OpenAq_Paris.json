@@ -1,0 +1,546 @@
+{
+    "nhits": 149,
+    "parameters": {
+        "dataset": "qualite-de-lair-france",
+        "timezone": "UTC",
+        "q": "paris",
+        "rows": 10,
+        "sort": ["measurements_lastupdated"],
+        "format": "json",
+        "facet": ["city", "location", "measurements_parameter", "measurements_sourcename", "measurements_lastupdated", "commune", "nom_epci", "nom_dep", "nom_reg"]
+    },
+    "records": [{
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "35b687e6dcc0126c99bd8b52fdd8d2aee5870673",
+        "fields": {
+            "city": "Paris",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T18:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Paris - FR04179",
+            "coordinates": [48.830383, 2.26989],
+            "nom_dep": "PARIS",
+            "commune": "Paris",
+            "measurements_parameter": "NO2",
+            "measurements_value": 36.3,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.26989, 48.830383]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "cab1953757b80554cc902da0009ee285394b8f35",
+        "fields": {
+            "city": "Paris",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T18:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Paris - FR04135",
+            "coordinates": [48.83795, 2.4080598],
+            "nom_dep": "PARIS",
+            "commune": "Paris",
+            "measurements_parameter": "NO2",
+            "measurements_value": 42.9,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.4080598, 48.83795]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "4c729b2360ef0e301968439c65e434acddb432ad",
+        "fields": {
+            "city": "Paris",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T18:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Paris - FR04118",
+            "coordinates": [48.870285, 2.3325026],
+            "nom_dep": "PARIS",
+            "commune": "Paris",
+            "measurements_parameter": "NO2",
+            "measurements_value": 85.7,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.3325026, 48.870285]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "ab692209c193cba1a5ec31572bb1e48a16ac6490",
+        "fields": {
+            "city": "Paris",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T18:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Paris - FR04118",
+            "coordinates": [48.870285, 2.3325026],
+            "nom_dep": "PARIS",
+            "commune": "Paris",
+            "measurements_parameter": "PM10",
+            "measurements_value": 25.3,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.3325026, 48.870285]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "3ba296302ba5927666f825c07bb59d353bf0aeea",
+        "fields": {
+            "city": "Paris",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Paris - FR04141",
+            "coordinates": [48.85279, 2.360557],
+            "nom_dep": "PARIS",
+            "commune": "Paris",
+            "measurements_parameter": "NO2",
+            "measurements_value": 68.7,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.360557, 48.85279]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "09cc07e80f14c92b687e894335827c52310bada0",
+        "fields": {
+            "city": "Seine-Saint-Denis",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Seine-Saint-Denis - FR04319",
+            "coordinates": [48.955536, 2.5752814],
+            "nom_dep": "SEINE-SAINT-DENIS",
+            "commune": "Tremblay-en-France",
+            "measurements_parameter": "PM10",
+            "measurements_value": 28.1,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.5752814, 48.955536]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "a1abbab52a90b63af71d3f3c08159680ec80dbee",
+        "fields": {
+            "city": "Hauts-de-Seine",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Hauts-de-Seine - FR04017",
+            "coordinates": [48.881393, 2.2780557],
+            "nom_dep": "HAUTS-DE-SEINE",
+            "commune": "Neuilly-sur-Seine",
+            "measurements_parameter": "O3",
+            "measurements_value": 10.5,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.2780557, 48.881393]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "47527c0955b816add946ea69cae803a955c31259",
+        "fields": {
+            "city": "Val-de-Marne",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Val-de-Marne - FR04034",
+            "coordinates": [48.775772, 2.3758013],
+            "nom_dep": "VAL-DE-MARNE",
+            "commune": "Vitry-sur-Seine",
+            "measurements_parameter": "NO2",
+            "measurements_value": 35.1,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.3758013, 48.775772]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "87bfce3720d55fa08581ad4a474d5c0b45e1efa7",
+        "fields": {
+            "city": "Seine-et-Marne",
+            "nom_epci": "CA Paris - Vall\u00e9e de la Marne",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Seine-et-Marne - FR04098",
+            "coordinates": [48.84026, 2.6352797],
+            "nom_dep": "SEINE-ET-MARNE",
+            "commune": "Lognes",
+            "measurements_parameter": "PM10",
+            "measurements_value": 17.8,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.6352797, 48.84026]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }, {
+        "datasetid": "qualite-de-lair-france",
+        "recordid": "9eeabe0a43ebad2366dd821e03dc150a215241a6",
+        "fields": {
+            "city": "Hauts-de-Seine",
+            "nom_epci": "M\u00e9tropole du Grand Paris",
+            "measurements_lastupdated": "2019-11-21T17:00:00+00:00",
+            "measurements_unit": "\u00b5g/m\u00b3",
+            "nom_reg": "ILE-DE-FRANCE",
+            "location": "France - Hauts-de-Seine - FR04002",
+            "coordinates": [48.92969, 2.2947195],
+            "nom_dep": "HAUTS-DE-SEINE",
+            "commune": "Gennevilliers",
+            "measurements_parameter": "PM10",
+            "measurements_value": 22.1,
+            "measurements_sourcename": "EEA France"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [2.2947195, 48.92969]
+        },
+        "record_timestamp": "1970-01-01T00:00:00+00:00"
+    }],
+    "facet_groups": [{
+        "facets": [{
+            "count": 60,
+            "path": "Paris",
+            "state": "displayed",
+            "name": "Paris"
+        }, {
+            "count": 10,
+            "path": "Saint-Denis",
+            "state": "displayed",
+            "name": "Saint-Denis"
+        }, {
+            "count": 9,
+            "path": "Vitry-sur-Seine",
+            "state": "displayed",
+            "name": "Vitry-sur-Seine"
+        }, {
+            "count": 6,
+            "path": "Aubervilliers",
+            "state": "displayed",
+            "name": "Aubervilliers"
+        }, {
+            "count": 6,
+            "path": "Bobigny",
+            "state": "displayed",
+            "name": "Bobigny"
+        }, {
+            "count": 6,
+            "path": "Gennevilliers",
+            "state": "displayed",
+            "name": "Gennevilliers"
+        }, {
+            "count": 6,
+            "path": "Lognes",
+            "state": "displayed",
+            "name": "Lognes"
+        }, {
+            "count": 6,
+            "path": "Neuilly-sur-Seine",
+            "state": "displayed",
+            "name": "Neuilly-sur-Seine"
+        }, {
+            "count": 6,
+            "path": "Tremblay-en-France",
+            "state": "displayed",
+            "name": "Tremblay-en-France"
+        }, {
+            "count": 4,
+            "path": "Champigny-sur-Marne",
+            "state": "displayed",
+            "name": "Champigny-sur-Marne"
+        }, {
+            "count": 4,
+            "path": "Mantes-la-Jolie",
+            "state": "displayed",
+            "name": "Mantes-la-Jolie"
+        }, {
+            "count": 4,
+            "path": "Pantin",
+            "state": "displayed",
+            "name": "Pantin"
+        }, {
+            "count": 4,
+            "path": "Puteaux",
+            "state": "displayed",
+            "name": "Puteaux"
+        }, {
+            "count": 4,
+            "path": "Villemomble",
+            "state": "displayed",
+            "name": "Villemomble"
+        }, {
+            "count": 2,
+            "path": "Argenteuil",
+            "state": "displayed",
+            "name": "Argenteuil"
+        }, {
+            "count": 2,
+            "path": "Ivry-sur-Seine",
+            "state": "displayed",
+            "name": "Ivry-sur-Seine"
+        }, {
+            "count": 2,
+            "path": "Les Ulis",
+            "state": "displayed",
+            "name": "Les Ulis"
+        }, {
+            "count": 2,
+            "path": "Montlh\u00e9ry",
+            "state": "displayed",
+            "name": "Montlh\u00e9ry"
+        }, {
+            "count": 2,
+            "path": "Nogent-sur-Marne",
+            "state": "displayed",
+            "name": "Nogent-sur-Marne"
+        }, {
+            "count": 2,
+            "path": "\u00c9vry-Courcouronnes",
+            "state": "displayed",
+            "name": "\u00c9vry-Courcouronnes"
+        }, {
+            "count": 1,
+            "path": "Cachan",
+            "state": "displayed",
+            "name": "Cachan"
+        }, {
+            "count": 1,
+            "path": "Garches",
+            "state": "displayed",
+            "name": "Garches"
+        }],
+        "name": "commune"
+    }, {
+        "facets": [{
+            "count": 133,
+            "path": "M\u00e9tropole du Grand Paris",
+            "state": "displayed",
+            "name": "M\u00e9tropole du Grand Paris"
+        }, {
+            "count": 6,
+            "path": "CA Paris - Vall\u00e9e de la Marne",
+            "state": "displayed",
+            "name": "CA Paris - Vall\u00e9e de la Marne"
+        }, {
+            "count": 4,
+            "path": "CA Communaut\u00e9 Paris-Saclay",
+            "state": "displayed",
+            "name": "CA Communaut\u00e9 Paris-Saclay"
+        }, {
+            "count": 4,
+            "path": "CU Grand Paris Seine et Oise",
+            "state": "displayed",
+            "name": "CU Grand Paris Seine et Oise"
+        }, {
+            "count": 2,
+            "path": "CA Grand Paris Sud Seine Essonne S\u00e9nart",
+            "state": "displayed",
+            "name": "CA Grand Paris Sud Seine Essonne S\u00e9nart"
+        }],
+        "name": "nom_epci"
+    }, {
+        "facets": [{
+            "count": 4,
+            "path": "2016",
+            "state": "displayed",
+            "name": "2016"
+        }, {
+            "count": 72,
+            "path": "2017",
+            "state": "displayed",
+            "name": "2017"
+        }, {
+            "count": 4,
+            "path": "2018",
+            "state": "displayed",
+            "name": "2018"
+        }, {
+            "count": 69,
+            "path": "2019",
+            "state": "displayed",
+            "name": "2019"
+        }],
+        "name": "measurements_lastupdated"
+    }, {
+        "facets": [{
+            "count": 149,
+            "path": "ILE-DE-FRANCE",
+            "state": "displayed",
+            "name": "ILE-DE-FRANCE"
+        }],
+        "name": "nom_reg"
+    }, {
+        "facets": [{
+            "count": 60,
+            "path": "PARIS",
+            "state": "displayed",
+            "name": "PARIS"
+        }, {
+            "count": 36,
+            "path": "SEINE-SAINT-DENIS",
+            "state": "displayed",
+            "name": "SEINE-SAINT-DENIS"
+        }, {
+            "count": 18,
+            "path": "VAL-DE-MARNE",
+            "state": "displayed",
+            "name": "VAL-DE-MARNE"
+        }, {
+            "count": 17,
+            "path": "HAUTS-DE-SEINE",
+            "state": "displayed",
+            "name": "HAUTS-DE-SEINE"
+        }, {
+            "count": 6,
+            "path": "ESSONNE",
+            "state": "displayed",
+            "name": "ESSONNE"
+        }, {
+            "count": 6,
+            "path": "SEINE-ET-MARNE",
+            "state": "displayed",
+            "name": "SEINE-ET-MARNE"
+        }, {
+            "count": 4,
+            "path": "YVELINES",
+            "state": "displayed",
+            "name": "YVELINES"
+        }, {
+            "count": 2,
+            "path": "VAL-D'OISE",
+            "state": "displayed",
+            "name": "VAL-D'OISE"
+        }],
+        "name": "nom_dep"
+    }, {
+        "facets": [{
+            "count": 149,
+            "path": "France ",
+            "state": "displayed",
+            "name": "France "
+        }],
+        "name": "location"
+    }, {
+        "facets": [{
+            "count": 149,
+            "path": "EEA France",
+            "state": "displayed",
+            "name": "EEA France"
+        }],
+        "name": "measurements_sourcename"
+    }, {
+        "facets": [{
+            "count": 76,
+            "path": "AIRPARIF",
+            "state": "displayed",
+            "name": "AIRPARIF"
+        }, {
+            "count": 29,
+            "path": "Paris",
+            "state": "displayed",
+            "name": "Paris"
+        }, {
+            "count": 18,
+            "path": "Seine-Saint-Denis",
+            "state": "displayed",
+            "name": "Seine-Saint-Denis"
+        }, {
+            "count": 9,
+            "path": "Val-de-Marne",
+            "state": "displayed",
+            "name": "Val-de-Marne"
+        }, {
+            "count": 8,
+            "path": "Hauts-de-Seine",
+            "state": "displayed",
+            "name": "Hauts-de-Seine"
+        }, {
+            "count": 3,
+            "path": "Essonne",
+            "state": "displayed",
+            "name": "Essonne"
+        }, {
+            "count": 3,
+            "path": "Seine-et-Marne",
+            "state": "displayed",
+            "name": "Seine-et-Marne"
+        }, {
+            "count": 2,
+            "path": "Yvelines",
+            "state": "displayed",
+            "name": "Yvelines"
+        }, {
+            "count": 1,
+            "path": "Val-d'Oise",
+            "state": "displayed",
+            "name": "Val-d'Oise"
+        }],
+        "name": "city"
+    }, {
+        "facets": [{
+            "count": 65,
+            "path": "NO2",
+            "state": "displayed",
+            "name": "NO2"
+        }, {
+            "count": 35,
+            "path": "PM10",
+            "state": "displayed",
+            "name": "PM10"
+        }, {
+            "count": 23,
+            "path": "O3",
+            "state": "displayed",
+            "name": "O3"
+        }, {
+            "count": 12,
+            "path": "PM2.5",
+            "state": "displayed",
+            "name": "PM2.5"
+        }, {
+            "count": 8,
+            "path": "CO",
+            "state": "displayed",
+            "name": "CO"
+        }, {
+            "count": 6,
+            "path": "SO2",
+            "state": "displayed",
+            "name": "SO2"
+        }],
+        "name": "measurements_parameter"
+    }]
+}

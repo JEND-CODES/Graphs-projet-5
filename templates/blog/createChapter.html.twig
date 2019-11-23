@@ -1,0 +1,446 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition d'article{% endblock %}
+
+{% block body %}
+
+<!-- V-card Background-color -->
+<v-card flat outlined style="z-index:-1;position:fixed;top:0;left:0;height:100%;width:100%;background-color:#85C1E9;"></v-card>
+
+{% if app.user.id is defined and app.user.id == '1' %}
+
+
+
+
+
+
+
+<v-container >
+
+<v-layout row wrap>
+
+<v-col cols="12">
+          
+<v-card class="pa-5">
+    
+       <!-- Tabs Component -->
+
+            <v-tabs 
+            color="grey"
+            centered
+            >
+                <v-tab id="onglet-tab-0" v-ripple="{ class: `white--text` }">
+                    <v-icon center>fas fa-pencil-alt</v-icon>
+                    
+                </v-tab>
+                
+                <v-tab id="onglet-tab-1" v-ripple="{ class: `white--text` }">
+                    <v-icon center>fas fa-chart-line</v-icon>
+                    
+                </v-tab>
+                
+                <v-tab id="onglet-tab-2" v-ripple="{ class: `white--text` }">
+                    <v-icon center>fas fa-file-csv</v-icon>
+                    
+                </v-tab>
+                
+                <v-tab id="onglet-tab-3" v-ripple="{ class: `white--text` }">
+                    <v-icon center>fas fa-link</v-icon>
+                    
+                </v-tab>
+                
+                <v-tab id="onglet-tab-4" v-ripple="{ class: `white--text` }">
+                    <v-icon center>fas fa-satellite-dish</v-icon>
+                    
+                </v-tab>
+
+                <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:transparent;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+                
+                <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:transparent;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+                
+                <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:transparent;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+                
+                <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:transparent;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+                
+            <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:transparent;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+                
+      
+            
+                
+            </v-tabs>
+ 
+<!-- Edition de l'article -->
+           
+    {{ form_start(formChapter) }}
+  <v-card id="tab-graph-0" outlined style="border:0px solid grey;">  
+    <v-row>
+        <v-col cols="12" sm="4">
+            {{ form_row(formChapter.title, {'label': ' ', 'attr': {'placeholder': "Titre de l'article"}}) }}
+        </v-col>
+
+        <v-col cols="12" sm="4">
+            {{ form_row(formChapter.image, {'label': ' ', 'attr': {'placeholder': "Url de l'image"}}) }}
+        </v-col>
+        
+        <v-col cols="12" sm="4">
+            {{ form_row(formChapter.category, {'label': ' '}) }}
+        </v-col>
+        
+    </v-row>
+    
+        {{ form_row(formChapter.content, {'label': ' '}) }}
+
+
+            <button type="submit" class="edit-post-button" style="background-color:teal !important;color:white !important;margin-top:10px;margin-left:10px;">
+            {% if editMode %}
+                Modifier
+            {% else %}
+                Ajouter
+            {% endif %}
+            </button>
+      </v-card>
+    
+    <v-card id="tab-graph-1" outlined style="border:0px solid grey;">
+        
+        <!-- Type de graph et options design -->
+        <v-row>
+        <v-col cols="12" md="2" v-if="$vuetify.breakpoint.mdAndUp"></v-col>
+            
+            <v-col cols="12" md="4">
+                         
+        {{ form_row(formChapter.graph_type, {'label': ' ','attr': {'placeholder': "Type de Chart + Design (séparer chaque option par un espace)"}}) }}
+        
+                
+            </v-col>
+            
+        <v-col cols="12" md="4" class="design-charts">
+            <ul class="body-2">
+                <li>Charts : line, bar, column, spline, area, areaspline, pie, columnpyramid, gauge, packedbubble, polygon, scatter, waterfall</li>
+                <li>Backgrounds : midnight-blue, light-grey, light-blue, red-orange, dark-green</li>
+                <li>Icons : red-icon, blue-icon</li>
+                <li>Lines : solid, dash, dot, dashdot, longdash</li>
+            </ul>
+            
+            </v-col>
+            
+            <v-col cols="12" md="2" v-if="$vuetify.breakpoint.mdAndUp"></v-col>
+            
+        </v-row>
+        
+        <!-- Autres options générales du graph -->
+        <v-row>
+     
+        <v-col
+               cols="12"
+               md="4">
+             {{ form_row(formChapter.graph_title, {'label': ' ','attr': {'class':"area-resize",'placeholder': "Titre du graphique"}}) }} 
+                    
+        {{ form_row(formChapter.graph_subtitle, {'label': ' ','attr': {'class':"area-resize",'placeholder': "Sous-titre"}}) }}
+       
+    
+    
+            </v-col>
+            
+            <v-col
+               cols="12"
+               md="4">
+            {{ form_row(formChapter.graph_namex, {'label': ' ','attr': {'class':"area-resize",'placeholder': "Titre Axe X (false = masqué)"}}) }}
+                    
+        {{ form_row(formChapter.graph_namey, {'label': ' ','attr': {'class':"area-resize",'placeholder': "Titre Axe Y (false = masqué)"}}) }}
+    
+    
+            </v-col>
+            
+            <v-col
+               cols="12"
+               md="4">
+            {{ form_row(formChapter.graph_value, {'label': ' ','attr': {'class':"area-resize",'placeholder': "Valeur des données"}}) }} 
+                    
+        {{ form_row(formChapter.graph_colorone, {'label': ' '}) }}  
+            </v-col>
+        
+   
+      </v-row>  
+    </v-card>
+    
+    <v-card id="tab-graph-2" outlined style="border:0px solid grey;">
+         <v-row>
+        <v-col
+               cols="12"
+               md="4">
+             {{ form_row(formChapter.graph_csvurl, {'label': ' ','attr': {'placeholder': "URL du fichier CSV"}}) }}
+    
+            </v-col>
+             
+             <v-col
+               cols="12"
+               md="4">
+            
+    {{ form_row(formChapter.graph_csvfilename, {'label': ' ','attr': {'placeholder': "Nom du fichier CSV"}}) }}
+   
+            </v-col>
+             
+             <v-col
+               cols="12"
+               md="4">
+             
+     {{ form_row(formChapter.graph_csvtextdatas, {'label': ' ','attr': {'placeholder': "Données CSV"}}) }}
+            </v-col>
+      
+            <v-col cols="12">
+                <v-card outlined class="pa-5" style="border:1px solid #dcdcdc;height:280px;">
+                    <p>&nbsp;</p>
+                </v-card>
+             </v-col>
+             
+       </v-row> 
+    </v-card>
+    
+     <v-card id="tab-graph-3" outlined style="border:0px solid grey;">
+          <v-row>
+        <v-col
+               cols="12"
+               md="4">
+            
+     {{ form_row(formChapter.graph_urljson, {'label': ' ','attr': {'placeholder': "URL Arrays JSON (nommez la série par le sous-titre du graphique)"}}) }}
+    
+      
+            </v-col>
+              
+              <v-col
+               cols="12"
+               md="4">
+            {{ form_row(formChapter.graph_arrayjson, {'label': ' ','attr': {'placeholder': "Données Arrays JSON (champs liés aux noms des données JSON)"}}) }}
+
+    
+            </v-col>
+              
+              <v-col
+               cols="12"
+               md="4">
+            {{ form_row(formChapter.graph_seriesnamejson, {'label': ' ','attr': {'placeholder': "Noms, catégories ou dates pour les données JSON (champs liés aux données JSON)"}}) }}
+            </v-col>
+              
+              <v-col cols="12">
+                <v-card outlined class="pa-5" style="border:1px solid #dcdcdc;height:280px;">
+                    <p>&nbsp;</p>
+                </v-card>
+             </v-col>
+       
+    
+              </v-row>
+    </v-card>
+    
+     <v-card id="tab-graph-4" outlined style="border:0px solid grey;">
+          <v-row>
+        <v-col
+               cols="12"
+               md="6">
+             {{ form_row(formChapter.graph_urlapi, {'label': ' ','attr': {'placeholder': "Url de l'API WEB (nommez la série par le sous-titre du graphique)"}}) }}
+    
+      
+            </v-col>
+              
+                <v-col
+               cols="12"
+               md="6">
+            {{ form_row(formChapter.graph_apifilters, {'label': ' ','attr': {'placeholder': "Filtres des données : séparer chaque filtre les trois symboles +++ "}}) }}
+            </v-col>
+        
+              <v-col cols="12">
+                <v-card outlined class="pa-5" style="border:1px solid #dcdcdc;height:280px;">
+                    <p>&nbsp;</p>
+                </v-card>
+             </v-col>
+   
+              </v-row>
+    </v-card>
+        
+  
+    
+    {{ form_end(formChapter) }}
+
+    
+</v-card>
+
+</v-col> 
+ 
+</v-layout>
+
+</v-container>
+
+
+
+{% else %}
+
+<v-container>
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="white--text text-center pa-5" outlined color="rgba(255,255,255,0)"> 
+
+                    <p>Connexion nécessaire</p>
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+    </v-container>
+    
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+    
+$( "#tab-graph-1" ).hide();
+$( "#tab-graph-2" ).hide();
+$( "#tab-graph-3" ).hide();
+$( "#tab-graph-4" ).hide();
+    
+$( "#onglet-tab-0" ).click(function() {
+
+    $( "#tab-graph-0" ).fadeIn(500);
+    $( "#tab-graph-1" ).hide();
+    $( "#tab-graph-2" ).hide();
+    $( "#tab-graph-3" ).hide();
+    $( "#tab-graph-4" ).hide();
+    
+});
+    
+$( "#onglet-tab-1" ).click(function() {
+
+    $( "#tab-graph-0" ).hide();
+    $( "#tab-graph-1" ).fadeIn(500);
+    $( "#tab-graph-2" ).hide();
+    $( "#tab-graph-3" ).hide();
+    $( "#tab-graph-4" ).hide();
+    
+});
+    
+$( "#onglet-tab-2" ).click(function() {
+
+    $( "#tab-graph-0" ).hide();
+    $( "#tab-graph-1" ).hide();
+    $( "#tab-graph-2" ).fadeIn(500);
+    $( "#tab-graph-3" ).hide();
+    $( "#tab-graph-4" ).hide();
+    
+});
+    
+$( "#onglet-tab-3" ).click(function() {
+
+    $( "#tab-graph-0" ).hide();
+    $( "#tab-graph-1" ).hide();
+    $( "#tab-graph-2" ).hide();
+    $( "#tab-graph-3" ).fadeIn(500);
+    $( "#tab-graph-4" ).hide();
+    
+});
+    
+$( "#onglet-tab-4" ).click(function() {
+
+    $( "#tab-graph-0" ).hide();
+    $( "#tab-graph-1" ).hide();
+    $( "#tab-graph-2" ).hide();
+    $( "#tab-graph-3" ).hide();
+    $( "#tab-graph-4" ).fadeIn(500);
+    
+});
+
+</script>
+
+{% endblock %}
+

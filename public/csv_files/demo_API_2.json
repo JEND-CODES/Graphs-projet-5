@@ -1,0 +1,611 @@
+{
+    "meta": {
+        "name": "openaq-api",
+        "license": "CC BY 4.0",
+        "website": "https://docs.openaq.org/",
+        "page": 1,
+        "limit": 100,
+        "found": 2790
+    },
+    "results": [{
+        "country": "AD",
+        "name": "Escaldes-Engordany",
+        "city": "Escaldes-Engordany",
+        "count": 89835,
+        "locations": 2
+    }, {
+        "country": "AD",
+        "name": "unused",
+        "city": "unused",
+        "count": 7667,
+        "locations": 1
+    }, {
+        "country": "AE",
+        "name": "Abu Dhabi",
+        "city": "Abu Dhabi",
+        "count": 27856,
+        "locations": 1
+    }, {
+        "country": "AE",
+        "name": "Dubai",
+        "city": "Dubai",
+        "count": 20800,
+        "locations": 1
+    }, {
+        "country": "AE",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 1159,
+        "locations": 2
+    }, {
+        "country": "AF",
+        "name": "Kabul",
+        "city": "Kabul",
+        "count": 532,
+        "locations": 1
+    }, {
+        "country": "AF",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 328,
+        "locations": 1
+    }, {
+        "country": "AR",
+        "name": "Buenos Aires",
+        "city": "Buenos Aires",
+        "count": 14976,
+        "locations": 4
+    }, {
+        "country": "AT",
+        "name": "Amt der Burgenländischen Landesregierung",
+        "city": "Amt der Burgenländischen Landesregierung",
+        "count": 471,
+        "locations": 1
+    }, {
+        "country": "AT",
+        "name": "Amt der Burgenl�ndischen Landesregierung",
+        "city": "Amt der Burgenl�ndischen Landesregierung",
+        "count": 35608,
+        "locations": 3
+    }, {
+        "country": "AT",
+        "name": "Amt der Kärntner Landesregierung",
+        "city": "Amt der Kärntner Landesregierung",
+        "count": 471,
+        "locations": 1
+    }, {
+        "country": "AT",
+        "name": "Amt der K�rntner Landesregierung",
+        "city": "Amt der K�rntner Landesregierung",
+        "count": 104663,
+        "locations": 16
+    }, {
+        "country": "AT",
+        "name": "Amt der Niederösterreichischen Landesregierung",
+        "city": "Amt der Niederösterreichischen Landesregierung",
+        "count": 1413,
+        "locations": 3
+    }, {
+        "country": "AT",
+        "name": "Amt der Nieder�sterreichischen Landesregierung",
+        "city": "Amt der Nieder�sterreichischen Landesregierung",
+        "count": 322499,
+        "locations": 39
+    }, {
+        "country": "AT",
+        "name": "Amt der Oberösterreichischen Landesregierung",
+        "city": "Amt der Oberösterreichischen Landesregierung",
+        "count": 2828,
+        "locations": 6
+    }, {
+        "country": "AT",
+        "name": "Amt der Ober�sterreichischen Landesregierung",
+        "city": "Amt der Ober�sterreichischen Landesregierung",
+        "count": 154329,
+        "locations": 16
+    }, {
+        "country": "AT",
+        "name": "Amt der Salzburger Landesregierung",
+        "city": "Amt der Salzburger Landesregierung",
+        "count": 94197,
+        "locations": 12
+    }, {
+        "country": "AT",
+        "name": "Amt der Steiermärkischen Landesregierung",
+        "city": "Amt der Steiermärkischen Landesregierung",
+        "count": 1891,
+        "locations": 4
+    }, {
+        "country": "AT",
+        "name": "Amt der Steierm�rkischen Landesregierung",
+        "city": "Amt der Steierm�rkischen Landesregierung",
+        "count": 320372,
+        "locations": 41
+    }, {
+        "country": "AT",
+        "name": "Amt der Tiroler Landesregierung",
+        "city": "Amt der Tiroler Landesregierung",
+        "count": 113161,
+        "locations": 19
+    }, {
+        "country": "AT",
+        "name": "Austria",
+        "city": "Austria",
+        "count": 121987,
+        "locations": 174
+    }, {
+        "country": "AT",
+        "name": "Gemeinde Wien, MA22 Umweltschutz",
+        "city": "Gemeinde Wien, MA22 Umweltschutz",
+        "count": 130328,
+        "locations": 21
+    }, {
+        "country": "AT",
+        "name": "Umweltbundesamt",
+        "city": "Umweltbundesamt",
+        "count": 81025,
+        "locations": 8
+    }, {
+        "country": "AT",
+        "name": "Umweltinstitut des Landes Vorarlberg",
+        "city": "Umweltinstitut des Landes Vorarlberg",
+        "count": 36108,
+        "locations": 9
+    }, {
+        "country": "AU",
+        "name": "Central Coast",
+        "city": "Central Coast",
+        "count": 175605,
+        "locations": 1
+    }, {
+        "country": "AU",
+        "name": "Central Queensland",
+        "city": "Central Queensland",
+        "count": 21266,
+        "locations": 3
+    }, {
+        "country": "AU",
+        "name": "Central Tablelands",
+        "city": "Central Tablelands",
+        "count": 55190,
+        "locations": 1
+    }, {
+        "country": "AU",
+        "name": "Gladstone",
+        "city": "Gladstone",
+        "count": 511148,
+        "locations": 8
+    }, {
+        "country": "AU",
+        "name": "Illawarra",
+        "city": "Illawarra",
+        "count": 442320,
+        "locations": 3
+    }, {
+        "country": "AU",
+        "name": "Lower Hunter",
+        "city": "Lower Hunter",
+        "count": 441169,
+        "locations": 3
+    }, {
+        "country": "AU",
+        "name": "Mackay",
+        "city": "Mackay",
+        "count": 30102,
+        "locations": 2
+    }, {
+        "country": "AU",
+        "name": "Mount Isa",
+        "city": "Mount Isa",
+        "count": 8152,
+        "locations": 2
+    }, {
+        "country": "AU",
+        "name": "Mt Isa",
+        "city": "Mt Isa",
+        "count": 43106,
+        "locations": 2
+    }, {
+        "country": "AU",
+        "name": "North-west Slopes",
+        "city": "North-west Slopes",
+        "count": 55757,
+        "locations": 1
+    }, {
+        "country": "AU",
+        "name": "South East Queensland",
+        "city": "South East Queensland",
+        "count": 855157,
+        "locations": 15
+    }, {
+        "country": "AU",
+        "name": "South West Queensland",
+        "city": "South West Queensland",
+        "count": 141072,
+        "locations": 5
+    }, {
+        "country": "AU",
+        "name": "South-west Slopes",
+        "city": "South-west Slopes",
+        "count": 108104,
+        "locations": 2
+    }, {
+        "country": "AU",
+        "name": "Sydney East",
+        "city": "Sydney East",
+        "count": 647334,
+        "locations": 5
+    }, {
+        "country": "AU",
+        "name": "Sydney North-west",
+        "city": "Sydney North-west",
+        "count": 443145,
+        "locations": 4
+    }, {
+        "country": "AU",
+        "name": "Sydney South-west",
+        "city": "Sydney South-west",
+        "count": 790861,
+        "locations": 6
+    }, {
+        "country": "AU",
+        "name": "Tasmania Region",
+        "city": "Tasmania Region",
+        "count": 876156,
+        "locations": 34
+    }, {
+        "country": "AU",
+        "name": "Townsville",
+        "city": "Townsville",
+        "count": 89009,
+        "locations": 5
+    }, {
+        "country": "AU",
+        "name": "Upper Hunter - Muswellbrook",
+        "city": "Upper Hunter - Muswellbrook",
+        "count": 116398,
+        "locations": 1
+    }, {
+        "country": "AU",
+        "name": "Upper Hunter - Singleton",
+        "city": "Upper Hunter - Singleton",
+        "count": 117384,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Goražde",
+        "city": "Goražde",
+        "count": 70797,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Ilijaš",
+        "city": "Ilijaš",
+        "count": 2912,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Jajce",
+        "city": "Jajce",
+        "count": 62562,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Kakanj",
+        "city": "Kakanj",
+        "count": 5637,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Lukavac",
+        "city": "Lukavac",
+        "count": 81357,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 10604,
+        "locations": 1
+    }, {
+        "country": "BA",
+        "name": "Sarajevo",
+        "city": "Sarajevo",
+        "count": 264701,
+        "locations": 8
+    }, {
+        "country": "BA",
+        "name": "Tuzla",
+        "city": "Tuzla",
+        "count": 207803,
+        "locations": 3
+    }, {
+        "country": "BA",
+        "name": "Zenica",
+        "city": "Zenica",
+        "count": 233517,
+        "locations": 4
+    }, {
+        "country": "BA",
+        "name": "Živinice",
+        "city": "Živinice",
+        "count": 67397,
+        "locations": 1
+    }, {
+        "country": "BD",
+        "name": "Dhaka",
+        "city": "Dhaka",
+        "count": 30325,
+        "locations": 2
+    }, {
+        "country": "BE",
+        "name": "Antwerpen",
+        "city": "Antwerpen",
+        "count": 135259,
+        "locations": 24
+    }, {
+        "country": "BE",
+        "name": "Brabant wallon",
+        "city": "Brabant wallon",
+        "count": 17805,
+        "locations": 1
+    }, {
+        "country": "BE",
+        "name": "Brussels",
+        "city": "Brussels",
+        "count": 121634,
+        "locations": 9
+    }, {
+        "country": "BE",
+        "name": "Brussels-Capital Region",
+        "city": "Brussels-Capital Region",
+        "count": 85974,
+        "locations": 11
+    }, {
+        "country": "BE",
+        "name": "Flanders",
+        "city": "Flanders",
+        "count": 566501,
+        "locations": 67
+    }, {
+        "country": "BE",
+        "name": "Hainaut",
+        "city": "Hainaut",
+        "count": 86746,
+        "locations": 7
+    }, {
+        "country": "BE",
+        "name": "Liege",
+        "city": "Liege",
+        "count": 90351,
+        "locations": 8
+    }, {
+        "country": "BE",
+        "name": "Limburg",
+        "city": "Limburg",
+        "count": 23807,
+        "locations": 5
+    }, {
+        "country": "BE",
+        "name": "Luxembourg",
+        "city": "Luxembourg",
+        "count": 58458,
+        "locations": 4
+    }, {
+        "country": "BE",
+        "name": "Namur",
+        "city": "Namur",
+        "count": 39983,
+        "locations": 3
+    }, {
+        "country": "BE",
+        "name": "Oost-Vlaanderen",
+        "city": "Oost-Vlaanderen",
+        "count": 86645,
+        "locations": 17
+    }, {
+        "country": "BE",
+        "name": "Vlaams-Brabant",
+        "city": "Vlaams-Brabant",
+        "count": 47071,
+        "locations": 9
+    }, {
+        "country": "BE",
+        "name": "Wallonia",
+        "city": "Wallonia",
+        "count": 326776,
+        "locations": 23
+    }, {
+        "country": "BE",
+        "name": "West-Vlaanderen",
+        "city": "West-Vlaanderen",
+        "count": 57689,
+        "locations": 10
+    }, {
+        "country": "BG",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 342,
+        "locations": 1
+    }, {
+        "country": "BH",
+        "name": "Manama",
+        "city": "Manama",
+        "count": 41414,
+        "locations": 1
+    }, {
+        "country": "BK",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 342,
+        "locations": 1
+    }, {
+        "country": "BM",
+        "name": "N/A",
+        "city": "N/A",
+        "count": 414,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Americana",
+        "city": "Americana",
+        "count": 2862,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Araçatuba",
+        "city": "Araçatuba",
+        "count": 3198,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Araraquara",
+        "city": "Araraquara",
+        "count": 4721,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Bauru",
+        "city": "Bauru",
+        "count": 4296,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Campinas",
+        "city": "Campinas",
+        "count": 14212,
+        "locations": 3
+    }, {
+        "country": "BR",
+        "name": "Catanduva",
+        "city": "Catanduva",
+        "count": 4714,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Cerqueira César",
+        "city": "Cerqueira César",
+        "count": 6304,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Cubatão",
+        "city": "Cubatão",
+        "count": 16883,
+        "locations": 3
+    }, {
+        "country": "BR",
+        "name": "Diadema",
+        "city": "Diadema",
+        "count": 143,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Guarulhos",
+        "city": "Guarulhos",
+        "count": 14032,
+        "locations": 2
+    }, {
+        "country": "BR",
+        "name": "Jacareí",
+        "city": "Jacareí",
+        "count": 2888,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Jaú",
+        "city": "Jaú",
+        "count": 4701,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Jundiaí",
+        "city": "Jundiaí",
+        "count": 4846,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Limeira",
+        "city": "Limeira",
+        "count": 4795,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Marília",
+        "city": "Marília",
+        "count": 4448,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Mauá",
+        "city": "Mauá",
+        "count": 3539,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Osasco",
+        "city": "Osasco",
+        "count": 6242,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Paulínia",
+        "city": "Paulínia",
+        "count": 6281,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Piracicaba",
+        "city": "Piracicaba",
+        "count": 5805,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Presidente Prudente",
+        "city": "Presidente Prudente",
+        "count": 3708,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Santa Gertrudes",
+        "city": "Santa Gertrudes",
+        "count": 978,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Santo André",
+        "city": "Santo André",
+        "count": 6184,
+        "locations": 2
+    }, {
+        "country": "BR",
+        "name": "Santos",
+        "city": "Santos",
+        "count": 12133,
+        "locations": 2
+    }, {
+        "country": "BR",
+        "name": "São Bernardo do Campo",
+        "city": "São Bernardo do Campo",
+        "count": 7865,
+        "locations": 2
+    }, {
+        "country": "BR",
+        "name": "São José Do Rio Preto",
+        "city": "São José Do Rio Preto",
+        "count": 6423,
+        "locations": 1
+    }, {
+        "country": "BR",
+        "name": "Sao Paulo",
+        "city": "Sao Paulo",
+        "count": 62035,
+        "locations": 10
+    }, {
+        "country": "BR",
+        "name": "São Paulo",
+        "city": "São Paulo",
+        "count": 67589,
+        "locations": 14
+    }]
+}

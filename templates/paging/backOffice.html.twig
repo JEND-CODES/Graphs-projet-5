@@ -1,0 +1,574 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back Office{% endblock %}
+
+{% block body %}
+
+<!-- V-card Background-color -->
+<v-card flat outlined style="z-index:-1;position:fixed;top:0;left:0;height:100%;width:100%;background-color:#85C1E9;"></v-card>
+
+{% if app.user.id is defined and app.user.id == '1' %}
+
+<!-- Container des articles et des graphs statistiques-->
+<v-container>
+
+<v-layout row wrap>
+
+<v-col cols="12">
+          
+<v-card color="rgba(255,255,255,0)" outlined> 
+
+      <v-tabs
+        background-color="rgba(255,255,255,0)" 
+        outlined
+        color="white"
+        centered
+        icons-and-text
+      >
+        <v-tab id="post-tab">
+            Editions
+            <v-icon>far fa-paper-plane</v-icon>
+          </v-tab>
+     
+          <v-tab id="stats-tab">
+              Stats
+              <v-icon>fas fa-chart-area</v-icon>
+          </v-tab>
+          
+          <v-tab id="stats-tab-2">
+              Best
+              <v-icon>fas fa-chart-pie</v-icon>
+          </v-tab>
+          
+          <v-tab id="stats-tab-3">
+              Days
+              <v-icon>fas fa-chart-bar</v-icon>
+          </v-tab>
+          
+          
+         
+        <!-- Pour éventuellement retirer l'animation de transition : <v-tab-item :transition="false" :reverse-transition="false"> -->
+  
+        <v-tab-item :transition="false" :reverse-transition="false">
+            
+          <v-container fluid style="background-color:#85C1E9;">
+            <v-row>
+                
+   
+                {% for backlist in backlists %}
+                
+                <v-col
+                cols="12"
+                md="12"
+                >
+                <v-card class="pa-8">
+                    
+                    <a href="{{ path('chapter_show', {'id': backlist.id}) }}">
+                        
+                    <p class="backoff-title">{{ backlist.title }}</p>
+                        
+                    </a>
+                    
+                    <hr class="simple-line mt-n2">
+                  
+                    {% if backlist.comments | length == '0' %}
+                    
+                        <p class="grey--text body-2 mt-3">Publié le {{ backlist.createdAt | date('d/m/Y') }} à {{ backlist.createdAt | date ('H:i') }} </p>
+                 
+                    {% endif %} 
+                    
+                    {% if backlist.comments | length == '1' %}
+                    
+                        <p class="grey--text body-2 mt-3">Publié le {{ backlist.createdAt | date('d/m/Y') }} à {{ backlist.createdAt | date ('H:i') }} &nbsp;&rArr; {{ backlist.comments | length }} commentaire</p>
+
+                    {% endif %} 
+                    
+                    {% if backlist.comments | length > '1' %}
+                    
+                        <p class="grey--text body-2 mt-3">Publié le {{ backlist.createdAt | date('d/m/Y') }} à {{ backlist.createdAt | date ('H:i') }} &nbsp;&rArr; {{ backlist.comments | length }} commentaires</p>
+
+                    {% endif %} 
+                    
+                <v-row>
+             
+                <v-col
+                cols="12"
+                md="9"
+                lg="9"
+                >
+                
+                <!-- Important de placer le "raw" après "striptags" ou "slice" -->    
+                <p>{{ backlist.content | striptags |  slice(0,200) | raw}}...</p>    
+                      
+               
+                </v-col>
+                
+                <!-- V-col vide pour alignement au passage en taille smartphone -->
+                <v-col
+                v-if="$vuetify.breakpoint.smAndDown"
+                sm="4"
+                style="border:0px solid black;height:0px;">
+                </v-col>
+                
+                <v-col
+                cols="12"
+                md="3"
+                lg="3"
+                sm="4"
+                >
+                <v-card class="mt-n5" outlined style="border:none;">
+                    
+                    <v-btn class="mb-2" color="blue lighten-2" width="100%" href="{{ path('chapter_show', {'id': backlist.id}) }}"><i class="fas fa-eye"></i>&nbsp;&nbsp;Lire</v-btn>
+
+
+                    <v-btn class="mb-2" color="blue lighten-3" width="100%" href="{{ path('blog_edit', {'id': backlist.id}) }}"><i class="fas fa-pen-fancy"></i>&nbsp;&nbsp;Modifier</v-btn>
+
+                    <div id="chapters" class="text-center">               
+                    <a href="/symfovue16/public/index.php/office/delete/{{ backlist.id }}" class="suppress-post" suppress-id="{{ backlist.id }}"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Supprimer</a>
+                    </div>
+                      
+                      
+                </v-card>
+                </v-col>
+                
+                </v-row>
+                    
+                </v-card>
+                </v-col>
+                
+               
+                
+                
+                {% endfor %} 
+       
+
+            {{ knp_pagination_render(backlists) }}
+          
+  
+                
+            </v-row>
+          </v-container>
+        </v-tab-item>
+        
+          <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:#85C1E9;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+          
+          <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:#85C1E9;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+          
+          <!-- Tab-item Empty for Highcharts animation-->
+          <v-tab-item :transition="false" :reverse-transition="false" class="mb-n6">
+                <v-container fluid style="background-color:#85C1E9;">
+                <v-row>
+                    <v-col
+                cols="12"
+                >
+                    <v-card>
+                    
+                    </v-card>
+                    
+                </v-col>  
+                </v-row>    
+                </v-container>
+        </v-tab-item>
+
+      </v-tabs>
+    </v-card>
+
+
+
+</v-col> 
+ 
+</v-layout>
+
+</v-container>
+
+<v-container outlined class="mt-n12" id="item-graph">
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="pa-5"> 
+
+<div id="containerSTATS" style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+</v-container>
+
+<v-container outlined class="mt-n12" id="item-graph-2">
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="pa-5"> 
+            
+<div id="containerSTATS_2" style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+</v-container>
+
+<v-container outlined class="mt-n12" id="item-graph-3">
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="pa-5"> 
+            
+<div id="containerSTATS_3" style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+</v-container>
+     
+
+{% else %}
+
+    <v-container>
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="white--text text-center pa-5" outlined color="rgba(255,255,255,0)"> 
+
+                    <p>Connexion nécessaire</p>
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+    </v-container>
+    
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+{% endif %}
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+<script src="/symfovue16/public/js/main.js"></script>
+
+<script>
+// Graph Evolution du nombre de commentaires par articles (données réparties dans l'ordre de création des articles) -> Recup et itération des données SQL -> http://localhost/symfovue16/public/index.php/highchartSQL3
+
+$(document).ready(function() {
+        var options = {
+            chart: {
+                renderTo: 'containerSTATS',
+                type: 'areaspline'
+            },
+            title: {
+                text: 'Evolution du nombre de commentaires par articles'
+            },
+            xAxis: {
+            visible: false
+        },
+            
+            credits: {
+            enabled: false
+            },
+
+            //Pour retirer les légendes en bas du Graph (Axe X)
+            //legend: {
+            //enabled: false
+            //},
+
+            yAxis: {
+            title: false
+            },
+            
+            plotOptions: {
+        series: {
+            marker: {
+                enabled: false
+            }
+        }
+    },
+            // Une autre manière de retirer les légende en bas du Graph :
+            series: [{
+                showInLegend: false,
+            }]
+        };
+        $.getJSON('http://localhost/symfovue16/public/index.php/highchartSQL3', function(data) {
+            options.series[0].data = data;
+            options.series[0].name = 'Total';
+            var chart = new Highcharts.Chart(options);
+        });
+    });
+
+    
+</script>
+
+<script>
+// Graph PIE Articles les plus commentés -> Recup et itération des données SQL -> http://localhost/symfovue16/public/index.php/highchartSQL3
+
+$(document).ready(function() {
+        var options = {
+            chart: {
+                renderTo: 'containerSTATS_2',
+                type: 'pie',
+                
+                // Cf. http://jsfiddle.net/489j7nxm/1/ -> Pour sélectionner un tootip qui s'affichera directement lors de l'initialisation du Graph (le "points" sélectionné permet d'afficher le tooltip sur un point spécifique d'une ligne)
+                
+                //events: {
+                //load: function(){
+                    //var p = this.series[0].points[0];
+                    //this.tooltip.refresh(p);  
+                    //}
+                //}
+            },
+                
+            title: {
+                text: 'Répartition des commentaires par articles'
+            },
+            xAxis: {
+            visible: false
+        },
+            
+            credits: {
+            enabled: false
+            },
+
+            //Pour retirer les légendes en bas du Graph (Axe X)
+            //legend: {
+            //enabled: false
+            //},
+
+            yAxis: {
+                // http://jsfiddle.net/n560bebm/
+                // to hide values equal = 0 
+                // min:1,
+                
+            title: false
+            },
+            
+            // Pour retirer les dataLabels d'un PIE : Cf. http://jsfiddle.net/xMYKq/1/
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false,
+                    }
+                }
+            },
+            //plotOptions: {
+        //series: {
+            //marker: {
+                //enabled: false
+            //}
+        //}
+    //},
+            // Une autre manière de retirer les légende en bas du Graph :
+            series: [{
+                showInLegend: false,
+            }]
+        };
+        $.getJSON('http://localhost/symfovue16/public/index.php/highchartSQL3', function(data) {
+            options.series[0].data = data;
+            options.series[0].name = 'Total';
+            var chart = new Highcharts.Chart(options);
+        });
+    });
+
+
+
+ 
+
+    
+</script>
+
+<script>
+// Graph Nombre de commentaires par jours -> Recup et itération des données SQL -> http://localhost/symfovue16/public/index.php/highchartSQL2
+
+$(document).ready(function() {
+        var options = {
+            chart: {
+                renderTo: 'containerSTATS_3',
+                type: 'column'
+            },
+            title: {
+                text: 'Nombre de commentaires par jour'
+            },
+            
+            // Comment formater la date Highcharts pour la récupération du DATE_FORMAT SQL ? Cf. https://jsfiddle.net/wchmiel/erj9v3g1/1/
+            xAxis: {
+                type: 'datetime',
+                    labels: {
+                    format: '{value:%d}'
+                    }
+            },
+            
+            credits: {
+            enabled: false
+            },
+
+            //Pour retirer les légendes en bas du Graph (Axe X)
+            //legend: {
+            //enabled: false
+            //},
+
+            yAxis: {
+            title: false
+            },
+            
+            plotOptions: {
+        series: {
+            marker: {
+                enabled: false
+            }
+        }
+    },
+            // Une autre manière de retirer les légende en bas du Graph :
+            series: [{
+                showInLegend: false,
+            }]
+        };
+        $.getJSON('http://localhost/symfovue16/public/index.php/highchartSQL2', function(data) {
+            
+            // Retourne le format de la date sélectionné :
+            data.map((elem) => {
+            elem[0] = (new Date(elem[0])).getTime();
+            return elem;
+            });
+            
+            options.series[0].data = data;
+            options.series[0].name = 'Total';
+            
+            var chart = new Highcharts.Chart(options);
+        });
+    });
+
+
+Highcharts.setOptions({
+    lang: {
+        months: [
+            'Janvier', 'Février', 'Mars', 'Avril',
+            'Mai', 'Juin', 'Juillet', 'Août',
+            'Septembre', 'Octobre', 'Novembre', 'Décembre'
+        ],
+        weekdays: [
+            'Dimanche', 'Lundi', 'Mardi', 'Mercredi',
+            'Jeudi', 'Vendredi', 'Samedi'
+        ]
+    }
+});
+ 
+
+    
+</script>
+
+
+
+<script>
+    
+$( "#item-graph" ).hide();
+$( "#item-graph-2" ).hide();
+$( "#item-graph-3" ).hide();
+    
+$( "#stats-tab" ).click(function() {
+    
+    
+    $( "#item-graph" ).fadeIn(500);
+    $( "#item-graph-2" ).hide();
+    $( "#item-graph-3" ).hide();
+});
+    
+$( "#stats-tab-2" ).click(function() {
+    
+    $( "#item-graph-2" ).fadeIn(500);
+    $( "#item-graph" ).hide();
+    $( "#item-graph-3" ).hide();
+
+});
+    
+$( "#stats-tab-3" ).click(function() {
+    
+    $( "#item-graph-3" ).fadeIn(500);
+    $( "#item-graph-2" ).hide();
+    $( "#item-graph" ).hide();
+
+});
+    
+$( "#post-tab" ).click(function() {
+    
+    $( "#item-graph" ).fadeOut(500);
+    $( "#item-graph-2" ).fadeOut(500);
+    $( "#item-graph-3" ).fadeOut(500);
+   
+});
+    
+$( "#mess-tab" ).click(function() {
+    
+    $( "#item-graph" ).fadeOut(500);
+    $( "#item-graph-2" ).fadeOut(500);
+    $( "#item-graph-3" ).fadeOut(500);
+
+});
+
+</script>
+
+{% endblock %}
+
+

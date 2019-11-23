@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>{% block title %}CHARTS{% endblock %}</title>
+    <!--<link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">-->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="CHARTS">
+
+    <meta content='width=device-width, initial-scale=1.0' name='viewport' />
+
+    <!-- Favicon -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="/symfovue16/public/backgrounds/faviconChart.jpg" />
+
+    <!-- Dernière version du CDN jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Highcharts-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <!--Fontawesome Icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- https://materialdesignicons.com/ Utiliser le préfixe "mdi-" pour ajouter ces icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+    <!-- Polices du site -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
+
+    <!-- Load Leaflet: zie voor instructies en laatste versie http://leafletjs.com/download.html -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="anonymous" />
+
+
+    {% block stylesheets %}{% endblock %}
+
+
+
+    <style>
+  
+        @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        /* Vuetify Police -> overwriting default font-family ? See typography.sass */
+        /* And..https://stackoverflow.com/questions/45598884/change-default-font-in-vuetify */
+        /* https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/elements/_typography.sass#L42 */
+
+        .v-application {
+            font-family: 'Quicksand', sans-serif;
+            background-color: transparent !important;
+        }
+
+        .v-carousel .v-btn .v-btn__content .v-icon {
+            opacity: 1;
+        }
+
+        .v-carousel .v-btn .v-btn__content .v-icon:hover {
+            opacity: 0.3;
+        }
+
+        .post-font-size {
+            font-size: 20px !important;
+        }
+
+        #the-logo {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 28px !important;
+            font-weight: bold !important;
+            color: white !important;
+        }
+
+        @media all and (max-width:600px) {
+            #the-logo {
+                font-size: 22px !important;
+            }
+        }
+
+        @media all and (max-width:380px) {
+            #the-logo {
+                margin-left: -5px;
+            }
+        }
+
+        @media all and (max-width:450px) {
+            #the-logo {
+                margin-left: -15px;
+            }
+
+            .logo-unicodes {
+                display: none;
+            }
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #1562ad !important;
+        }
+
+        .v-btn:hover {
+            color: white !important;
+        }
+
+        .footer-link:hover {
+            color: white !important;
+        }
+
+        .responsive-image {
+            width:100%;
+        }
+        
+        /* Légendes des options Design des Charts en Back Office */
+        
+        .design-charts {
+                margin-top:20px;
+            }
+        
+        @media all and (max-width:960px){
+                .design-charts {
+                margin-top:-20px;
+            }
+        }
+        
+        @media all and (max-width:600px){
+                .design-charts {
+                margin-top:-20px;
+            }
+        }
+  
+        /* Logo Image test */
+        /*
+        .deco-logo {
+            width: 40px;
+            height: 34px;
+            position: fixed;
+            top: 3px;
+            left: 171px;
+            z-index: 10;
+        }
+
+        @media all and (max-width:960px) {
+            .deco-logo {
+                width: 38px;
+                height: 32px;
+                position: fixed;
+                top: 3px;
+                left: 250px;
+                z-index: 10;
+            }
+        }
+        */
+
+        .login-btn {
+            top: 2px;
+            right: 70px;
+            z-index: 10 !important;
+        }
+
+        .login-btn-2 {
+            top: 2px;
+            right: 70px;
+            z-index: 11 !important;
+            border-radius: 20px !important;
+            font-size: 30px;
+        }
+
+        .btn-magnify {
+            top: 2px;
+            right: 10px;
+            z-index: 10 !important;
+        }
+
+        input[type=text] {
+            width: 100%;
+            padding: 10px 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+        }
+
+        input[type=text]:focus {
+            border: 1px solid #555;
+        }
+
+        input[type=search] {
+            width: 100%;
+            padding: 10px 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+        }
+
+        input[type=search]:focus {
+            border: 1px solid #555;
+        }
+
+        input[type=password] {
+            width: 100%;
+            padding: 10px 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+            color: #555;
+        }
+
+        input[type=password]:focus {
+            border: 1px solid #555;
+        }
+
+        input[type=email] {
+            width: 100%;
+            padding: 10px 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+        }
+
+        input[type=email]:focus {
+            border: 1px solid #555;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px 13px;
+            height: 150px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+        }
+
+        /* Compatible avec tous les navigateurs ?? NON ! https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_scrollbar2 */
+        textarea::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .area-resize {
+            height: 50px;
+            overflow: hidden;
+        }
+
+        textarea:focus {
+            border: 1px solid #555;
+        }
+
+        button[type=submit] {
+            cursor: pointer;
+            padding: 10px 13px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background-color: white !important;
+            margin-top: 5px;
+            color: grey;
+            outline-style: none;
+            transition: 0.5s;
+        }
+
+        button[type=submit]:hover {
+            border: 1px solid #555;
+            color: #555;
+        }
+
+        input[type=submit] {
+            cursor: pointer;
+            padding: 8px 13px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background-color: white !important;
+            margin-top: 5px;
+            color: grey;
+            outline-style: none;
+            transition: 0.5s;
+        }
+
+        input[type=submit]:hover {
+            border: 1px solid #555;
+            color: #555;
+        }
+        
+        .edit-post-button {
+            border-radius: 20px !important;
+        }
+        
+        .edit-post-button:hover {
+            opacity: 0.85 !important;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px 13px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            transition: 0.5s;
+            outline: none;
+            background-color: white !important;
+        }
+
+        select:focus {
+            border: 1px solid #555;
+        }
+
+        .save-button {
+            margin-top: 10px;
+            margin-left: 10px;
+            background-color: black;
+            color: white;
+        }
+
+        .edit-button {
+            margin-top: 10px;
+            margin-left: 10px;
+            background-color: orange;
+            color: white;
+        }
+
+        .simple-line {
+            color: #dcdcdc;
+            opacity: 0.3;
+        }
+        
+        /* Custom Titles */
+        
+        .backoff-title {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 24px;
+            word-wrap: break-word;
+        }
+
+        .searching-title {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 24px;
+            word-wrap: break-word;
+        }
+
+        .excerpt-title {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 24px;
+            word-wrap: break-word;
+        }
+
+        .post-title {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 28px;
+            word-wrap: break-word;
+        }
+
+        .post-list-title {
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 24px;
+            word-wrap: break-word;
+        }
+
+        .slide-title {
+            position: absolute;
+            color: #555;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.7959558823529411) 25%, rgba(255, 255, 255, 0.7959558823529411) 75%, rgba(255, 255, 255, 0) 100%);
+            padding: 5px;
+            bottom: 8%;
+            font-family: 'Quicksand', sans-serif !important;
+            font-size: 26px;
+            width: 100%;
+            border: 0px solid white;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .slide-title:hover {
+            color: #333;
+        }
+
+        @media all and (max-width:600px) {
+            .slide-title {
+                bottom: 12%;
+                font-size: 22px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+
+        /* Paginator Styles */
+        
+        .current {
+            padding: 0 7px;
+            font-size: 38px !important;
+        }
+
+        .page {
+            padding: 0 7px;
+            font-size: 26px !important;
+        }
+
+        .next {
+            padding: 0 7px;
+            font-size: 26px !important;
+        }
+
+        .last {
+            padding: 0 7px;
+            font-size: 26px !important;
+        }
+
+        .first {
+            padding: 0 7px;
+            font-size: 26px !important;
+        }
+
+        .previous {
+            padding: 0 7px;
+            font-size: 26px !important;
+        }
+
+        /* Leaflet Map CO2 World */
+        #map {
+            z-index: 0 !important;
+            position: relative !important;
+            height: 500px !important;
+            width: 100% !important;
+        }
+
+        /*Easy way to custom Leaflet Markers*/
+        .leaflet-marker-icon {
+
+            content: url('/symfovue16/public/icons/marker-icon-red.png');
+            height: 37px !important;
+            width: 21px !important;
+
+        }
+
+        /* Comments Pagination on Posts */
+        .pagination {
+            display: block;
+            width: 75%;
+            margin: 1em auto;
+            text-align: center;
+            font-size: 26px;
+            color: white;
+        }
+
+        .pagination:after {
+            content: '';
+            clear: both;
+        }
+
+        .pagination-button {
+            display: inline-block;
+            padding: 0 14px;
+            color: black;
+            cursor: pointer;
+        }
+
+        .pagination-button:hover {
+            color: white;
+        }
+
+        /* Image Zoom-in effect */
+        .image-wrapper {
+            transition: transform 1s ease-in-out;
+        }
+
+        .image-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        /* Vue Flip Cards styles */
+        
+        .flip-image {
+            width:370px;
+            height:240px;
+            border:1px solid #cccccc;
+        }
+        
+        @media all and (max-width:1264px){
+            .flip-image {
+                width:270px;
+                height:200px;
+            }
+        }
+        
+        @media all and (max-width:960px){
+            .flip-image {
+                width:310px;
+                height:200px;
+            }
+        }
+        
+        .flip-card {
+            height:250px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .flip-card-2 {
+            border:0px solid #555;
+            text-align: center;
+        }
+
+        .flip-form {
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-footer {
+            text-align: right;
+        }
+
+        .flip-card-enter,
+        .flip-card-leave-to {
+            opacity: 0;
+            transform: rotateY(90deg);
+        }
+
+        .flip-card-enter-active,
+        .flip-card-leave-active {
+            transition: all 0.4s;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {{ include('inc/navbar.html.twig') }}
+    {{ include('inc/searchBar.html.twig') }}
+    {{ include('inc/logPopUp.html.twig') }}
+
+    {% block body %}
+
+
+
+    {% endblock %}
+
+
+    {{ include('inc/footer.html.twig') }}
+
+
+
+    <!-- Vue.JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
+
+    <!-- Vuetify -->
+
+    <!--
+        
+        cf. https://vuetifyjs.com/en/getting-started/quick-start#cdn-usage
+        
+        Guide d'intrégration de Vue.js dans une application Symfony :
+        https://blog.elao.com/fr/dev/comment-integrer-vue-js-application-symfony/
+        
+        -->
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+
+
+    <script>
+        new Vue({
+            el: '#appJEND',
+            //Changement des délimiteurs pour l'interpolation des variables (cause conflits avec TWIG)
+            delimiters: ['[+[', ']+]'],
+            vuetify: new Vuetify(),
+
+            data() {
+
+                return {
+
+                    // Flip cards
+                    front: true,
+                    front2: true,
+                    front3: true,
+                    front4: true,
+                    front5: true,
+                    front6: true,
+                    front7: true,
+                    front8: true,
+                    front9: true,
+                    
+
+                    page: 1,
+
+                    // Button Navbar PopUp Login Logout
+                    dialog: false,
+
+                    // Button Navbar PopUp Search Bar
+                    dialog2: false,
+
+                    // Button scroll to top
+                    fab: false,
+
+                    // Dropdown Nav Links
+                    navlinks: [{
+                            title: 'Login'
+                        },
+                        {
+                            title: 'Back Office'
+                        },
+                        {
+                            title: 'Click Me 3'
+                        },
+                        {
+                            title: 'Click Me 4'
+                        },
+                    ],
+
+                    colors: [
+                        'indigo lighten-3',
+                        'indigo lighten-2',
+                        'indigo lighten-1',
+                        'deep-purple lighten-3',
+                        'deep-purple lighten-2',
+                    ],
+                    // Slideshow titles test
+                    slides: [
+                        '1er',
+                        '2ème',
+                        '3ème',
+                        '4ème',
+                        '5ème',
+                    ],
+                    //Messages d'alertes
+                    info: 'INFO1',
+                    info2: 'INFO2',
+                    info3: 'INFO3',
+                    info4: 'INFO4',
+                    link: 'http://planetcode.fr',
+
+                    // Navigation drawer component :
+                    drawer: null,
+
+                    // Utiliser le v-if pour afficher un bloc, false-> ne s'affiche pas, true-> s'affiche :
+                    successful: true,
+                    // Placement d'un v-else qui s'affiche ou se masque en fonction de la valeur true/false de "successful
+
+                    // Utilisation d'un v-for pour afficher la liste d'un array qui crée autant de <li> qu'il y a de noms dans l'array :
+                    persons: [
+                        'Marie',
+                        'Marion',
+                        'Michel',
+                        'Olivier',
+                        'Jean',
+                    ]
+                }
+            },
+
+            // Tests de methods :
+            methods: {
+                // Voir placement de @click="close" qui équivaut à v-on:click
+                close: function() {
+                    this.successful = false
+                },
+                // Voir placement de @click="open"
+                open: function() {
+                    this.successful = true
+                },
+
+                // Scroll on top function :
+                onScroll(e) {
+                    if (typeof window === 'undefined') return
+                    const top = window.pageYOffset || e.target.scrollTop || 0
+                    this.fab = top > 20
+                },
+                toTop() {
+                    this.$vuetify.goTo(0)
+                },
+
+                // V-bind exemple https://codepen.io/minamo173/pen/aEdYpp?editors=1010 : Il suffit ensuite d'ajouter par exemple :v-bind:style="setColor('orange')" à un component...
+                setColor(color) {
+                    let style
+                    switch (color) {
+                        case 'red':
+                            style = {
+                                "background-color": "#f44336"
+                            }
+                            break
+                        case 'blue':
+                            style = {
+                                "background-color": "#3f51b5"
+                            }
+                            break
+                        case 'orange':
+                            style = {
+                                "background-color": "#ff9800"
+                            }
+                            break
+                    }
+                    return style
+                },
+
+            }
+        });
+    </script>
+
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/5k258xz8b8894li1zboryqoh74ms5pwkns3ket7ysg708h1g/tinymce/5/tinymce.min.js"></script>
+
+    <!--Chargement Langage Fr TinyMCE-->
+    <script src="/symfovue16/public/langs/fr_FR.js"></script>
+
+    <!-- TinyMCE init function -->
+    <script>
+        tinymce.init({
+            setup: function(editor) {
+                editor.on('PostProcess', function(ed) {
+                    ed.content = ed.content.replace(/(<br \/><br \/><br \/><br \/><br \/><br \/><br \/><br \/>)/gi, '<br \/><br \/>');
+                });
+            },
+            selector: 'textarea.tinymce',
+            language: 'fr_FR',
+            height: 350,
+            plugins: [
+                'image link code media emoticons',
+            ],
+            branding: false,
+
+            force_br_newlines: true,
+            force_p_newlines: false,
+
+            forced_root_block: '',
+
+            toolbar: 'undo redo | bold italic underline | link | image | code | media | forecolor backcolor | emoticons',
+            
+        });
+    </script>
+
+
+
+    {% block javascripts %}{% endblock %}
+
+
+</body></html>

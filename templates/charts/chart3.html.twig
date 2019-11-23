@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chart.js{% endblock %}
+
+{% block body %}
+
+
+
+<v-container>
+
+        <v-layout row wrap>
+
+            <v-col cols="12">
+
+                <v-card class="pa-5"> 
+
+                    
+<h3 class="font-weight-regular text-center">Indices de qualité de l'air journaliers par polluants sur l'Île-de-France en 2018</h3>
+              
+<br />
+                    
+<canvas id="myChart" width="400" height="200"></canvas>
+               
+<br />
+
+<p class="caption">1 - Les particules en suspension (notées « PM » en anglais pour « Particulate matter ») sont d’une manière générale les fines particules solides portées par l’eau ou solides et/ou liquides portées par l’air : cf. https://www.respire-asso.org/particules-en-suspension-pm10-pm-25/</p>                    
+                    
+<p class="caption">2 - Dioxyde d’azote (nO2) : Le dioxyde d’azote est un composé chimique de formule NO2. Il s’agit d’un gaz brun-rouge toxique suffocant à l’odeur âcre et piquante caractéristique. Il constitue le polluant majeur de l’atmosphère terrestre. Il est notamment produit par les moteurs à combustion interne et les centrales thermiques.</p>
+
+<p class="caption">3 - Il ne faut pas confondre l'ozone stratosphérique, la fameuse "couche d'ozone" qui contribue à protéger la Terre des rayonnements ultraviolets du soleil, et l'ozone que l'on respire et qui devient toxique lorsque sa concentration augmente. Cet ozone des basses couches de l'atmosphère est un polluant dit "secondaire" car il n'est pas directement rejeté par une activité. L'ozone (ou trioxygène) est un gaz de formule chimique O3. Il se forme à l'issue de réactions chimiques entre des composés organiques volatils (hydrocarbures, solvants...), rejetés par les activités industrielles, et divers polluants émis dans l'air (tels que les oxydes d'azote) émis principalement par le trafic routier. Ces réactions chimiques s'effectuent dans l'air sous l'action des rayons solaires, notamment les rayons UV. C'est la raison pour laquelle ces pollutions à l'ozone surviennent principalement l'été, en période de fort ensoleillement et s'il n'y a pas de vent pour le disperser. cf. https://www.sciencesetavenir.fr/nature-environnement/pollution/qu-est-ce-que-la-pollution-a-l-ozone_126523</p>
+
+                    <hr>
+                    
+<a href="https://public.opendatasoft.com/explore/dataset/citeair/table/?disjunctive.commune"><p class="caption">Source des données : https://public.opendatasoft.com/explore/dataset/citeair/table/?disjunctive.commune</p></a>
+                    
+<p class="caption">https://www.data.gouv.fr/fr/datasets/indices-qualite-de-lair-citeair-journaliers-par-polluant-sur-lile-de-france-les-departements-les-communes-franciliennes-et-les-arrondissements-parisiens/#_</p>  
+
+                </v-card>
+
+            </v-col> 
+
+        </v-layout>
+
+</v-container>
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+
+<script>
+    
+
+    window.addEventListener('load', setup);
+
+    async function setup() {
+        
+        const ctx = document.getElementById('myChart').getContext('2d');
+        
+        const newDatas = await getData();
+        
+        const myChart = new Chart(ctx, {
+            
+            type: 'line',
+            data: {
+                labels: newDatas.month,
+                datasets: [{
+                        label: 'pm10',
+                        data: newDatas.pm10,
+                        fill: false,
+                        borderColor: 'rgba(16,133,135,1)',
+                        backgroundColor: 'rgba(16,133,135,0.5)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'nO2',
+                        data: newDatas.nO2,
+                        fill: false,
+                        borderColor: 'blue',
+                        backgroundColor: 'lightblue',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'o3',
+                        data: newDatas.o3,
+                        fill: false,
+                        borderColor: 'rgba(242,175,62,1)',
+                        backgroundColor: 'rgba(242,245,62,0.5)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {}
+        });
+    }
+
+    async function getData() {
+        
+        const response = await fetch('/symfovue16/public/csv_files/indicesPollutionIDF2018.csv');
+        
+        const data = await response.text();
+        
+        const month = [];
+        
+        const pm10 = [];
+        
+        const nO2 = [];
+        
+        const o3 = [];
+        
+        const rows = data.split('\n').slice(0);
+        
+        rows.forEach(row => {
+            const cols = row.split(',');
+            month.push(cols[0]);
+            pm10.push(parseFloat(cols[3]));
+            nO2.push(parseFloat(cols[1]));
+            o3.push(parseFloat(cols[2]));
+        });
+        
+        return {
+            month,
+            pm10,
+            nO2,
+            o3
+        };
+    }
+
+</script>
+
+{% endblock %}
+

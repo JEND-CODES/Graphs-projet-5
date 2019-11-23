@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfony Articles{% endblock %}
+
+{% block body %}
+
+<br />
+
+<div id="articles">
+{% if articles %}
+
+        <v-card>
+
+            <v-toolbar flat color="teal" dark>
+                <v-toolbar-title>Articles</v-toolbar-title>
+            </v-toolbar>
+
+            <v-tabs vertical>
+               
+                {% for article in articles %}
+                
+                <v-tab>
+                    <v-icon left>mdi-access-point</v-icon>
+                    {{ article.title }}
+                </v-tab>
+
+                <v-tab-item>
+                    <v-card flat>
+                        <v-card-text>
+                            <p>Article n°{{ article.id }}</p>
+                            
+                            <p>{{ article.body | slice(0,800) }} ...</p>
+                            
+                            <v-btn large href="{{ path('article_show', {'id': article.id}) }}">Lire</v-btn>
+                         
+                            <v-btn large color="primary" href="{{ path('edit_article', {'id': article.id}) }}">Modifier</v-btn>
+                           
+                            
+                            <a href="/symfovue16/public/index.php/article/delete/{{ article.id }}" class="btn btn-danger delete-article" data-id="{{ article.id }}">Supprimer</a>
+                            
+                            <!-- 16 octobre modification du bouton Supprimer ?? Ce bouton supprime les articles mais il ne "refresh" pas la page.. : "<v-btn large color="blue lighten-1" href="{{ path('delete_article', {'id': article.id}) }}">Supprimer</v-btn>" -->
+                            
+                           
+                            
+                            
+                            
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
+                
+                {% endfor %}
+                
+            </v-tabs>
+            
+        </v-card>
+   
+</div>
+
+{% else %}
+<p>Aucun article pour le moment..</p>
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="/symfovue16/public/js/main.js"></script>
+
+{% endblock %}
