@@ -60,7 +60,7 @@ class GraphController extends AbstractController
      */
     public function highchartSQL3()
     {
-        $bdd2 = new \PDO('mysql:host=localhost;dbname=projet5t;charset=utf8', 'root', '');
+        $bdd2 = new \PDO('mysql:host=localhost;dbname=projet5;charset=utf8', 'root', '');
 
         $stmt2 = $bdd2->prepare('
         SELECT *, 
