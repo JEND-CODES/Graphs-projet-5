@@ -24,7 +24,7 @@ class GraphController extends AbstractController
      */
     public function highchartSQL2()
     {
-        $bdd = new \PDO('mysql:host=localhost;dbname=symphart;charset=utf8', 'root', '');
+        $bdd = new \PDO('mysql:host=localhost;dbname=projet5;charset=utf8', 'root', '');
         
         // Cf. https://stackoverflow.com/questions/13297465/one-sql-query-for-all-count-of-posts-each-day
         
@@ -60,7 +60,7 @@ class GraphController extends AbstractController
      */
     public function highchartSQL3()
     {
-        $bdd2 = new \PDO('mysql:host=localhost;dbname=symphart;charset=utf8', 'root', '');
+        $bdd2 = new \PDO('mysql:host=localhost;dbname=projet5t;charset=utf8', 'root', '');
 
         $stmt2 = $bdd2->prepare('
         SELECT *, 
