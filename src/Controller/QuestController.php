@@ -13,7 +13,7 @@ class QuestController extends AbstractController
      */
     public function searchBar()
     {
-        $bdd = new \PDO('mysql:host=localhost;dbname=symphart;charset=utf8', 'root', '');
+        $bdd = new \PDO('mysql:host=localhost;dbname=projet5;charset=utf8', 'root', '');
 
         $posts = $bdd->query('SELECT id, title, SUBSTRING(content, 1, 10) AS content FROM chapter WHERE title LIKE "article" ORDER BY id DESC');
         
