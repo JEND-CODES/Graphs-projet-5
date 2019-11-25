@@ -47,7 +47,7 @@
                 class="pt-6"
                 style="position: relative;"
                 >
-                    <p class="post-font-size black--text mb-12">{{ chapter.content | raw }}</p>
+                    <p class="post-font-size mb-12" style="color:#444444;">{{ chapter.content | raw }}</p>
 
                     <p class="font-weight-light grey--text body-2 mb-2">Publié le {{ chapter.createdAt | date('d/m/Y') }} à {{ chapter.createdAt | date ('H:i') }} &bull; {{ chapter.category.title }}</p>
                     
@@ -191,6 +191,39 @@
       
 {% endif %}
 
+                
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}
+<br />
+<br />
+<p>Graphique n°13 -> Highcharts Fetch Request n°4 (traitement du sous-ensemble AxeX)</p>
+
+<div id="container_Fetch_Api_4" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid orange;"></div>
+                
+{% endif %}
+
+                
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}
+<br />
+<br />
+<p>Graphique n°14 -> Highcharts Fetch Request n°5 (traitement du sous-ensemble AxeY) </p>
+
+<div id="container_Fetch_Api_5" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid red;"></div>
+                
+{% endif %}
+                
+
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}
+<br />
+<br />
+<p>Graphique n°15 -> Highcharts Fetch Request n°6 (traitement de 2 sous-ensemble AxeX et AxeY) </p>
+
+<div id="container_Fetch_Api_6" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid blue;"></div>
+                
+{% endif %}
+
 
 <!--**************************************** FIN DES GRAPHIQUES AJAX ou FETCH *********************************************-->
   
@@ -304,9 +337,9 @@
                     
 <v-card-text>
     
-    <p class="body-1 black--text">Par {{ comment.author }} le {{ comment.createdAt | date('d/m/Y à H:i') }} :</p>
+    <p class="body-1" style="color:dimgrey;">Par {{ comment.author }} le {{ comment.createdAt | date('d/m/Y à H:i') }}</p>
 
-    <p class="body-1 black--text">{{ comment.content | striptags | raw }}</p>
+    <p class="body-1" style="color:dimgrey;">{{ comment.content | striptags | raw }}</p>
     
 </v-card-text>
             </v-card> 
@@ -1820,11 +1853,17 @@ if ('{{ chapter.graphnamey }}' === 'false'){
 
     var words_3 = api_selector_3.split('+++');
 
+    
     //console.log(words_3[2]);
  
  // Pour réguler les types de filtrages, on pourrait ajouter une condition sur le nombre de mots-clés ajoutés en Back Office ??? S'il y a par exemple 4 ou 5 filtres consécutifs, on pourrait désactiver ce graph et en activer un autre, adapté à 4 ou 5 filtres ???
  
- if (words_3.length === 3){
+ // if (api_selector_3.includes('/+/')){
+     // alert("Caractères spéciaux, ne pas afficher ce graphique !");
+ // };
+ 
+ // On régule l'affichage de ce grahique en fonction de la présence de 3 filtres et de l'absence des caractères spéciaux /+/ (censés filtrer pour d'autres graphiques (voir les n°13 et n°14)) :
+ if (words_3.length === 3 && !api_selector_3.includes('/+/')){
      
      // alert("Il y a bien 3 mots clés");
      
@@ -2265,7 +2304,877 @@ if ('{{ chapter.graphnamey }}' === 'false'){
    
     </script>
 
+<script>
+/******************************************
+Graphique n°13 -> Filtrage Api avec les filtres de l'AxeX dans un sous-ensemble et le filtre de l'AxeY situé dans l'Array global
+*******************************************/        
+$('#container_Fetch_Api_4').hide();
+    
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}       
+ 
+ // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+// Voir -> Conversion string to boolean
+// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
+ 
+if ('{{ chapter.graphnamex }}' === 'false'){
+    
+    // On récupère la valeur entrée dans l'éditeur de graphique
+    var valueLabels_Bis_3 = '{{ chapter.graphnamex }}';
 
+    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
+    var valueLabels_2_Bis_3 = JSON.parse(valueLabels_Bis_3);
+    
+    // On retire la mention "false" du titre de l'axe horizontal
+    var graphNamex_Bis_3 = ' ';
+    
+    // alert(valueLabels_2_Bis_3);
+
+} else {
+    // Sinon on active les labels par défaut..
+    var valueLabels_2_Bis_3 = true;
+    // Et bien sûr le titre choisi pour l'axe horizontal !
+    var graphNamex_Bis_3 = '{{ chapter.graphnamex }}';
+};
+
+// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+if ('{{ chapter.graphnamey }}' === 'false'){
+    
+    var valueVertical_Bis_3 = '{{ chapter.graphnamey }}';
+
+    var valueVertical_2_Bis_3 = JSON.parse(valueVertical_Bis_3);
+    
+    var valueNamey_Bis_3 = ' ';
+    
+    //alert(valueVertical_2_Bis_3);
+
+} else {
+    
+    var valueVertical_2_Bis_3 = true;
+  
+    var valueNamey_Bis_3 = '{{ chapter.graphnamey }}';
+};     
+
+
+ // *** Array avec les nouvelles options de design du graphique :
+ var design_selector_8 = '{{ chapter.graphtype }}';
+
+ var design_8 = design_selector_8.split(' ');
+ 
+ // Sélection des fonds colorés des graphiques (5 options) :
+ 
+     if(design_8[1] === 'midnight-blue'){
+        var backGraph_8 = background_style_1;
+       
+           };
+
+     if(design_8[1] === 'light-grey'){
+        var backGraph_8 = background_style_2;
+      
+           };
+
+     if(design_8[1] === 'light-blue'){
+        var backGraph_8 = background_style_3;
+       
+           };
+
+     if(design_8[1] === 'red-orange'){
+        var backGraph_8 = background_style_4;
+       
+           };
+
+     if(design_8[1] === 'dark-green'){
+        var backGraph_8 = background_style_5;
+       
+           };
+ 
+ // Sélection des icônes personnalisés (2 options) :
+ 
+     if(design_8[2] === 'red-icon'){
+        var iconGraph_8 = icon_style_1;
+       
+           };
+
+     if(design_8[2] === 'blue-icon'){
+        var iconGraph_8 = icon_style_2;
+       
+           };
+       
+ 
+        
+        var api_selector_5 = '{{ chapter.graphapifilters }}';
+
+        var words_5 = api_selector_5.split('+++');
+    
+        // Il faudra seulement injecter words_5[0] et words_5[2] car on va scinder ensuite words_5[1] par words_7[0] et words_7[1]
+    
+        // alert(words_5);
+        
+        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
+        // Exemple de format traité : list+++main/+/temp+++dt
+    
+        // Traitement de filtres similaire à cet exemple -> list+++main/+/temp+++dt : on souhaite obtenir dans l'Array de l'API "list", les valeurs "temp" du sous-ensemble "main" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "dt" de l'ensemble "list"
+    
+        // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ (2 barres liées par un +), ce qui signifie que l'on souhaite obtenir une donnée de l'Api définie dans un sous-ensemble) :
+        if (words_5[1].includes('/+/')){
+           var words_6 = words_5[1].split('/+/');
+            // alert(words_6[0]);
+            // alert(words_6[1]);
+            // Il faudra injecter words_6[0] et words_6[1] qui remplacent words_5[2]
+            // alert(words_6.length);
+        };
+
+ // Condition d'activation de Fetch et du graphique
+ // A condition que seulement le deuxième mot clé filtre contient les caractères spéciaux /+/
+ if(words_5[1].includes('/+/') && !words_5[2] .includes('/+/')){
+     
+     $('#container_Fetch_Api_4').show();
+        
+    
+         const url_azerty = '{{ chapter.graphurlapi }}';
+    
+        fetch(url_azerty)
+            .then(res_azerty => {
+                return res_azerty.json();
+            })
+            .then(data_azerty => {
+                
+                const characters_azerty = data_azerty[words_5[0]];
+            
+                let characterData_azerty = [];
+            
+             characters_azerty.forEach(function(character_azerty) {
+           
+                 // if(words_6.length === 2 ){
+                     characterData_azerty.push([character_azerty[words_6[0]][words_6[1]], parseInt(character_azerty[words_5[2]])]);
+               
+                 // };
+      
+             });
+            
+            // Boucle de filtrage de catégories
+            
+              const azertyCategory = data_azerty[words_5[0]];
+            
+                let azertyCategArray = [];
+            
+             azertyCategory.forEach(function(scanCategory) {
+           
+                 // if(words_6.length === 2 ){
+                     azertyCategArray.push([scanCategory[words_6[0]][words_6[1]]]);
+               
+                 // };
+      
+             });
+    
+            // Initialisation de Highcharts
+            Highcharts.chart('container_Fetch_Api_4', {
+               chart: {
+        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
+        type: design_8[0],
+        
+        // Changer le fond du graphique avec des linear gradient
+        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        plotBackgroundImage: backGraph_8,
+        
+        // Font-family
+        style: {
+            fontFamily: 'Quicksand'
+        }
+            },
+    
+        //Pour retirer le branding Highcharts
+        credits: {
+            enabled: false,
+        },
+    
+        title: {
+                text: '{{ chapter.graphtitle }}'
+            },
+        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+        //subtitle: {
+                //text: '{{ chapter.graphsubtitle }}'
+            //},
+             
+            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            xAxis: {
+            
+                title: {
+                    text: graphNamex_Bis_3
+                },
+                labels: {
+                    enabled: valueLabels_2_Bis_3
+                },
+                categories: azertyCategArray
+            },
+    
+            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            yAxis: {
+                title: {
+                    text: valueNamey_Bis_3
+                },
+                labels: {
+                    enabled: valueVertical_2_Bis_3
+                }
+            },
+                
+        tooltip: {
+                    
+            valueSuffix: ' {{ chapter.graphvalue }} '
+            },
+    
+    plotOptions: {
+    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        },
+       
+        series: {
+            
+        // Curseur de main
+        cursor: 'pointer',
+            
+        // Autoriser la sélection de point
+        allowPointSelect: true,
+            
+        // Mettre un effet "dashed" & tester aussi "dot"
+        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        dashStyle: design_8[3], 
+        
+        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
+        marker: {    
+            radius: 4,
+            states: {
+                select: {
+                    radius: 35,
+                    fillColor: 'white',
+                        }
+                    },
+            
+            // Mettre un symbole personnalisé
+            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+            symbol: iconGraph_8,
+      }
+           
+        },
+    },
+				
+                {% if chapter.graphcolorone == 'coloration_1' %}
+                    colors: coloring_1,
+                {% endif %}
+    
+                {% if chapter.graphcolorone == 'coloration_2' %}
+                    colors: coloring_2,
+                {% endif %}
+                 
+                {% if chapter.graphcolorone == 'coloration_3' %}
+                    colors: coloring_3,
+                {% endif %}
+            
+				    series: [{
+                        data: characterData_azerty,
+                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+                        name: '{{ chapter.graphsubtitle }}',
+                    }]
+				});
+            })
+    
+            // Messages d'erreurs
+            .catch(err => {
+                console.log("Error");
+            });
+    
+    };
+    
+ {% endif %}
+ 
+ 
+    </script>
+
+<script>
+/******************************************
+Graphique n°14 -> Filtrage Api avec le filtre de l'AxeX dans l'Array général et le filtre de l'AxeY situé dans un sous-ensemble
+*******************************************/       
+    
+$('#container_Fetch_Api_5').hide();
+    
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}       
+ 
+ // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+// Voir -> Conversion string to boolean
+// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
+ 
+if ('{{ chapter.graphnamex }}' === 'false'){
+    
+    // On récupère la valeur entrée dans l'éditeur de graphique
+    var valueLabels_Bis_4 = '{{ chapter.graphnamex }}';
+
+    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
+    var valueLabels_2_Bis_4 = JSON.parse(valueLabels_Bis_4);
+    
+    // On retire la mention "false" du titre de l'axe horizontal
+    var graphNamex_Bis_4 = ' ';
+    
+    // alert(valueLabels_2_Bis_4);
+
+} else {
+    // Sinon on active les labels par défaut..
+    var valueLabels_2_Bis_4 = true;
+    // Et bien sûr le titre choisi pour l'axe horizontal !
+    var graphNamex_Bis_4 = '{{ chapter.graphnamex }}';
+};
+
+// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+if ('{{ chapter.graphnamey }}' === 'false'){
+    
+    var valueVertical_Bis_4 = '{{ chapter.graphnamey }}';
+
+    var valueVertical_2_Bis_4 = JSON.parse(valueVertical_Bis_4);
+    
+    var valueNamey_Bis_4 = ' ';
+    
+    //alert(valueVertical_2_Bis_3);
+
+} else {
+    
+    var valueVertical_2_Bis_4 = true;
+  
+    var valueNamey_Bis_4 = '{{ chapter.graphnamey }}';
+};     
+
+
+ // *** Array avec les nouvelles options de design du graphique :
+ var design_selector_9 = '{{ chapter.graphtype }}';
+
+ var design_9 = design_selector_9.split(' ');
+ 
+ // Sélection des fonds colorés des graphiques (5 options) :
+ 
+     if(design_9[1] === 'midnight-blue'){
+        var backGraph_9 = background_style_1;
+       
+           };
+
+     if(design_9[1] === 'light-grey'){
+        var backGraph_9 = background_style_2;
+      
+           };
+
+     if(design_9[1] === 'light-blue'){
+        var backGraph_9 = background_style_3;
+       
+           };
+
+     if(design_9[1] === 'red-orange'){
+        var backGraph_9 = background_style_4;
+       
+           };
+
+     if(design_9[1] === 'dark-green'){
+        var backGraph_9 = background_style_5;
+       
+           };
+ 
+ // Sélection des icônes personnalisés (2 options) :
+ 
+     if(design_9[2] === 'red-icon'){
+        var iconGraph_9 = icon_style_1;
+       
+           };
+
+     if(design_9[2] === 'blue-icon'){
+        var iconGraph_9 = icon_style_2;
+       
+           };
+    
+
+        var api_selector_5 = '{{ chapter.graphapifilters }}';
+
+        var words_5 = api_selector_5.split('+++');
+    
+        // Il faudra seulement injecter words_5[0] et words_5[1] car on va scinder ensuite words_5[2] par words_7[0] et words_7[1]
+    
+        // alert(words_5);
+        
+        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
+        // Exemple de format traité : list+++dt+++main/+/temp
+     
+    
+        // Traitement de filtres similaire à cet exemple -> list+++dt+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "dt" de l'ensemble "list" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
+    
+        // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
+        if (words_5[2].includes('/+/')){
+           var words_7 = words_5[2].split('/+/');
+            // alert(words_7[0]);
+            // alert(words_7[1]);
+            // Il faudra injecter words_7[0] et words_7[1] qui remplacent words_5[2]
+            // alert(words_7.length);
+        };
+    
+    // A condition que seulement le troisième mot clé filtre contient les caractères spéciaux /+/
+    if(words_5[2].includes('/+/') && !words_5[1] .includes('/+/')){
+    
+        $('#container_Fetch_Api_5').show();
+        
+    
+         const url_azerty_Bis = '{{ chapter.graphurlapi }}';
+    
+        fetch(url_azerty_Bis)
+            .then(res_azerty_Bis => {
+                return res_azerty_Bis.json();
+            })
+            .then(data_azerty_Bis => {
+                
+                const characters_azerty_Bis = data_azerty_Bis[words_5[0]];
+            
+                let characterData_azerty_Bis = [];
+            
+             characters_azerty_Bis.forEach(function(character_azerty_Bis) {
+           
+                 // if(words_7.length === 2 ){
+                     characterData_azerty_Bis.push([character_azerty_Bis[words_5[1]], parseInt(character_azerty_Bis[words_7[0]][words_7[1]])]);
+               
+                     
+                 // };
+         
+             });
+            
+             // Boucle de filtrage de catégories
+            
+              const azertyCategory_Bis = data_azerty_Bis[words_5[0]];
+            
+                let azertyCategArray_Bis = [];
+            
+             azertyCategory_Bis.forEach(function(scanCategory_Bis) {
+           
+                 // if(words_7.length === 2 ){
+                     azertyCategArray_Bis.push([scanCategory_Bis[words_5[1]]]);
+               
+                 // };
+      
+             });
+    
+            // Initialisation de Highcharts
+            Highcharts.chart('container_Fetch_Api_5', {
+               chart: {
+        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
+        type: design_9[0],
+        
+        // Changer le fond du graphique avec des linear gradient
+        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        plotBackgroundImage: backGraph_9,
+        
+        // Font-family
+        style: {
+            fontFamily: 'Quicksand'
+        }
+            },
+    
+        //Pour retirer le branding Highcharts
+        credits: {
+            enabled: false,
+        },
+    
+        title: {
+                text: '{{ chapter.graphtitle }}'
+            },
+        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+        //subtitle: {
+                //text: '{{ chapter.graphsubtitle }}'
+            //},
+             
+            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            xAxis: {
+            
+                title: {
+                    text: graphNamex_Bis_4
+                },
+                labels: {
+                    enabled: valueLabels_2_Bis_4
+                },
+                categories: azertyCategArray_Bis
+            },
+    
+            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            yAxis: {
+                title: {
+                    text: valueNamey_Bis_4
+                },
+                labels: {
+                    enabled: valueVertical_2_Bis_4
+                }
+            },
+                
+        tooltip: {
+                    
+            valueSuffix: ' {{ chapter.graphvalue }} '
+            },
+    
+    plotOptions: {
+    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        },
+       
+        series: {
+            
+        // Curseur de main
+        cursor: 'pointer',
+            
+        // Autoriser la sélection de point
+        allowPointSelect: true,
+            
+        // Mettre un effet "dashed" & tester aussi "dot"
+        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        dashStyle: design_9[3], 
+        
+        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
+        marker: {    
+            radius: 4,
+            states: {
+                select: {
+                    radius: 35,
+                    fillColor: 'white',
+                        }
+                    },
+            
+            // Mettre un symbole personnalisé
+            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+            symbol: iconGraph_9,
+      }
+           
+        },
+    },
+				
+                {% if chapter.graphcolorone == 'coloration_1' %}
+                    colors: coloring_1,
+                {% endif %}
+    
+                {% if chapter.graphcolorone == 'coloration_2' %}
+                    colors: coloring_2,
+                {% endif %}
+                 
+                {% if chapter.graphcolorone == 'coloration_3' %}
+                    colors: coloring_3,
+                {% endif %}
+              
+				    series: [{
+                        data: characterData_azerty_Bis,
+                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+                        name: '{{ chapter.graphsubtitle }}',
+                    }]
+				});
+            })
+    
+            // Messages d'erreurs
+            .catch(err => {
+                console.log("Error");
+            });
+    
+   };
+    
+ {% endif %}
+ 
+    </script>
+
+<script>
+/******************************************
+Graphique n°15 -> Filtrage Api avec le filtre de l'AxeX situé dans un sous-ensemble et le filtre de l'AxeY situé dans un sous-ensemble
+*******************************************/        
+$('#container_Fetch_Api_6').hide();
+    
+{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
+{% else %}       
+ 
+ // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+// Voir -> Conversion string to boolean
+// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
+ 
+if ('{{ chapter.graphnamex }}' === 'false'){
+    
+    // On récupère la valeur entrée dans l'éditeur de graphique
+    var valueLabels_Bis_5 = '{{ chapter.graphnamex }}';
+
+    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
+    var valueLabels_2_Bis_5 = JSON.parse(valueLabels_Bis_5);
+    
+    // On retire la mention "false" du titre de l'axe horizontal
+    var graphNamex_Bis_5 = ' ';
+    
+    // alert(valueLabels_2_Bis_5);
+
+} else {
+    // Sinon on active les labels par défaut..
+    var valueLabels_2_Bis_5 = true;
+    // Et bien sûr le titre choisi pour l'axe horizontal !
+    var graphNamex_Bis_5 = '{{ chapter.graphnamex }}';
+};
+
+// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
+if ('{{ chapter.graphnamey }}' === 'false'){
+    
+    var valueVertical_Bis_5 = '{{ chapter.graphnamey }}';
+
+    var valueVertical_2_Bis_5 = JSON.parse(valueVertical_Bis_5);
+    
+    var valueNamey_Bis_5 = ' ';
+    
+    //alert(valueVertical_2_Bis_5);
+
+} else {
+    
+    var valueVertical_2_Bis_5 = true;
+  
+    var valueNamey_Bis_5 = '{{ chapter.graphnamey }}';
+};     
+
+
+ // *** Array avec les nouvelles options de design du graphique :
+ var design_selector_10 = '{{ chapter.graphtype }}';
+
+ var design_10 = design_selector_10.split(' ');
+ 
+ // Sélection des fonds colorés des graphiques (5 options) :
+ 
+     if(design_10[1] === 'midnight-blue'){
+        var backGraph_10 = background_style_1;
+       
+           };
+
+     if(design_10[1] === 'light-grey'){
+        var backGraph_10 = background_style_2;
+      
+           };
+
+     if(design_10[1] === 'light-blue'){
+        var backGraph_10 = background_style_3;
+       
+           };
+
+     if(design_10[1] === 'red-orange'){
+        var backGraph_10 = background_style_4;
+       
+           };
+
+     if(design_10[1] === 'dark-green'){
+        var backGraph_10 = background_style_5;
+       
+           };
+ 
+ // Sélection des icônes personnalisés (2 options) :
+ 
+     if(design_10[2] === 'red-icon'){
+        var iconGraph_10 = icon_style_1;
+       
+           };
+
+     if(design_10[2] === 'blue-icon'){
+        var iconGraph_10 = icon_style_2;
+       
+           };
+    
+
+        var api_selector_5 = '{{ chapter.graphapifilters }}';
+
+        var words_5 = api_selector_5.split('+++');
+   
+        // alert(words_5);
+        
+        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
+        // Exemple de format traité : list+++wind/+/speed+++main/+/temp
+     
+    
+        // Traitement de filtres similaire à cet exemple -> list+++wind/+/speed+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "speed" de l'ensemble "wind" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
+    
+        // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ :
+        if (words_5[1].includes('/+/')){
+           var words_8 = words_5[1].split('/+/');
+            // alert(words_8[0]);
+            // alert(words_8[1]);
+            
+            // alert(words_8.length);
+        };
+        
+        // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
+        if (words_5[2].includes('/+/')){
+           var words_9 = words_5[2].split('/+/');
+            // alert(words_9[0]);
+            // alert(words_9[1]);
+            
+            // alert(words_9.length);
+        };
+    
+    // A condition que le deuxième mot clé filtre et le troisième mot clé filtre contiennent les caractères spéciaux /+/
+    if(words_5[1].includes('/+/') && words_5[2].includes('/+/')){
+    
+        $('#container_Fetch_Api_6').show();
+        
+    
+         const url_azerty_Bis_Bis = '{{ chapter.graphurlapi }}';
+    
+        fetch(url_azerty_Bis_Bis)
+            .then(res_azerty_Bis_Bis => {
+                return res_azerty_Bis_Bis.json();
+            })
+            .then(data_azerty_Bis_Bis => {
+                
+                const characters_azerty_Bis_Bis = data_azerty_Bis_Bis[words_5[0]];
+            
+                let characterData_azerty_Bis_Bis = [];
+            
+             characters_azerty_Bis_Bis.forEach(function(character_azerty_Bis_Bis) {
+           
+                 
+                     characterData_azerty_Bis_Bis.push([character_azerty_Bis_Bis[words_8[0]][words_8[1]], parseInt(character_azerty_Bis_Bis[words_9[0]][words_9[1]])]);
+               
+                
+         
+             });
+            
+             // Boucle de filtrage de catégories
+            
+              const azertyCategory_Bis_Bis = data_azerty_Bis_Bis[words_5[0]];
+            
+                let azertyCategArray_Bis_Bis = [];
+            
+             azertyCategory_Bis_Bis.forEach(function(scanCategory_Bis_Bis) {
+           
+                 
+                     azertyCategArray_Bis_Bis.push([scanCategory_Bis_Bis[words_8[0]][words_8[1]]]);
+               
+                
+      
+             });
+    
+            // Initialisation de Highcharts
+            Highcharts.chart('container_Fetch_Api_6', {
+               chart: {
+        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
+        type: design_10[0],
+        
+        // Changer le fond du graphique avec des linear gradient
+        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        plotBackgroundImage: backGraph_10,
+        
+        // Font-family
+        style: {
+            fontFamily: 'Quicksand'
+        }
+            },
+    
+        //Pour retirer le branding Highcharts
+        credits: {
+            enabled: false,
+        },
+    
+        title: {
+                text: '{{ chapter.graphtitle }}'
+            },
+        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+        //subtitle: {
+                //text: '{{ chapter.graphsubtitle }}'
+            //},
+             
+            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            xAxis: {
+            
+                title: {
+                    text: graphNamex_Bis_5
+                },
+                labels: {
+                    enabled: valueLabels_2_Bis_5
+                },
+                categories: azertyCategArray_Bis_Bis
+            },
+    
+            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+            yAxis: {
+                title: {
+                    text: valueNamey_Bis_5
+                },
+                labels: {
+                    enabled: valueVertical_2_Bis_5
+                }
+            },
+                
+        tooltip: {
+                    
+            valueSuffix: ' {{ chapter.graphvalue }} '
+            },
+    
+    plotOptions: {
+    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
+        line: {
+            dataLabels: {
+                enabled: true
+            }
+        },
+       
+        series: {
+            
+        // Curseur de main
+        cursor: 'pointer',
+            
+        // Autoriser la sélection de point
+        allowPointSelect: true,
+            
+        // Mettre un effet "dashed" & tester aussi "dot"
+        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
+        dashStyle: design_10[3], 
+        
+        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
+        marker: {    
+            radius: 4,
+            states: {
+                select: {
+                    radius: 35,
+                    fillColor: 'white',
+                        }
+                    },
+            
+            // Mettre un symbole personnalisé
+            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
+            symbol: iconGraph_10,
+      }
+           
+        },
+    },
+				
+                {% if chapter.graphcolorone == 'coloration_1' %}
+                    colors: coloring_1,
+                {% endif %}
+    
+                {% if chapter.graphcolorone == 'coloration_2' %}
+                    colors: coloring_2,
+                {% endif %}
+                 
+                {% if chapter.graphcolorone == 'coloration_3' %}
+                    colors: coloring_3,
+                {% endif %}
+              
+				    series: [{
+                        data: characterData_azerty_Bis_Bis,
+                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+                        name: '{{ chapter.graphsubtitle }}',
+                    }]
+				});
+            })
+    
+            // Messages d'erreurs
+            .catch(err => {
+                console.log("Error");
+            });
+    
+   };
+    
+ {% endif %}
+ 
+    </script>
 
 <!-- ***** Script de pagination jQuery ***** -->
 <script src="/symfovue16/public/js/paginate.js"></script>
