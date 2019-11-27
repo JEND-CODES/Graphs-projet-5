@@ -1,6 +1,4 @@
-// SCRIPT DE PAGINATION : Démo https://codepen.io/atwulf/pen/gpqZrW?editors=0010
-    // https://stackoverflow.com/questions/2937227/what-does-function-jquery-mean
-    // " (function($){ "is called IIFE (Immediately Invoked Function Expression) :
+
 (function($){
     
     var paginate = {
@@ -143,6 +141,4 @@
 
 })(jQuery);
 
-/* This part is just for the demo,
-not actually part of the plugin */
 $('.comments-loop').paginate(4);
