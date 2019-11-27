@@ -1,29 +1,14 @@
 <?php
 
-// A faire : configurer des pages d'erreurs pour la version online/production du site (https://symfony.com/doc/current/controller/error_pages.html)
-
-// Faire une MACRO de messages d'alertes avec Twig ?? (https://openclassrooms.com/fr/courses/5489656-construisez-un-site-web-a-l-aide-du-framework-symfony-4/5517021-dynamisez-vos-vues-a-l-aide-de-twig)
-
-// Voir en détail les Contraints de validation (https://symfony.com/doc/current/reference/constraints.html) et (https://openclassrooms.com/fr/courses/5489656-construisez-un-site-web-a-l-aide-du-framework-symfony-4/5517026-interagissez-avec-vos-utilisateurs)
-
-// Pour authentification et accès d'un administrateur du site voir : https://openclassrooms.com/fr/courses/5489656-construisez-un-site-web-a-l-aide-du-framework-symfony-4/5654131-securisez-lacces-de-votre-site-web + voir annotation @IsGranted() 
-
-
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-
-use App\Entity\User;
-use App\Form\RegistrationType;
-
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-
-
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Symfony\Component\Routing\Annotation\Route;
+    use App\Entity\User;
+    use App\Form\RegistrationType;
+    use Symfony\Component\HttpFoundation\Request;
+    use Doctrine\Common\Persistence\ObjectManager;
+    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
