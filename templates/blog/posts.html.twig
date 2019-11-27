@@ -1,194 +1,146 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Charts | Datavisualisations{% endblock %}
-
 {% block body %}
 
-<!-- C'est la page d'accueil ! -->
-
-<!-- Voir le layout pour mise en page https://v1.vuetifyjs.com/en/layout/grid -->
-
-<!-- Carousel taille Smartphone and Down -->
 <v-container v-if="$vuetify.breakpoint.smAndDown" pa-0 ma-0 class="mt-n7" style="overflow:hidden;">
-    
-      <v-row justify="center">
-          
-        <v-col sm="12">
-            
-          <v-card outlined color="transparent" style="border:none;border-radius:0px;">
-              <!--Vuetify Slideshow qui affiche les titres et les images des derniers articles + animation "cycle" + interval + arrows on hover -->
-              
-              <v-carousel cycle interval="10000" height="auto" hide-delimiter-background :show-arrows="false">
-              
-            {% for chapterSlide in chapterSlides %}
-            
-            <v-carousel-item>
-                
-                <a href="{{ path('chapter_show', {'id': chapterSlide.id}) }}">
-                
-                <p 
-                   
-                   class="slide-title">{{ chapterSlide.title }}</p>
-          
-                </a>
-                
-                <img src="{{ chapterSlide.image }}" class="responsive-image" alt="Illustration" title="Illustration" />
-                
-            </v-carousel-item>
-            
-            {% endfor %}
-            
-        </v-carousel>
-              
-            
-          </v-card>
-        </v-col>
-           
-    </v-row>
-  
-</v-container>
 
+    <v-row justify="center">
+
+        <v-col sm="12">
+
+            <v-card outlined color="transparent" style="border:none;border-radius:0px;">
+             
+                <v-carousel cycle interval="10000" height="auto" hide-delimiter-background :show-arrows="false">
+
+                    {% for chapterSlide in chapterSlides %}
+
+                    <v-carousel-item>
+
+                        <a href="{{ path('chapter_show', {'id': chapterSlide.id}) }}">
+
+                            <p class="slide-title">{{ chapterSlide.title }}</p>
+
+                        </a>
+
+                        <img src="{{ chapterSlide.image }}" class="responsive-image" alt="Illustration" title="Illustration" />
+
+                    </v-carousel-item>
+
+                    {% endfor %}
+
+                </v-carousel>
+
+
+            </v-card>
+        </v-col>
+
+    </v-row>
+
+</v-container>
 
 <!-- Carousel taille Medium and Up -->
 <v-carousel v-if="$vuetify.breakpoint.mdAndUp" cycle interval="8000" height="500" hide-delimiter-background :show-arrows="false" class="mt-n2">
-         
-        {% for chapterSlide in chapterSlides %}
-            
-            <v-carousel-item>
-                
-                <a href="{{ path('chapter_show', {'id': chapterSlide.id}) }}">
-                
-                <p class="slide-title">{{ chapterSlide.title }}</p>
-                    
-                </a>
-          
-                <img src="{{ chapterSlide.image }}" class="responsive-image" alt="{{ chapterSlide.title }}" title="{{ chapterSlide.title }}"/>
-                    
-                
-                
-            </v-carousel-item>
-            
-        {% endfor %}
- 
-</v-carousel>
- 
 
+    {% for chapterSlide in chapterSlides %}
+
+    <v-carousel-item>
+
+        <a href="{{ path('chapter_show', {'id': chapterSlide.id}) }}">
+
+            <p class="slide-title">{{ chapterSlide.title }}</p>
+
+        </a>
+
+        <img src="{{ chapterSlide.image }}" class="responsive-image" alt="{{ chapterSlide.title }}" title="{{ chapterSlide.title }}" />
+
+    </v-carousel-item>
+
+    {% endfor %}
+
+</v-carousel>
 
 <v-container grid-list-xl text-xs-center mt-8>
-      <v-layout row wrap>
- 
-<v-card class="pa-5" color="rgb(255, 255, 255, 0)" outlined>
-     
-          <v-container fluid>
-            <v-row>
-              
-                
-                {% for chapter in chapters %}
-                <v-col
-                cols="12"
-                md="4"
-                >
-                    
-                    <!-- Vuetify hover card : https://codepen.io/jmcting/pen/ExYBPVp?editors=1010 -->
+    <v-layout row wrap>
 
-<!--<v-hover v-slot:default="{ hover }">-->
-    
-      <!--<v-card
-        flat
-        :elevation="hover ? 1 : 0"
-        :class="{ 'on-hover': hover }"
-        class="mx-auto"
-        max-width="600"
-      >-->
-        <v-card
-        flat
-        class="mx-auto"
-        max-width="600"
-      >            
-        
-        <a href="{{ path('chapter_show', {'id': chapter.id}) }}">
+        <v-card class="pa-5" color="rgb(255, 255, 255, 0)" outlined>
 
-          <v-img
-            v-ripple="{ class: `white--text` }"
-            class="image-wrapper"
-          :aspect-ratio="16/9"
-          src="{{ chapter.image }}"
-            alt="{{ chapter.title }}"
-            title="{{ chapter.title }}"
-            style="margin: 0 auto;"
-            
-        >
-          <!--<v-expand-transition>
-            <div
-              v-if="hover"
-              class="d-flex transition-fast-in-fast-out grey lighten-2 v-card--reveal display-3 white--text"
-              style="height:100%; opacity:0.5;"
-            >
-              <p class="body-1 font-weight-light black--text mb-2 pa-5">{{ chapter.content | striptags | raw | slice(0,100) }} ...</p>
-            </div>
-          </v-expand-transition>-->
-        </v-img>
-            
-        </a>
-          
-        <v-card-text
-          class="pt-6"
-          style="position: relative;"
-        >
-         
-            <a href="{{ path('chapter_show', {'id': chapter.id}) }}">
-                
-            <p class="excerpt-title mb-6">{{ chapter.title }}</p>
-                
-            </a>
-            
-            <div class="font-weight-light grey--text body-2 mb-2">
-            
-            <p class="body-1 font-weight-light black--text mb-2" style="cursor: default;">{{ chapter.content | striptags  | slice(0,100) | raw }}...</p>
-                
-            <p class="mt-4" style="color:grey;cursor: default;">Publié le {{ chapter.createdAt | date('d/m/Y') }} &bull; {{ chapter.category.title }} </p>
-            
-                <!-- A faire ? Conditions d'affichage d'icons vectorisés : chacun correspondant à une catégorie sélectionnée pour l'article -->
-                
-                <!--{% if chapter.category.title == 'Planète' %}
-                <p>+ Graph Icon !!</p>
-                {% endif %}-->
-            
-            <!--<p>Publié le {{ chapter.createdAt | date('d/m/Y') }} à {{ chapter.createdAt | date ('H:i') }} dans la catégorie {{ chapter.category.title }} </p>-->
-                
-            </div>
-            
-            
-          
-        </v-card-text>
-      </v-card>
-    
-<!--</v-hover>-->
-                    
-                    
-                    
-                    
-                </v-col>
-                {% endfor %}
-                
-               
-                
-            </v-row>
-          </v-container>
-  
-    </v-card>
+            <v-container fluid>
+                <v-row>
 
-            
-   
-      </v-layout>
-    </v-container>
-    
+                    <v-col v-if="$vuetify.breakpoint.smAndDown" cols="12" class="text-center mt-n10">
+                        <v-btn class="posts-list-button" large outlined color="#666" v-ripple="{ class: `white--text` }" href="{{ path('paging') }}" style="border:none;font-size:16px;;">Derniers articles</v-btn>
+                    </v-col>
+
+                    {% for chapter in chapters %}
+                    <v-col cols="12" md="4">
+
+                        <!-- Vuetify hover card : https://codepen.io/jmcting/pen/ExYBPVp?editors=1010 -->
+
+                        <!--<v-hover v-slot:default="{ hover }">-->
+
+                        <!--<v-card
+                            flat
+                            :elevation="hover ? 1 : 0"
+                            :class="{ 'on-hover': hover }"
+                            class="mx-auto"
+                            max-width="600"
+                          >-->
+                        <v-card flat class="mx-auto" max-width="600">
+
+                            <a href="{{ path('chapter_show', {'id': chapter.id}) }}">
+
+                                <v-img v-ripple="{ class: `white--text` }" class="image-wrapper" :aspect-ratio="16/9" src="{{ chapter.image }}" alt="{{ chapter.title }}" title="{{ chapter.title }}" style="margin: 0 auto;">
+                                    <!--<v-expand-transition>
+                                    <div
+                                      v-if="hover"
+                                      class="d-flex transition-fast-in-fast-out grey lighten-2 v-card--reveal display-3 white--text"
+                                      style="height:100%; opacity:0.5;"
+                                    >
+                                      <p class="body-1 font-weight-light black--text mb-2 pa-5">{{ chapter.content | striptags | raw | slice(0,100) }} ...</p>
+                                    </div>
+                                  </v-expand-transition>-->
+                                </v-img>
+
+                            </a>
+
+                            <v-card-text class="pt-6" style="position: relative;">
+
+                                <a href="{{ path('chapter_show', {'id': chapter.id}) }}">
+
+                                    <p class="excerpt-title mb-6">{{ chapter.title }}</p>
+
+                                </a>
+
+                                <div class="font-weight-light grey--text body-2 mb-2">
+
+                                    <p class="body-1 font-weight-light black--text mb-2" style="cursor: default;">{{ chapter.content | striptags  | slice(0,100) | raw }}...</p>
+
+                                    <p class="mt-4" style="color:grey;cursor: default;">Publié le {{ chapter.createdAt | date('d/m/Y') }} &bull; {{ chapter.category.title }} </p>
+
+                                </div>
+
+                            </v-card-text>
+                        </v-card>
+
+                        <!--</v-hover>-->
+
+                    </v-col>
+                    {% endfor %}
+
+                    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" class="text-center">
+                        <v-btn class="posts-list-button" large outlined color="#34495E" v-ripple="{ class: `white--text` }" href="{{ path('paging') }}">Derniers articles</v-btn>
+                    </v-col>
+
+                </v-row>
+            </v-container>
+
+        </v-card>
+
+    </v-layout>
+</v-container>
+
 {% endblock %}
-
 
 {% block javascripts %}
 
-
 {% endblock %}
-
-
