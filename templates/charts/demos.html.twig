@@ -4,19 +4,6 @@
 
 {% block body %}
 
-<!-- Problème de Routing ? Penser à vider le cache ! 
--> 13 octobre : Dans un nouveau projet copié d'un précédent, il arrive que les nouvelles routes (annotations) créées dans le Controller ne soient plus détectées -> tester -> 
--> php bin/console cache:clear
--> Cf. https://symfony.com/doc/3.3/console/usage.html
--> Cf. https://stackoverflow.com/questions/24031110/moving-a-symfony2-project-to-another-pc
--->
-
-
-
-<!-- Vue Flip Card : démos : https://codepen.io/sn00pee/pen/YqRVrz?editors=1010 + https://codepen.io/tutsplus/pen/JeExJr -->
-
-    
-
 <v-container>
 
     <v-layout row wrap>
@@ -46,7 +33,7 @@
                         
                       <div class="flip-form" @click="front = false">
                         
-                           <v-img src="/symfovue16/public/backgrounds/demo-picture-1.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                           <v-img src="/public/backgrounds/demo-picture-1.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                           
                       </div>
                         
@@ -85,7 +72,7 @@
                   <p>Couleurs et icons personnalisables</p>
                   <div class="flip-form" @click="front2 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-2.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-2.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -123,7 +110,7 @@
                   <p>Edition multi-lignes automatisée</p>
                   <div class="flip-form" @click="front3 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-3.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-3.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -161,7 +148,7 @@
                   <p>Traitement de données CSV et JSON</p>
                   <div class="flip-form" @click="front4 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-4.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-4.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -199,7 +186,7 @@
                   <p>Options Design préétablies</p>
                   <div class="flip-form" @click="front5 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-5.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-5.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -237,7 +224,7 @@
                   <p>Filtrage de données API Web</p>
                   <div class="flip-form" @click="front6 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-6.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-6.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
               
@@ -284,7 +271,7 @@
                     
                   <div class="flip-form" @click="front7 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-7.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-7.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                   
@@ -324,7 +311,7 @@
                   
                   <div class="flip-form" @click="front8 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-8.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-8.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -364,7 +351,7 @@
                   
                   <div class="flip-form" @click="front9 = false">
                     
-                        <v-img src="/symfovue16/public/backgrounds/demo-picture-9.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
+                        <v-img src="/public/backgrounds/demo-picture-9.png" class="flip-image" alt="Illustration" title="Illustration"></v-img>
                       
                   </div>
                  
@@ -393,95 +380,4 @@
 </v-container>
 
 
-
-
-<div class="mt-12 text-center">
-       
-    <p>Démo Leaflet Map :</p>
-    
-        <v-btn small color="blue lighten-1" href="{{ path('leafletMap') }}">LeafletMap Co2World</v-btn>
-    
-    <br /><br />
-    
-    <p>Démos Chart.Js :</p>
-    
-        <v-btn small color="teal lighten-1" href="{{ path('chart3') }}">Chart 3 (Chart JS n°1)</v-btn>    
-    
-        <v-btn small color="blue lighten-1" href="{{ path('chartjs2') }}">Chart JS n°2</v-btn>
-    
-    <br /><br />
-    
-    <p>Démos D3.Js :</p>
-        
-         <v-btn small color="teal lighten-1" href="{{ path('chart2') }}">Chart 2</v-btn>
-        
-    <br /><br />
-    
-    <p>Arrays SQL pour affichage des statistiques en Back Office :</p>
-    
-        <v-btn small color="blue lighten-3" href="{{ path('highchartSQL3') }}">Array SQL nbe de comments par articles</v-btn>
-    
-        <v-btn small color="blue lighten-3" href="{{ path('highchartSQL2') }}">Array SQL nbre de comments par jours</v-btn>
-    
-    <br /><br />
-    
-    <p>Back Office n°2 :</p>
-    
-        <v-btn small color="teal lighten-3" href="{{ path('homepage') }}">Homepage ARTICLES</v-btn>
-
-        <v-btn small color="teal lighten-3" href="{{ path('new_article') }}">Nouvel article</v-btn>
-
-        <v-btn small color="teal lighten-3" href="{{ path('backend_list') }}">Back Office ARTICLES</v-btn>
-    
-         <!-- Cf. Intro to KnpPaginatorBundle : https://github.com/KnpLabs/KnpPaginatorBundle -->
-        <v-btn small color="teal lighten-1" href="{{ path('pagination') }}">Pagination</v-btn>
-    
-    <br /><br />
-    
-    <p>Tests de composants :</p>
-    
-        <v-btn small color="indigo lighten-4" href="{{ path('slide') }}">Slider tests</v-btn>
-    
-    <br /><br />
-    
-    <p>Tests de Routes :</p>
-    
-        <v-btn small color="teal lighten-1" href="{{ path('test') }}">Test</v-btn>
-
-        <v-btn small color="teal lighten-1" href="{{ path('post') }}">Post</v-btn>
-
-        <v-btn small color="teal lighten-1" href="{{ path('tuto') }}">Tuto</v-btn>
-
-    <br /><br />
-    
-    <p>Tests de liens connexion/déconnexion n°2</p>    
-        {% if not app.user %}
-            <v-btn small color="indigo lighten-2" href="{{ path('connect_admin') }}">Admin Login</v-btn>
-        {% else %}
-            <v-btn small color="indigo lighten-4" href="{{ path('nosession') }}">Admin Logout</v-btn>
-        {% endif %}
-    
-    <br /><br />
-    
-    <p>Pages de Tests divers</p>
-
-        <v-btn small color="teal lighten-1" href="{{ path('chart') }}">Chart</v-btn>
-
-        <v-btn small color="teal lighten-1" href="{{ path('chart4') }}">Chart 4 HTML</v-btn>
-
-        <v-btn small color="teal lighten-1" href="{{ path('chart5') }}">Chart 5 PHP</v-btn>
-
-        <v-btn small color="teal lighten-1" href="{{ path('chart6') }}">Chart 6 HTML</v-btn>
-
-        <v-btn small color="teal lighten-2" href="{{ path('chart7') }}">Chart 7 HTML</v-btn>
-
-        <v-btn small color="blue lighten-3" href="{{ path('highchartSQL') }}">Highcharts SQL graph test</v-btn>
-
-        <v-btn small color="blue lighten-3" href="{{ path('columnTests') }}">Highchart Column Tests</v-btn>
-   
-
-    
-                
-</div>  
- 
 {% endblock %}
