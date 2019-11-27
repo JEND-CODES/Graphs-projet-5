@@ -36,8 +36,5 @@ class QuestController extends AbstractController
         ]);
     }
     
-    // Les bases d'une barre de recherche PHP/SQL -> Voir Tuto PrimFX pour la concaténation et d'autres filtres de sélections d'articles, catégories..etc : https://www.youtube.com/watch?v=ApMTM9aPFSQ
- 
-    
-    
+  
 }
