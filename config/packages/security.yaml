@@ -1,12 +1,11 @@
 security:
     encoders:
-    # mettre plutôt en algorithm auto ?? cf. https://symfony.com/doc/current/security.html
+    
         App\Entity\User:
             algorithm: bcrypt
         App\Entity\Administrator:
             algorithm: bcrypt
             
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: null }
         
@@ -34,29 +33,11 @@ security:
             form_login:
                 login_path: security_connexion
                 check_path: security_connexion
-           
-                
+      
             logout:
                 path: security_disconnect
                 target: blog
-        
-        
-        # Premier test d'authentification de l'administrateur (dysfonction pour le moment....!)   
-        admin:
-            anonymous: true
-            
-            provider: in_globalbase
-            
-            form_login:
-                login_path: connect_admin
-                check_path: connect_admin
-           
-                
-            logout:
-                path: nosession
-                target: blog
-                
-                
+   
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
