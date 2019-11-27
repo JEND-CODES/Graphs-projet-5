@@ -8,83 +8,65 @@
 <v-card flat outlined style="z-index:-1;position:fixed;top:0;left:0;height:100%;width:100%;background-color:#85C1E9;"></v-card>
 
 <!-- Container des résultats de recherche -->
-    <v-container fluid class="mt-n10">
-            <v-row>
-            
-                <v-col
-                cols="12">
-                    
-                <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
-               
+<v-container fluid class="mt-n10">
+    <v-row>
+
+        <v-col cols="12">
+
+            <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
+
                 <v-row>
-             
-                <v-col cols="12" md="4"></v-col>
-                    
-                <v-col
-                cols="12"
-                md="4"
-                >
-                <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,0.2)">
-       
-                    <form method="GET">
-                    <input type="search" name="q" placeholder="Rechercher..." />
-                    <input type="submit" value="Valider" />
-                    </form>
-                    
-                    <p class="text-center">{{ nothing }}</p>
-                      
-                </v-card>
-                </v-col>
-                        
-                <v-col cols="12" md="4"></v-col>
-                
+
+                    <v-col cols="12" md="4"></v-col>
+
+                    <v-col cols="12" md="4">
+                        <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,0.2)">
+
+                            <form method="GET">
+                                <input type="search" name="q" placeholder="Rechercher..." />
+                                <input type="submit" value="Valider" />
+                            </form>
+
+                            <p class="text-center">{{ nothing }}</p>
+
+                        </v-card>
+                    </v-col>
+
+                    <v-col cols="12" md="4"></v-col>
+
                 </v-row>
-              
-                </v-card>
-                </v-col>
-                
-                <v-col
-                cols="12"
-                class="mt-n12"
-                >
-                <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
-               
+
+            </v-card>
+        </v-col>
+
+        <v-col cols="12" class="mt-n12">
+            <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
+
                 <v-row>
-             
-               
-                
-                {% for post in posts %}
-            
-            <v-col
-                cols="12"
-                md="4"
-                >
-                <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,1)">
-                    
-           <a href="{{ path('chapter_show', {'id': post.id}) }}">
-            <p class="searching-title">{{ post.title |raw }}</p>
-                
-            </a>
-            <p>{{ post.content |striptags |raw| slice(0,400) }} ...</p>
-                    
-                </v-card>
-            </v-col>
-        
-            
-        
-       
-        {% endfor %}
-                
-              
-                
+
+                    {% for post in posts %}
+
+                    <v-col cols="12" md="4">
+                        <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,1)">
+
+                            <a href="{{ path('chapter_show', {'id': post.id}) }}">
+                                <p class="searching-title">{{ post.title |raw }}</p>
+
+                            </a>
+                            <p>{{ post.content |striptags |raw| slice(0,400) }} ...</p>
+
+                        </v-card>
+                    </v-col>
+
+                    {% endfor %}
+
                 </v-row>
-              
-                </v-card>
-                </v-col>
-  
-                
-            </v-row>
-          </v-container>
+
+            </v-card>
+        </v-col>
+
+    </v-row>
+</v-container>
 
 <br />
 <br />
@@ -97,10 +79,4 @@
 <br />
 <br />
 
-
-
-
-    
-    
-       
 {% endblock %}
