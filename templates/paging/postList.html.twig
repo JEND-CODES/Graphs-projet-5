@@ -9,76 +9,68 @@
 
 <!-- Vuetify Responsive Cards -->
 
-    <v-layout justify-center>
-      
-      <v-flex xs12 sm12 md9 lg8 class="mt-5">
-          
+<v-layout justify-center>
+
+    <v-flex xs12 sm12 md9 lg8 class="mt-5">
+
         <v-card color="rgba(255,255,255,0)" outlined>
-          
-          <v-container>
-            
-            
-                 {% for limitation in limitations %}
-    
+
+            <v-container>
+
+                {% for limitation in limitations %}
+
                 <v-card class="pa-5">
-                  
+
                     <v-flex>
                         <v-row>
-                            
-        <v-col cols="12" sm="8">
-            
-            <a href="{{ path('chapter_show', {'id': limitation.id}) }}">
-                
-            <p class="post-list-title">{{ limitation.title }}</p>
-                
-            </a>
 
-            <p>{{ limitation.content | striptags | slice(0,400) | raw }}...</p>
-            
-        </v-col>
-                            
-        <v-col cols="12" sm="4">
-            
-            <a href="{{ path('chapter_show', {'id': limitation.id}) }}">
-                
-            <img src="{{ limitation.image }}" class="responsive-image" alt="{{ limitation.title }}" title="{{ limitation.title }}"/>
-                
-            </a>
-            
-            <p class="body-2 grey--text text-center mt-2">Publié le {{ limitation.createdAt | date('d/m/Y') }} à {{ limitation.createdAt | date ('H:i') }} </p>
+                            <v-col cols="12" sm="8">
 
-         </v-col>
-                            
+                                <a href="{{ path('chapter_show', {'id': limitation.id}) }}">
+
+                                    <p class="post-list-title">{{ limitation.title }}</p>
+
+                                </a>
+
+                                <p>{{ limitation.content | striptags | slice(0,400) | raw }}...</p>
+
+                            </v-col>
+
+                            <v-col cols="12" sm="4">
+
+                                <a href="{{ path('chapter_show', {'id': limitation.id}) }}">
+
+                                    <img src="{{ limitation.image }}" class="responsive-image" alt="{{ limitation.title }}" title="{{ limitation.title }}" />
+
+                                </a>
+
+                                <p class="body-2 grey--text text-center mt-2">Publié le {{ limitation.createdAt | date('d/m/Y') }} à {{ limitation.createdAt | date ('H:i') }} </p>
+
+                            </v-col>
+
                         </v-row>
-           
+
                     </v-flex>
 
                 </v-card>
-                  
-                <br />  
-                  
-        {% endfor %}          
-                  
-             
 
-          </v-container>
+                <br />
+
+                {% endfor %}
+
+            </v-container>
         </v-card>
-      </v-flex>
-    </v-layout>
+    </v-flex>
+</v-layout>
 
-    
-    <div class="white--text text-center mt-n10">  
-            {{ knp_pagination_render(limitations) }}
-        
-    </div>
 
+<div class="white--text text-center mt-n10">
+    {{ knp_pagination_render(limitations) }}
+
+</div>
 
 {% endblock %}
-
 
 {% block javascripts %}
 
-
 {% endblock %}
-
-
