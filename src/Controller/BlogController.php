@@ -1,8 +1,4 @@
 <?php
-// 1.Créer un Controller -> php bin/console make:controller
-// 2. Si la BDD a déjà été créée -> Créer une nouvelle Entity : php bin/console make:entity
-// 3. Renseigner les colonnes voulues pour la table SQL et faire une migration -> php bin/console make:migration (le nouveau fichier Entity est alors mis à jour)
-// 4. Pour actualiser la BDD avec la nouvelle table souhaitée, faire ensuite -> php bin/console doctrine:migrations:migrate
 
 namespace App\Controller;
 
@@ -16,17 +12,15 @@ namespace App\Controller;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
     use Doctrine\Common\Persistence\ObjectManager;
-
     use App\Repository\ChapterRepository;
     use App\Repository\CommentRepository;
 
-// On utilise le formulaire de Symfony pour la gestion des erreurs -> voir les modifications effectuées dans ce fichier :
+    // On utilise le formulaire de Symfony pour la gestion des erreurs -> voir les modifications effectuées dans ce fichier :
     use App\Form\ChapterType;
 
-// Include paginator interface
-use Knp\Component\Pager\PaginatorInterface;
+    // Include paginator interface
+    use Knp\Component\Pager\PaginatorInterface;
 
 
 class BlogController extends AbstractController
@@ -49,7 +43,7 @@ class BlogController extends AbstractController
         ]);
     }
  
-        /**
+     /**
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit", name="blog_edit")
      */
@@ -87,7 +81,6 @@ class BlogController extends AbstractController
         
     }
 
-   // 24 octobre -> // Erreur Entity was not found ? J'ai supprimé la mention "Comment $comment" dans les paramètres de la fonction, car je me retrouvai sans cesse avec le message "App\Entity\Comment not found by @paramConvert annotation" 
    /**
      * @Route("/blog/{id}", name="chapter_show")
      */
@@ -133,7 +126,6 @@ class BlogController extends AbstractController
       ));
         
     }
-    
     
     // Affichage des commentaires en Back Office avec Pagination
     /**
@@ -185,7 +177,7 @@ class BlogController extends AbstractController
         $comments = $repoComment->findAll();
         
                 // Rappel de la fonction backcom
-               $queryComment = $this->getDoctrine()->getManager();
+                $queryComment = $this->getDoctrine()->getManager();
 
                 $pagingComment = $queryComment->getRepository(Comment::class);
 
@@ -213,9 +205,9 @@ class BlogController extends AbstractController
     public function delete(ChapterRepository $repoChapter, Request $request, $id, PaginatorInterface $paginator) 
     {
        
-        $entityManager = $this->getDoctrine()->getManager();
+      $entityManager = $this->getDoctrine()->getManager();
         
-        $chapter = $entityManager->getRepository(Chapter::class)->find($id);
+      $chapter = $entityManager->getRepository(Chapter::class)->find($id);
       
       $entityManager->remove($chapter);
         
@@ -225,9 +217,8 @@ class BlogController extends AbstractController
         
       $response->send();
 
-        $chapters = $repoChapter->findAll();
-        
-                // Intégration dans la fonction DELETE de la fonction "chapterBackOffice" avec Paginator :
+                $chapters = $repoChapter->findAll();
+
                 $queryList = $this->getDoctrine()->getManager();
 
                 $backChapter = $queryList->getRepository(Chapter::class);
@@ -275,22 +266,8 @@ class BlogController extends AbstractController
 
       return $this->render('paging/backOffice.html.twig', array('backlists' => $backlists));
     }
-    
-    // SLIDESHOW TEST -> A supprimer
-    /**
-     * @Route("/slide", name="slide")
-     */
-    public function slide(ChapterRepository $repoChapter)
-    {
-        
-        $chapters = $repoChapter->findBy(array(), array('id' => 'DESC'),3);
-        
-        return $this->render('blog/slide.html.twig', [
-                'chapters' => $chapters
-        ]);
-    }
-    
-         // Test de PAGINATION n°2 : 
+
+    // Etapes PAGINATION : 
     // 1. Faire un coup de "composer require knplabs/knp-paginator-bundle" dans le projet
     // 2. Indiquer le namespace "use Knp\Component\Pager\PaginatorInterface;" dans le Controller qui va récupérer une liste limitée d'articles
     // 3. Vérifier que le Bundle KNP PAGINATOR est bien chargé dans le fichier config/Bundles, et créer un fichier kng_paginator.yml placé dans le dossier "packages" avec la structure proposé sur le GitHub de KNP PAGINATOR 
@@ -313,8 +290,7 @@ class BlogController extends AbstractController
         // voir https://symfony.com/doc/current/doctrine.html#querying-with-the-query-builder
         $chapterQuery = $pageChapter->createQueryBuilder('n')
             ->getQuery();
-       
-        
+
         // Paginate the results of the query
         $limitations = $paginator->paginate(
             // Doctrine Query, not results
