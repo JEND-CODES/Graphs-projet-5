@@ -1,9 +1,8 @@
-
 <div id="appJEND">
     <v-app id="inspire">
 
-<!-- Logo animation test : -->    
-<!--<a href="{{ path('blog') }}" style="color:white !important;">
+        <!-- Logo animation test : -->
+        <!--<a href="{{ path('blog') }}" style="color:white !important;">
         <span class="svg-animation">
             
             <svg height="40" width="120" stroke="white" stroke-width="0.9" class="text-line">
@@ -13,185 +12,150 @@
             </svg>
             
         </span>
-</a>-->
+        </a>-->
 
-<!-- Logo image test : -->       
-<!--<img class="deco-logo" src="/symfovue15/public/backgrounds/vector-deco-logo-1.png" />-->
+        <!-- Logo image test : -->
+        <!--<img class="deco-logo" src="/symfovue15/public/backgrounds/vector-deco-logo-1.png" />-->
 
         <v-app-bar fixed color="cyan darken-2">
-            
-                <v-btn
-                fab
-                color="transparent"
-                class="white--text"
-                @click.stop="drawer = !drawer"
-                elevation="0"
-                >
+
+            <v-btn fab color="transparent" class="white--text" @click.stop="drawer = !drawer" elevation="0">
                 <v-icon>fas fa-bars</v-icon>
-                    
-              </v-btn>
-            
-                
+
+            </v-btn>
+
             <i class="fi-xnsuxl-network-solid"></i>
-                
-                <v-toolbar-title>
 
-                    <v-btn rounded large elevation="0" id="the-logo" color="cyan darken-2" href="{{ path('blog') }}" >
-                        
-                        <span style="z-index:11;">Charts</span>
-                        
-                        <!-- Voir les formes UNICODES : https://www.w3schools.com/charsets/ref_utf_geometric.asp -->
-                        <span class="logo-unicodes" style="z-index:10;font-size:17px;margin-left:-14px;margin-top:20px;color:#FF5757;transform: rotate(42deg);">&#9668;</span>
-                        
-                        <span class="logo-unicodes" style="font-size:32px;margin-left:-7px;margin-top:18px;color:blueviolet;transform: rotate(100deg);">&#9670;</span>
-                        
-                        <span class="logo-unicodes" style="font-size:18px;margin-left:-11px;margin-top:12px;color:yellow;transform: rotate(110deg);">&#9679;</span>
-                        
-                        <span class="logo-unicodes" style="font-size:15px;margin-left:-2px;margin-top:20px;color:orange;transform: rotate(110deg);">&#9632;</span>
-                        
-                        
-                        
-                    </v-btn>
-                    
-                </v-toolbar-title>
+            <v-toolbar-title>
 
-                <div class="flex-grow-1"></div>
+                <v-btn rounded large elevation="0" id="the-logo" color="cyan darken-2" href="{{ path('blog') }}">
 
-                <v-toolbar-items>
+                    <span style="z-index:11;">Charts</span>
 
-                </v-toolbar-items>
+                    <!-- Voir les formes UNICODES : https://www.w3schools.com/charsets/ref_utf_geometric.asp -->
+                    <span class="logo-unicodes" style="z-index:10;font-size:17px;margin-left:-14px;margin-top:20px;color:#FF5757;transform: rotate(42deg);">&#9668;</span>
 
-                
-                
-                
-            
-            
-      
-            
-            
-       </v-app-bar>
-        
+                    <span class="logo-unicodes" style="font-size:32px;margin-left:-7px;margin-top:18px;color:blueviolet;transform: rotate(100deg);">&#9670;</span>
+
+                    <span class="logo-unicodes" style="font-size:18px;margin-left:-11px;margin-top:12px;color:yellow;transform: rotate(110deg);">&#9679;</span>
+
+                    <span class="logo-unicodes" style="font-size:15px;margin-left:-2px;margin-top:20px;color:orange;transform: rotate(110deg);">&#9632;</span>
+
+                </v-btn>
+
+            </v-toolbar-title>
+
+            <div class="flex-grow-1"></div>
+
+            <v-toolbar-items>
+
+            </v-toolbar-items>
+
+        </v-app-bar>
+
         <!-- Vuetify sidebar Menu -->
-        
+
         <v-navigation-drawer v-model="drawer" app temporary style="z-index:12;">
-            
-            <v-list
-          dense
-          nav
-        >
-          <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('blog') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Accueil</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          
-        <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('paging') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-list-ul</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Derniers articles</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-                
-        <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('demos') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-palette</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Démos</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-         
-        <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_registration') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-user</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Inscription</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-                
-            {% if not app.user %}
-                
-            <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_connexion') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-sign-in-alt</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Connexion</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>    
-             
-            {% else %}
-                
-            <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_disconnect') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-sign-out-alt</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Se déconnecter</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>    
-           
-            {% endif %}
-            
-            <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('office') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:15px;text-indent:10px" color="#34495E">fas fa-desktop</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Back Office</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        
-          {% if app.user.id is defined and app.user.id == '1' %}
-            <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('blog_create') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:15px;text-indent:10px" color="#34495E">fas fa-pencil-alt</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Nouvel article</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-                
-            <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('backcom') }}">
-            <v-list-item-icon>
-              <v-icon style="font-size:15px;text-indent:10px" color="#34495E">far fa-comments</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title style="font-size:15px;">Commentaires</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item> 
-       
-          {% endif %}      
-                
-                
-                
-                
-        </v-list>
-        
-            
-            
-            
-            
-            
-            
-            
-            
+
+            <v-list dense nav>
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('blog') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-home</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Accueil</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('paging') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-list-ul</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Derniers articles</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('demos') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-palette</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Démos</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_registration') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-user</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Inscription</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                {% if not app.user %}
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_connexion') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-sign-in-alt</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Connexion</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                {% else %}
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('security_disconnect') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:17px;text-indent:10px" color="#34495E">fas fa-sign-out-alt</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Se déconnecter</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                {% endif %}
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('office') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:15px;text-indent:10px" color="#34495E">fas fa-desktop</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Back Office</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                {% if app.user.id is defined and app.user.id == '1' %}
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('blog_create') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:15px;text-indent:10px" color="#34495E">fas fa-pencil-alt</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Nouvel article</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item v-ripple="{ class: `white--text` }" link href="{{ path('backcom') }}">
+                    <v-list-item-icon>
+                        <v-icon style="font-size:15px;text-indent:10px" color="#34495E">far fa-comments</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title style="font-size:15px;">Commentaires</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                {% endif %}
+
+            </v-list>
+
         </v-navigation-drawer>
-     
-        
+
         <br />
         <br />
         <br />
 
-<div>
-        
+        <div>
 
-
-</div>
-        
+        </div>
