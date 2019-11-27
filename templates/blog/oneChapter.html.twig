@@ -1,15 +1,9 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}{{ chapter.title }}{% endblock %}
-
 {% block body %}
 
-<!-- V-card Background-color -->
 <v-card flat outlined style="z-index:-1;position:fixed;top:0;left:0;height:100%;width:100%;border:none;">
-    
-    <!-- Parallax Effect -->
     <v-img src="/symfovue16/public/backgrounds/background1.jpg" style="height:100%;width:100%;"></v-img>
-
 </v-card>
 
 <v-container mt-3 mb-n2>
@@ -17,3167 +11,1483 @@
         align="center"
         justify="center"
       >
-        <v-col class="white--text text-center" cols="12" >
-            
-          <p class="post-title">{{ chapter.title }}</p>
-            <br />
-          <v-img
-            :aspect-ratio="16/9"
-            src="{{ chapter.image }}"
-            alt="Illustration"
-            title="Illustration"
-          >
-          </v-img>
-            
+        <v-col class="white--text text-center" cols="12" >  
+            <p class="post-title">{{ chapter.title }}</p>
+                <br />
+                  <v-img
+                    :aspect-ratio="16/9"
+                    src="{{ chapter.image }}"
+                    alt="Illustration"
+                    title="Illustration"
+                  >
+                </v-img>
         </v-col>
       </v-row>
 </v-container>
-     
-<!-- Voir le layout pour mise en page https://v1.vuetifyjs.com/en/layout/grid -->
-
+ 
 <v-container mt-n10>
-    
       <v-layout row wrap>
-            
         <v-col cols="12">
-          
             <v-card flat class="pa-5" color="rgba(255,255,255,1)" style="border-radius:0px;">
-              
                 <v-card-text
                 class="pt-6"
                 style="position: relative;"
                 >
                     <p class="post-font-size mb-12" style="color:#444444;">{{ chapter.content | raw }}</p>
-
                     <p class="font-weight-light grey--text body-2 mb-2">Publié le {{ chapter.createdAt | date('d/m/Y') }} à {{ chapter.createdAt | date ('H:i') }} &bull; {{ chapter.category.title }}</p>
-                    
                     <!-- Lien Modifier l'article uniquement visible pour l'adminsitrateur du site -->
                     {% if app.user.id is defined and app.user.id == '1' %}
-                    
                         <a href="{{ path('blog_edit', {'id': chapter.id}) }}">
-
                         <p class="text-right body-2">
                             <i class="fas fa-pen-fancy"></i>&nbsp;&nbsp;Modifier cet article
                         </p>
-
                         </a>
-                    
                     {% endif %}
-
                 </v-card-text>
      
-<!--**************************************** 3 GRAPHIQUES GENERES PAR DES DONNEES CSV *********************************************-->
+                <!--*** GRAPHIQUES ***-->
 
-{% if chapter.graphcsvfilename == '' %}
-{% else %}
-<br />
-<br />
-<p>Graphique n°1 -> Highcharts -> CSV from FILE NAME</p>
+                {% if chapter.graphcsvfilename != '' %}
+                <div id="container_csv_file" class="responsive-highcharts"></div>
+                {% endif %}
 
-<div id="container_Foreach_CSV_files" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
-{% endif %}
-                
-{% if chapter.graphcsvtextdatas == '' %}
-{% else %}
-<br />
-<br />
-<p>Graphique n°2 -> Highcharts -> CSV from LONGTEXT</p>
+                {% if chapter.graphcsvtextdatas != '' %}
+                <div id="container_csv_longtext" class="responsive-highcharts"></div>
+                <pre id="data" style="display:none;">
+                {{ chapter.graphcsvtextdatas }}
+                </pre>
+                {% endif %}
 
-<div id="container_CSV_longtext" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
+                {% if chapter.graphcsvurl != '' %}
+                <div id="container_csv_from_url" class="responsive-highcharts"></div>
+                {% endif %}
 
-<pre id="data" style="display:none;">
-{{ chapter.graphcsvtextdatas }}
-</pre>
-{% endif %}
+                {% if (chapter.grapharrayjson != '') or (chapter.graphseriesnamejson != '') %}
+                <div id="container_json_longtext" class="responsive-highcharts"></div>                           
+                {% endif %}
 
-                
-{% if chapter.graphcsvurl == '' %}
-{% else %}
-<br />
-<br />
-<p>Graphique n°3 -> Highcharts -> CSV from URL LINK</p>
+                {% if chapter.graphurljson != '' %}
+                <div id="container_json_multiple" class="responsive-highcharts"></div>
+                {% endif %}   
 
-<div id="container_Foreach_CSV_url_Link" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
-{% endif %}
-<!--**************************************** FIN DES GRAPHIQUES CSV *********************************************-->
+                {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+                <div id="container_fetch_api_2" class="responsive-highcharts"></div>
+                {% endif %}
 
+                {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+                <div id="container_fetch_api_3" class="responsive-highcharts"></div>  
+                {% endif %}
 
-                
-<!--**************************************** GRAPHIQUES GENERES PAR ARRAYS JSON *********************************************--> {% if (chapter.grapharrayjson == '') or (chapter.graphseriesnamejson == '') %}       
-{% else %}
+                {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+                <div id="container_fetch_api_4" class="responsive-highcharts"></div>     
+                {% endif %}
 
-<br />
-<br />
-<p>Graphique n°4 -> Highcharts -> JSON ARRAY longtext avec Boucle ForEach :</p>
+                {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+                <div id="container_fetch_api_5" class="responsive-highcharts"></div>            
+                {% endif %}
 
-<div id="container_FOREACH" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>              
+                {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+                <div id="container_fetch_api_6" class="responsive-highcharts"></div>         
+                {% endif %}
 
-                
-{% endif %}
-                
-{% if chapter.graphurljson == '' %}       
-{% else %}                
-<br />
-<br />
-<p>Graphique n°5 -> Highcharts TESTS Get multiple JSON datas</p>
-
-<div id="container_JSON_multiple_BIS" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
-{% endif %}   
-                
-<!--**************************************** FIN DES GRAPHIQUES ARRAYS JSON *********************************************--> 
-
-
-                
-<!--**************************************** GRAPHIQUES GENERES PAR AJAX ou FETCH *********************************************-->
-<!---<br />
-<br />
-<p>Graphique n°6 -> Highcharts TEST Filter Datas from Json Object</p>
-
-<div id="container_Filter_Json_Object_Demo" style="width: 100%; height: 400px; margin: 0 auto; border:1px solid grey;"></div>-->
-
-
-
-<!--<br />
-<br />
-<p>Graphique n°7 -> Highcharts Datas from URL Json Object</p>
-
-<div id="container_Json_Object_Url" style="width: 100%; height: 400px; margin: 0 auto; border:1px solid grey;"></div>-->
-
-
-
-<!--<br />
-<br />
-<p>Graphique n°8 -> Highcharts Simple Ajax Request</p>
-
-<div id="container_Ajax_Json_Datas_1" style="width: 100%; height: 400px; margin: 0 auto; border:1px solid grey;"></div>-->
-
-<!--<br />
-<br />
-<p>Graphique n°9 -> Highcharts Simple Ajax Request WITH api_selector</p>
-
- <div id="container_Ajax_Json_Datas_2" style="width: 100%; height: 400px; margin: 0 auto; border:1px solid grey;"></div>-->
-
-
-
-
-<!--<br />
-<br />
-<p>Graphique n°10 -> Highcharts Fetch Request 1</p>
-
-<div id="container_Fetch_Api_1" style="width: 100%; height: 400px; margin: 0 auto; border:1px solid grey;"></div>-->
-
-
-
-<!--**************************************** GRAPHIQUES GENERES PAR FETCH API *********************************************--> {% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-
-<br />
-<br />
-<p>Graphique n°11 -> Highcharts Fetch Request 2 -> ApiSelector trois mot-clés</p>
-
-<div id="container_Fetch_Api_2" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
-
-{% endif %}
-
-                
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-                
-<br />
-<br />
-<p>Graphique n°12 -> Highcharts Fetch Request n°3 avec ApiSelector quatre mot-clés</p>
-
-<div id="container_Fetch_Api_3" style="width: 100%; height: 450px; margin: 0 auto; border:0px solid grey;"></div>
-      
-{% endif %}
-
-                
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-<br />
-<br />
-<p>Graphique n°13 -> Highcharts Fetch Request n°4 (traitement du sous-ensemble AxeX)</p>
-
-<div id="container_Fetch_Api_4" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid orange;"></div>
-                
-{% endif %}
-
-                
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-<br />
-<br />
-<p>Graphique n°14 -> Highcharts Fetch Request n°5 (traitement du sous-ensemble AxeY) </p>
-
-<div id="container_Fetch_Api_5" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid red;"></div>
-                
-{% endif %}
-                
-
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-<br />
-<br />
-<p>Graphique n°15 -> Highcharts Fetch Request n°6 (traitement de 2 sous-ensemble AxeX et AxeY) </p>
-
-<div id="container_Fetch_Api_6" style="width: 100%; height: 450px; margin: 0 auto; border:1px solid blue;"></div>
-                
-{% endif %}
-
-
-<!--**************************************** FIN DES GRAPHIQUES AJAX ou FETCH *********************************************-->
-  
-      </v-card>
-            
-       
-       </v-col>
-        
-        
-      </v-layout>
-    </v-container>
-
-
-
+            </v-card>
+        </v-col>
+    </v-layout>
+</v-container>
 
 {% if app.user %}
 
-    <v-container fluid class="mt-n10">
-            <v-row>
-            
-                <v-col
-                cols="12">
-                    
-                <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
-               
+<v-container fluid class="mt-n10">
+    <v-row>    
+        <v-col cols="12">
+            <v-card class="pa-5" color="rgba(255,255,255,0)" outlined>
                 <v-row>
-             
+                    <v-col cols="12" md="4"></v-col>
+                    <v-col
+                    cols="12"
+                    md="4"
+                    >
+                        <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,0.2)">
+
+                        {{ form_start(formComment) }}
+
+                        {{ form_row(formComment.author, {'label': ' ', 'attr': {'placeholder': 'Pseudo'}}) }}
+
+                        {{ form_row(formComment.content, {'label': ' ', 'attr': {'placeholder': 'Commentaire'}}) }}
+
+                        {{ form_end(formComment) }}  
+
+                        </v-card>
+                    </v-col>       
                 <v-col cols="12" md="4"></v-col>
-                    
-                <v-col
-                cols="12"
-                md="4"
-                >
-                <v-card class="pa-5" outlined style="border-color:rgb(255,255,255,0);" color="rgba(255,255,255,0.2)">
-       
-                    
-
-            {{ form_start(formComment) }}
-
-            {{ form_row(formComment.author, {'label': ' ', 'attr': {'placeholder': 'Pseudo'}}) }}
-
-            {{ form_row(formComment.content, {'label': ' ', 'attr': {'placeholder': 'Commentaire'}}) }}
-
-            {{ form_end(formComment) }}  
-                      
-                </v-card>
-                </v-col>
-                        
-                <v-col cols="12" md="4"></v-col>
-                
-                </v-row>
-              
-                </v-card>
-                </v-col>
-       
-            </v-row>
-    </v-container>
+                </v-row>   
+            </v-card>
+        </v-col>
+    </v-row>
+</v-container>
 
 {% else %}
 
 <v-container>
-<v-layout row wrap>
-
-                <v-col cols="12">
-          
+    <v-layout row wrap>
+        <v-col cols="12">
             <v-card color="rgba(255,255,255,0)" outlined> 
-                
                 <p class="text-center white--text">Connectez-vous pour commenter cet article</p> 
-                
             </v-card>
-                    
-            </v-col>  
-    
+        </v-col>  
     </v-layout>
 </v-container>
 
-
 {% endif %}
 
-
 {% if chapter.comments is empty %}    
-<!-- On affiche rien -->
 {% else %}
 
-<!-- SCRIPT DE PAGINATION : Démo https://codepen.io/atwulf/pen/gpqZrW?editors=0010 -->
-
-<!-- Voir démo plus simple encore JQUERY PAGINATION avec des ul->li->active :https://codepen.io/Archie22is/pen/bEKJs?editors=1010 -->
-<v-card color="rgb(240, 240, 240, 0)" class="pa-5 mt-n12" outlined>
-    
-{% if chapter.comments | length == '1' %}
-    
-     <p class="white--text">&nbsp;&nbsp;&nbsp;&nbsp;{{ chapter.comments | length }} commentaire</p>   
-    
-{% endif %} 
+<v-card color="rgb(240, 240, 240, 0)" class="pa-5 mt-n12" outlined>    
+    {% if chapter.comments | length == '1' %}
+         <p class="white--text">&nbsp;&nbsp;&nbsp;&nbsp;{{ chapter.comments | length }} commentaire</p>   
+    {% endif %} 
                     
-{% if chapter.comments | length > '1' %}
-    
-       <p class="white--text">&nbsp;&nbsp;&nbsp;&nbsp;{{ chapter.comments | length }} commentaires</p>             
+    {% if chapter.comments | length > '1' %}
+        <p class="white--text">&nbsp;&nbsp;&nbsp;&nbsp;{{ chapter.comments | length }} commentaires</p>             
 {% endif %} 
 
-          <v-container fluid>
-            <v-row>
-  
-{% for comment in chapter.comments %}
+    <v-container fluid>
+        <v-row>
+            {% for comment in chapter.comments %}
                 <v-col
                 class="comments-loop"
                 cols="12"
                 md="3"
                 >
-                  <v-card class="pa-2"> 
-                    
-<v-card-text>
-    
-    <p class="body-1" style="color:dimgrey;">Par {{ comment.author }} le {{ comment.createdAt | date('d/m/Y à H:i') }}</p>
-
-    <p class="body-1" style="color:dimgrey;">{{ comment.content | striptags | raw }}</p>
-    
-</v-card-text>
-            </v-card> 
-  
+                <v-card class="pa-2">   
+                    <v-card-text>
+                        <p class="body-1" style="color:dimgrey;">Par {{ comment.author }} le {{ comment.createdAt | date('d/m/Y à H:i') }}</p>
+                        <p class="body-1" style="color:dimgrey;">{{ comment.content | striptags | raw }}</p> 
+                    </v-card-text>
+                </v-card> 
                 </v-col>
-                {% endfor %}
-
-</v-row>
-          </v-container>
-
-    </v-card>
+            {% endfor %}
+        </v-row>
+    </v-container>
+</v-card>
 
 {% endif %}
-
-
-
-
 
 {% endblock %}
 
-
-
-
 {% block javascripts %}
+<!-- *** Constantes de Couleurs, Icons et Fonctions de sélections *** -->
+<script src="/symfovue16/public/js/colors.js"></script>
 
 <script>
-    
-// Jeux de couleurs à sélectionner en Back Office lors de l'édition des Graphiques :
-    
-// Jeu de couleurs n°1 (tons : rouge-violet..) :    
-const coloring_1 = ['#ef5350','#ec407a','#ab47bc','#7e57c2','#5c6bc0','#42a5f5','#8d6e63','#26a69a','#66bb6a','#ffa726'];
-    
-// Jeu de couleurs n°2 (tons : teal-violet-bleu-gris-marron-vert-orange-rose-noir) : 
-const coloring_2 = ['#26a69a','#7e57c2','#42a5f5','#78909c','#8d6e63','#66bb6a','#ff7043','#ec407a','#ef5350','#000000'];
-    
-// Jeu de couleurs n°3 (tons : bleu-bruns) : 
-const coloring_3 = ['#006064','#4dd0e1','#3949ab','#7986cb','#004d40','#4db6ac','#424242','#78909c','#4e342e','#a1887f'];
+    /*** Graphique Version n°1 -> CSV FROM FILE NAME ***/
+    {% if chapter.graphcsvfilename != '' %}
+    // *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (choix pour certains graphiques) 
+    var must_hide_x = '{{ chapter.graphnamex }}';
+    if (must_hide_x === 'false') {
+        var hide_result_x = must_hide_x.replace('false', ' ');
+    } else {
+        var hide_result_x = '{{ chapter.graphnamex }}';
+    };
 
-// Icônes personnalisés sur les graphs
-    
-    // Le Rouge :
-const icon_style_1 = 'url(http://localhost/symfovue16/public/backgrounds/icon-graph-1.png)';
-    
-    // Le Bleu :
-const icon_style_2 = 'url(http://localhost/symfovue16/public/backgrounds/icon-graph-2.png)';
+    var must_hide_y = '{{ chapter.graphnamey }}';
+    if (must_hide_y === 'false') {
+        var hide_result_y = must_hide_y.replace('false', ' ');
+    } else {
+        var hide_result_y = '{{ chapter.graphnamey }}';
+    };
+    // *** Récupération des champs édités en Back Office pour les graphiques
+    var csv_file_name = '{{ chapter.graphcsvfilename }}';
+    // Array avec les nouvelles options de design du graphique
+    var design_selector = '{{ chapter.graphtype }}';
+    var design = design_selector.split(' ');
+    // Sélection des icônes personnalisés (2 options)
+    if (design[2] === 'red-icon') {
+        var icon_graph = icon_style_1;
+    };
+    if (design[2] === 'blue-icon') {
+        var icon_graph = icon_style_2;
+    };
 
-    
-// 5 images linear-gradient en options pour le fond des graphs :   
-
-const background_style_1 = '/symfovue16/public/backgrounds/linearGradient-1.jpg' ;
-
-const background_style_2 = '/symfovue16/public/backgrounds/linearGradient-2.jpg';
-
-const background_style_3 = '/symfovue16/public/backgrounds/linearGradient-3.jpg';
-
-const background_style_4 = '/symfovue16/public/backgrounds/linearGradient-4.jpg';
-
-const background_style_5 = '/symfovue16/public/backgrounds/linearGradient-5.jpg';
-
-    
-</script>
-
-
-<script>
-
-/******************************************
-Graphique n°1 -> CSV FROM FILE NAME
-*******************************************/
- 
-// Url des données de la démo "Analytics.csv" : "https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/analytics.csv"
-    
-// Concaténation du nom du fichier édité par l'administrateur du site : pour générer un graph CSV, il suffit d'indiquer le nom du fichier (créer un champs d'édition en Back Office qui ne comportera que le nom du fichier)
-    
-{% if chapter.graphcsvfilename == '' %}
-{% else %}
-
-// *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (pour certains graphiques) : 
-var mustHide_X = '{{ chapter.graphnamex }}';
- 
-if ( mustHide_X === 'false') {
-   var hideResult_X = mustHide_X.replace('false', ' '); 
-} else {
-    var hideResult_X = '{{ chapter.graphnamex }}';
-};
- 
-var mustHide_Y = '{{ chapter.graphnamey }}';
- 
-if ( mustHide_Y === 'false') {
-   var hideResult_Y = mustHide_Y.replace('false', ' '); 
-} else {
-    var hideResult_Y = '{{ chapter.graphnamey }}';
-};
- 
-
-// *** Récupération des champs édités en Back Office pour les graphiques
-var csv_file_name = '{{ chapter.graphcsvfilename }}';
-
- // Array avec les nouvelles options de design du graphique :
- var design_selector = '{{ chapter.graphtype }}';
-
- var design = design_selector.split(' ');
-        
- // alert(design[1]);
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design[1] === 'midnight-blue'){
-        var backGraph = background_style_1;
-       
-           };
-
-     if(design[1] === 'light-grey'){
-        var backGraph = background_style_2;
-       
-           };
-
-     if(design[1] === 'light-blue'){
-        var backGraph = background_style_3;
-       
-           };
-
-     if(design[1] === 'red-orange'){
-        var backGraph = background_style_4;
-       
-           };
-
-     if(design[1] === 'dark-green'){
-        var backGraph = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design[2] === 'red-icon'){
-        var iconGraph = icon_style_1;
-       
-           };
-
-     if(design[2] === 'blue-icon'){
-        var iconGraph = icon_style_2;
-       
-           };
- 
-
-Highcharts.chart('container_Foreach_CSV_files', {
-    chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        subtitle: {
-                text: '{{ chapter.graphsubtitle }}'
-            },
-            xAxis: {
-                title: {
-                    text: hideResult_X
-                }
-            },
-            yAxis: {
-                title: {
-                    text: hideResult_Y
-                }
-            },
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (par défaut, visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot" (options modifiables en back office)
-        
-        dashStyle: design[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (par défaut, n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph,
-      }
-           
-        },
-    },
-    
-    // Jeux de couleurs sélectionnés en Back Office
-    {% if chapter.graphcolorone == 'coloration_1' %}
-        colors: coloring_1,
-    {% endif %}
-    
-    {% if chapter.graphcolorone == 'coloration_2' %}
-        colors: coloring_2,
-    {% endif %}
-                 
-    {% if chapter.graphcolorone == 'coloration_3' %}
-        colors: coloring_3,
-    {% endif %}
-                 
-    data: {
-        csvURL: 'http://localhost/symfovue16/public/csv_files/' + csv_file_name + '.csv',
-        beforeParse: function (csv) {
-            
-            return csv.replace(/\n\n/g, '\n').replace(/'/g, '"');
-        }
-    },
-
-    series: [{}]
-});
-
-{% endif %}
-
-</script>
-
-<script>
-/******************************************
-Graphique n°2 -> CSV FROM LONG TEXT DATAS
-*******************************************/    
-    
-// CSV généré par l'insertion de champs textes dans un <pre> auquel il suffit d'ajouter un "display:none"
-// Voir : <pre id="data" style="display:none;">
-
-{% if chapter.graphcsvtextdatas == '' %}
-{% else %}
-
-
-// *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (pour les graphiques n°4 et n°6) : 
-var mustHide_X_2 = '{{ chapter.graphnamex }}';
- 
-if ( mustHide_X_2 === 'false') {
-   var hideResult_X_2 = mustHide_X_2.replace('false', ' '); 
-} else {
-    var hideResult_X_2 = '{{ chapter.graphnamex }}';
-};
- 
-var mustHide_Y_2 = '{{ chapter.graphnamey }}';
- 
-if ( mustHide_Y_2 === 'false') {
-   var hideResult_Y_2 = mustHide_Y_2.replace('false', ' '); 
-} else {
-    var hideResult_Y_2 = '{{ chapter.graphnamey }}';
-};
-
- // Array avec les nouvelles options de design du graphique :
- var design_selector_2 = '{{ chapter.graphtype }}';
-
- var design_2 = design_selector_2.split(' ');
-        
- // alert(design[1]);
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_2[1] === 'midnight-blue'){
-        var backGraph_2 = background_style_1;
-       
-           };
-
-     if(design_2[1] === 'light-grey'){
-        var backGraph_2 = background_style_2;
-       
-           };
-
-     if(design_2[1] === 'light-blue'){
-        var backGraph_2 = background_style_3;
-       
-           };
-
-     if(design_2[1] === 'red-orange'){
-        var backGraph_2 = background_style_4;
-       
-           };
-
-     if(design_2[1] === 'dark-green'){
-        var backGraph_2 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_2[2] === 'red-icon'){
-        var iconGraph_2 = icon_style_1;
-       
-           };
-
-     if(design_2[2] === 'blue-icon'){
-        var iconGraph_2 = icon_style_2;
-       
-           };
-
-Highcharts.chart('container_CSV_longtext', {
- chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_2[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_2,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        subtitle: {
-                text: '{{ chapter.graphsubtitle }}'
-            },
-            xAxis: {
-                title: {
-                    text: hideResult_X_2
-                }
-            },
-            yAxis: {
-                title: {
-                    text: hideResult_Y_2
-                }
-            },
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        
-        dashStyle: design_2[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_2,
-      }
-           
-        },
-    },
-    
-    {% if chapter.graphcolorone == 'coloration_1' %}
-
-    colors: coloring_1,
-    {% endif %}
-    
-    {% if chapter.graphcolorone == 'coloration_2' %}
-
-    colors: coloring_2,
-    {% endif %}
-                 
-    {% if chapter.graphcolorone == 'coloration_3' %}
-
-    colors: coloring_3,
-    {% endif %}
-                 
-    data: {
-        csv: document.getElementById('data').innerHTML
-    }
-   
-});
-
-{% endif %}
-    
-</script>
-
-<script>
-/******************************************
-Graphique n°3 -> CSV FROM URL LINK
-*******************************************/
-
-{% if chapter.graphcsvurl == '' %}
-{% else %}
-
-
-// *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (pour certains graphiques) : 
-var mustHide_X_3 = '{{ chapter.graphnamex }}';
- 
-if ( mustHide_X_3 === 'false') {
-   var hideResult_X_3 = mustHide_X_3.replace('false', ' '); 
-} else {
-    var hideResult_X_3 = '{{ chapter.graphnamex }}';
-};
- 
-var mustHide_Y_3 = '{{ chapter.graphnamey }}';
- 
-if ( mustHide_Y_3 === 'false') {
-   var hideResult_Y_3 = mustHide_Y_3.replace('false', ' '); 
-} else {
-    var hideResult_Y_3 = '{{ chapter.graphnamey }}';
-};
-
- // Array avec les nouvelles options de design du graphique :
- var design_selector_3 = '{{ chapter.graphtype }}';
-
- var design_3 = design_selector_3.split(' ');
-        
- // alert(design[1]);
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_3[1] === 'midnight-blue'){
-        var backGraph_3 = background_style_1;
-       
-           };
-
-     if(design_3[1] === 'light-grey'){
-        var backGraph_3 = background_style_2;
-       
-           };
-
-     if(design_3[1] === 'light-blue'){
-        var backGraph_3 = background_style_3;
-       
-           };
-
-     if(design_3[1] === 'red-orange'){
-        var backGraph_3 = background_style_4;
-       
-           };
-
-     if(design_3[1] === 'dark-green'){
-        var backGraph_3 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_3[2] === 'red-icon'){
-        var iconGraph_3 = icon_style_1;
-       
-           };
-
-     if(design_3[2] === 'blue-icon'){
-        var iconGraph_3 = icon_style_2;
-      
-           };
-    
-Highcharts.chart('container_Foreach_CSV_url_Link', {
+    Highcharts.chart('container_csv_file', {
         chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_3[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_3,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
+            // design[0] -> correspond à la première valeur entrée dans le champs graph_type de l'éditeur d'article     
+            type: design[0],
+            // Appel de la fonction du fichier colors.js -> background_graph -> correspond à la troisième valeur entrée dans le champs graph_type de l'éditeur d'article
+            plotBackgroundImage: background_selection(),
+            // Font-family
+            style: {
+                fontFamily: 'Quicksand'
+            }
+        },
+        // Retrait du branding Highcharts
         credits: {
             enabled: false,
         },
-    
         title: {
-                text: '{{ chapter.graphtitle }}'
-            },
+            text: '{{ chapter.graphtitle }}'
+        },
         subtitle: {
-                text: '{{ chapter.graphsubtitle }}'
-            },
-            xAxis: {
-                title: {
-                    text: hideResult_X_3
-                }
-            },
-            yAxis: {
-                title: {
-                    text: hideResult_Y_3
-                }
-            },
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
+            text: '{{ chapter.graphsubtitle }}'
+        },
+        xAxis: {
+            title: {
+                text: hide_result_x
             }
         },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        
-        dashStyle: design_3[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
+        yAxis: {
+            title: {
+                text: hide_result_y
+            }
+        },
+        tooltip: {
+            valueSuffix: ' {{ chapter.graphvalue }} '
+        },
+        plotOptions: {
+            // Indication des valeurs sur chaque point (par défaut visible en "line")   
+            line: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                // Curseur de main
+                cursor: 'pointer',
+                // Autoriser la sélection de point
+                allowPointSelect: true,
+                // Effet de ligne (options modifiables en back office)
+                dashStyle: design[3],
+                // Marqueur grossissant "popup" apparaît au clic sur un point (par défaut, n'apparaît qu'en type de chart "line")
+                marker: {
+                    radius: 4,
+                    states: {
+                        select: {
+                            radius: 35,
+                            fillColor: 'white',
                         }
                     },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_3,
-      }
-           
+                    // Symbole personnalisé -> icon_graph -> troisième valeur entrée dans le champs graph_type de l'éditeur d'article
+                    symbol: icon_graph,
+                }
+            },
         },
-    },
-    {% if chapter.graphcolorone == 'coloration_1' %}
-        colors: coloring_1,
-    {% endif %}
-    
-    {% if chapter.graphcolorone == 'coloration_2' %}
-        colors: coloring_2,
-    {% endif %}
-                 
-    {% if chapter.graphcolorone == 'coloration_3' %}
-        colors: coloring_3,
-    {% endif %}
-    
-    data: {
-        csvURL: '{{ chapter.graphcsvurl }}',
-        beforeParse: function (csv) {
-            
-            return csv.replace(/\n\n/g, '\n').replace(/'/g, '"');
-        }
-    },
+        // Jeux de couleurs sélectionnés en Back Office -> les variables "coloring" sont définies dans Form/ChapterType
+        {% if chapter.graphcolorone == 'coloration_1' %}
+            colors: coloring_1,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_2' %}
+            colors: coloring_2,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_3' %}
+            colors: coloring_3,
+        {% endif %}
 
-    series: [{}]
-});
-    
-{% endif %}
+        data: {
+            csvURL: 'http://localhost/symfovue16/public/csv_files/' + csv_file_name + '.csv',
+            beforeParse: function (csv) {
 
-// Voir Highcharts DOCUMENTATION Working with Datas : https://www.highcharts.com/docs/working-with-data/custom-preprocessing#preprocess-data-using-json
-    
-// Cf. Passing Informations from Twig to JavaScript : https://symfony.com/doc/current/frontend/encore/server-data.html
-            
-// A améliorer : voir comment ajouter des conditions multiples dans TWIG (if OR AND...)
-// Cf. Ex : https://stackoverflow.com/questions/8388537/twig-if-with-multiple-conditions    
-    
+                return csv.replace(/\n\n/g, '\n').replace(/'/g, '"');
+            }
+        },
+        series: [{}]
+    });
+    {% endif %}
 </script>
 
 <script>
-/******************************************
-Graphique n°4 -> JSON FROM longtext ARRAY
-*******************************************/
-
-{% if (chapter.grapharrayjson == '') or (chapter.graphseriesnamejson == '') %}       
-{% else %}
-
- // Array avec les nouvelles options de design du graphique :
- var design_selector_4 = '{{ chapter.graphtype }}';
-
- var design_4 = design_selector_4.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_4[1] === 'midnight-blue'){
-        var backGraph_4 = background_style_1;
-       
-           };
-
-     if(design_4[1] === 'light-grey'){
-        var backGraph_4 = background_style_2;
-       
-           };
-
-     if(design_4[1] === 'light-blue'){
-        var backGraph_4 = background_style_3;
-       
-           };
-
-     if(design_4[1] === 'red-orange'){
-        var backGraph_4 = background_style_4;
-       
-           };
-
-     if(design_4[1] === 'dark-green'){
-        var backGraph_4 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_4[2] === 'red-icon'){
-        var iconGraph_4 = icon_style_1;
-       
-           };
-
-     if(design_4[2] === 'blue-icon'){
-        var iconGraph_4 = icon_style_2;
-       
-           };
-
-// Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
+    /*** Graphique Version n°2 (v2) -> CSV FROM LONG TEXT DATAS ***/
+    {% if chapter.graphcsvtextdatas != '' %}
     
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels = '{{ chapter.graphnamex }}';
+    var must_hide_x_v2 = '{{ chapter.graphnamex }}';
+    if (must_hide_x_v2 === 'false') {
+        var hide_result_x_v2 = must_hide_x_v2.replace('false', ' ');
+    } else {
+        var hide_result_x_v2 = '{{ chapter.graphnamex }}';
+    };
+    var must_hide_y_v2 = '{{ chapter.graphnamey }}';
+    if (must_hide_y_v2 === 'false') {
+        var hide_result_y_v2 = must_hide_y_v2.replace('false', ' ');
+    } else {
+        var hide_result_y_v2 = '{{ chapter.graphnamey }}';
+    };
+     
+    var design_selector_2 = '{{ chapter.graphtype }}';
+    var design_v2 = design_selector_2.split(' ');
+     
+    if (design_v2[2] === 'red-icon') {
+        var icon_graph_v2 = icon_style_1;
+    };
+    if (design_v2[2] === 'blue-icon') {
+        var icon_graph_v2 = icon_style_2;
+    };
 
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2 = JSON.parse(valueLabels);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex = ' ';
-    
-    // alert(valueLabels_2);
-
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2 = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex = '{{ chapter.graphnamex }}';
-};
-
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical = '{{ chapter.graphnamey }}';
-
-    var valueVertical_2 = JSON.parse(valueVertical);
-    
-    var valueNamey = ' ';
-    
-    //alert(valueVertical_2);
-
-} else {
-    
-    var valueVertical_2 = true;
-  
-    var valueNamey = '{{ chapter.graphnamey }}';
-};     
-
- 
-// *** Récupération des valeurs des séries entrées dans l'éditeur de graphiques 
-var newData = {{ chapter.grapharrayjson|raw }};
-    
-// console.log(newData.length);
-    
-// Il suffira de remplacer l'Array suivant par une variable TWIG qui récupère les noms affectés à toutes les lignes édités en Back Office pour le graphique :    
-var newNames = {{ chapter.graphseriesnamejson|raw }};
-  
-// On compte le nombre d'éléments dans l'array
-    
-// console.log(newNames.length);
-
-// On crée la variable affectée dans la zone "series" du chart
-var seriesArray = [];
-
-// Cf. https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/forEach
-// Cf. https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/push
-// Cf. https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/length
-
-// On fait des push de '{},' dans l'Array "seriesArray" en fonction du nombre d'éléments dans l'Array newNames (cela génère autant de lignes qu'il y a d'éléments définis dans newNames) :
-newNames.forEach(function() {
-  seriesArray.push({},);
-});
-
-    
-// *** Initialisation des options Highcharts  
-var chart = Highcharts.chart('container_FOREACH', {
+    Highcharts.chart('container_csv_longtext', {
         chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_4[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_4,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
+            type: design_v2[0],
+            plotBackgroundImage: background_selection_v2(),
+            style: {
+                fontFamily: 'Quicksand'
+            }
+        },
         credits: {
             enabled: false,
         },
-    
         title: {
-                text: '{{ chapter.graphtitle }}'
-            },
+            text: '{{ chapter.graphtitle }}'
+        },
         subtitle: {
-                text: '{{ chapter.graphsubtitle }}'
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-                title: {
-                    text: graphNamex
-                },
-                labels: {
-                    enabled: valueLabels_2
-                }
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey
-                },
-                labels: {
-                    enabled: valueVertical_2
-                }
-            },
-    
+            text: '{{ chapter.graphsubtitle }}'
+        },
+        xAxis: {
+            title: {
+                text: hide_result_x_v2
+            }
+        },
+        yAxis: {
+            title: {
+                text: hide_result_y_v2
+            }
+        },
         tooltip: {
-            // Pour retirer le header du tooltip, indiquer " headerFormat: null, " ou " headerFormat: ' ', " :
+            valueSuffix: ' {{ chapter.graphvalue }} '
+        },
+        plotOptions: {    
+            line: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                cursor: 'pointer',
+                allowPointSelect: true,
+                dashStyle: design_v2[3],
+                marker: {
+                    radius: 4,
+                    states: {
+                        select: {
+                            radius: 35,
+                            fillColor: 'white',
+                        }
+                    },
+                    symbol: icon_graph_v2,
+                }
+            },
+        },
+        {% if chapter.graphcolorone == 'coloration_1' %}
+            colors: coloring_1,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_2' %}
+            colors: coloring_2,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_3' %}
+            colors: coloring_3,
+        {% endif %}
+
+        data: {
+            csv: document.getElementById('data').innerHTML
+        }
+    });
+    {% endif %}
+</script>
+
+<script>
+    /*** Graphique Version n°3 (v3) -> CSV FROM URL LINK ***/
+    {% if chapter.graphcsvurl != '' %}
+    
+    var must_hide_x_v3 = '{{ chapter.graphnamex }}';
+    if (must_hide_x_v3 === 'false') {
+        var hide_result_x_v3 = must_hide_x_v3.replace('false', ' ');
+    } else {
+        var hide_result_x_v3 = '{{ chapter.graphnamex }}';
+    };
+    var must_hide_y_v3 = '{{ chapter.graphnamey }}';
+    if (must_hide_y_v3 === 'false') {
+        var hide_result_y_v3 = must_hide_y_v3.replace('false', ' ');
+    } else {
+        var hide_result_y_v3 = '{{ chapter.graphnamey }}';
+    };
+     
+    var design_selector_3 = '{{ chapter.graphtype }}';
+    var design_v3 = design_selector_3.split(' ');
+
+    if (design_v3[2] === 'red-icon') {
+        var icon_graph_v3 = icon_style_1;
+    };
+    if (design_v3[2] === 'blue-icon') {
+        var icon_graph_v3 = icon_style_2;
+    };
+     
+    Highcharts.chart('container_csv_from_url', {
+        chart: {      
+            type: design_v3[0],
+            plotBackgroundImage: background_selection_v3(),
+            style: {
+                fontFamily: 'Quicksand'
+            }
+        },
+        credits: {
+            enabled: false,
+        },
+        title: {
+            text: '{{ chapter.graphtitle }}'
+        },
+        subtitle: {
+            text: '{{ chapter.graphsubtitle }}'
+        },
+        xAxis: {
+            title: {
+                text: hide_result_x_v3
+            }
+        },
+        yAxis: {
+            title: {
+                text: hide_result_y_v3
+            }
+        },
+        tooltip: {
+            valueSuffix: ' {{ chapter.graphvalue }} '
+        },
+        plotOptions: {  
+            line: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                cursor: 'pointer',
+                allowPointSelect: true,
+                dashStyle: design_v3[3],
+                marker: {
+                    radius: 4,
+                    states: {
+                        select: {
+                            radius: 35,
+                            fillColor: 'white',
+                        }
+                    },
+                    symbol: icon_graph_v3,
+                }
+            },
+        },
+        {% if chapter.graphcolorone == 'coloration_1' %}
+            colors: coloring_1,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_2' %}
+            colors: coloring_2,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_3' %}
+            colors: coloring_3,
+        {% endif %}
+
+        data: {
+            csvURL: '{{ chapter.graphcsvurl }}',
+            beforeParse: function (csv) {
+
+                return csv.replace(/\n\n/g, '\n').replace(/'/g, '"');
+            }
+        },
+        series: [{}]
+    });
+    {% endif %}
+</script>
+
+<script>
+    /*** Graphique Version n°4 (v4) -> JSON FROM longtext ARRAY ***/
+    {% if (chapter.grapharrayjson != '') or(chapter.graphseriesnamejson != '') %}
+    
+    var design_selector_4 = '{{ chapter.graphtype }}';
+    var design_v4 = design_selector_4.split(' ');
+
+    if (design_v4[2] === 'red-icon') {
+        var icon_graph_v4 = icon_style_1;
+    };
+    if (design_v4[2] === 'blue-icon') {
+        var icon_graph_v4 = icon_style_2;
+    };
+
+    // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition (Conversion string to boolean)
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        // On récupère la valeur entrée dans l'éditeur de graphique
+        var value_labels = '{{ chapter.graphnamex }}';
+        // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
+        var value_labels_2 = JSON.parse(value_labels);
+        // On retire la mention "false" du titre de l'axe horizontal
+        var graph_name_x = ' ';
+    } else {
+        // Sinon on active les labels par défaut..
+        var value_labels_2 = true;
+        // Et bien sûr le titre choisi pour l'axe horizontal !
+        var graph_name_x = '{{ chapter.graphnamex }}';
+    };
+    // Idem pour retirer les Labels de l'Axe vertical
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical = '{{ chapter.graphnamey }}';
+        var value_vertical_2 = JSON.parse(value_vertical);
+        var value_name_y = ' ';
+    } else {
+        var value_vertical_2 = true;
+        var value_name_y = '{{ chapter.graphnamey }}';
+    };
+
+    // *** Récupération des valeurs des séries entrées dans l'éditeur de graphiques 
+    var new_data = {{ chapter.grapharrayjson | raw }};
+    var new_names = {{ chapter.graphseriesnamejson | raw }};
+    // On compte le nombre d'éléments dans l'array
+    // console.log(new_names.length);
+    // On crée la variable affectée dans la zone "series" du chart
+    var series_array = [];
+    // On fait des push de '{},' dans l'Array "series_array" en fonction du nombre d'éléments dans l'Array new_names (cela génère autant de lignes qu'il y a d'éléments définis dans new_names) :
+    new_names.forEach(function () {
+        series_array.push({}, );
+    });
+
+    var chart = Highcharts.chart('container_json_longtext', {
+        chart: {       
+            type: design_v4[0],
+            plotBackgroundImage: background_selection_v4(),
+            style: {
+                fontFamily: 'Quicksand'
+            }
+        },
+        credits: {
+            enabled: false,
+        },
+        title: {
+            text: '{{ chapter.graphtitle }}'
+        },
+        subtitle: {
+            text: '{{ chapter.graphsubtitle }}'
+        },
+        xAxis: {
+            title: {
+                text: graph_name_x
+            },
+            labels: {
+                enabled: value_labels_2
+            }
+        },
+        yAxis: {
+            title: {
+                text: value_name_y
+            },
+            labels: {
+                enabled: value_vertical_2
+            }
+        },
+        tooltip: {
+            // Retrait du header du tooltip
             headerFormat: null,
-            
             valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
         },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        
-        dashStyle: design_4[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
+        plotOptions: {   
+            line: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                cursor: 'pointer',
+                allowPointSelect: true,
+                dashStyle: design_v4[3],
+                marker: {
+                    radius: 4,
+                    states: {
+                        select: {
+                            radius: 35,
+                            fillColor: 'white',
                         }
                     },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_4,
-      }
-           
+                    symbol: icon_graph_v4,
+                }
+            },
         },
-    },
-    
-    {% if chapter.graphcolorone == 'coloration_1' %}
-        colors: coloring_1,
-    {% endif %}
-    
-    {% if chapter.graphcolorone == 'coloration_2' %}
-        colors: coloring_2,
-    {% endif %}
-                 
-    {% if chapter.graphcolorone == 'coloration_3' %}
-        colors: coloring_3,
-    {% endif %}
+        {% if chapter.graphcolorone == 'coloration_1' %}
+            colors: coloring_1,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_2' %}
+            colors: coloring_2,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_3' %}
+            colors: coloring_3,
+        {% endif %}
 
-    series: seriesArray
-
-});
-
-// Boucle qui actualise les données éditées en Back Office, puis récupérées dans un Array et, puis affectés à la zone "series" du Chart:
-chart.series.forEach(series => {
-
-		var datasets = series.index;
+        series: series_array
+    });
+    // Boucle qui actualise les données éditées en Back Office, puis récupérées dans un Array, puis affectés à la zone "series" du Chart:
+    chart.series.forEach(series => {
+        var datasets = series.index;
         var names = series.index;
 
         series.update({
-            
-            data: newData[datasets],
-            name: newNames[names]
-          });
-
-});
-
-{% endif %}
-
+            data: new_data[datasets],
+            name: new_names[names]
+        });
+    });
+    {% endif %}
 </script>
 
 <script>
-/******************************************
-Graphique n°5 -> URL JSON
-*******************************************/   
-{% if chapter.graphurljson == '' %}       
-{% else %}
+    /*** Graphique Version n°5 (v5) -> URL JSON ***/
+    {% if chapter.graphurljson != '' %}
 
-// *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (pour les graphiques n°4 et n°6) : 
-var mustHide_X_4 = '{{ chapter.graphnamex }}';
- 
-if ( mustHide_X_4 === 'false') {
-   var hideResult_X_4 = mustHide_X_4.replace('false', ' '); 
-} else {
-    var hideResult_X_4 = '{{ chapter.graphnamex }}';
-};
- 
-var mustHide_Y_4 = '{{ chapter.graphnamey }}';
- 
-if ( mustHide_Y_4 === 'false') {
-   var hideResult_Y_4 = mustHide_Y_4.replace('false', ' '); 
-} else {
-    var hideResult_Y_4 = '{{ chapter.graphnamey }}';
-};
+    var must_hide_x_v5 = '{{ chapter.graphnamex }}';
+    if (must_hide_x_v5 === 'false') {
+        var hide_result_x_v5 = must_hide_x_v5.replace('false', ' ');
+    } else {
+        var hide_result_x_v5 = '{{ chapter.graphnamex }}';
+    };
+    var must_hide_y_v5 = '{{ chapter.graphnamey }}';
+    if (must_hide_y_v5 === 'false') {
+        var hide_result_y_v5 = must_hide_y_v5.replace('false', ' ');
+    } else {
+        var hide_result_y_v5 = '{{ chapter.graphnamey }}';
+    };
 
- // Array avec les nouvelles options de design du graphique :
- var design_selector_5 = '{{ chapter.graphtype }}';
+    var design_selector_5 = '{{ chapter.graphtype }}';
+    var design_v5 = design_selector_5.split(' ');
 
- var design_5 = design_selector_5.split(' ');
- 
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_5[1] === 'midnight-blue'){
-        var backGraph_5 = background_style_1;
-       
-           };
+    if (design_v5[2] === 'red-icon') {
+        var icon_graph_v5 = icon_style_1;
+    };
+    if (design_v5[2] === 'blue-icon') {
+        var icon_graph_v5 = icon_style_2;
+    };
 
-     if(design_5[1] === 'light-grey'){
-        var backGraph_5 = background_style_2;
-       
-           };
+    var url_json = ['{{ chapter.graphurljson }}'];
 
-     if(design_5[1] === 'light-blue'){
-        var backGraph_5 = background_style_3;
-       
-           };
-
-     if(design_5[1] === 'red-orange'){
-        var backGraph_5 = background_style_4;
-       
-           };
-
-     if(design_5[1] === 'dark-green'){
-        var backGraph_5 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_5[2] === 'red-icon'){
-        var iconGraph_5 = icon_style_1;
-       
-           };
-
-     if(design_5[2] === 'blue-icon'){
-        var iconGraph_5 = icon_style_2;
-       
-           };
-
-var url_Json = [ '{{ chapter.graphurljson }}'];
-
-    $(document).ready(function() {
+    $(document).ready(function () {
         options = {
             chart: {
-                renderTo: 'container_JSON_multiple_BIS',
-                    
-                
-                // Changer le fond du graphique avec des linear gradient
-                // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-                plotBackgroundImage: backGraph_5,
-        
-                // Font-family
+                renderTo: 'container_json_multiple',
+                plotBackgroundImage: background_selection_v5(),
                 style: {
                     fontFamily: 'Quicksand'
                 }
             },
-
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
+            credits: {
+                enabled: false,
+            },
+            title: {
                 text: '{{ chapter.graphtitle }}'
             },
-            
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!    
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-            
-           
             xAxis: {
                 title: {
-                    text: hideResult_X_4
+                    text: hide_result_x_v5
                 }
             },
-            
             yAxis: {
                 title: {
-                    text: hideResult_Y_4
+                    text: hide_result_y_v5
                 }
             },
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
+            tooltip: {
+                valueSuffix: ' {{ chapter.graphvalue }} '
             },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-       
-        dashStyle: design_5[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_5,
-      }
-           
-        },
-    },
-            
+            plotOptions: {   
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                },
+                series: {
+                    cursor: 'pointer',
+                    allowPointSelect: true,
+                    dashStyle: design_v5[3],
+                    marker: {
+                        radius: 4,
+                        states: {
+                            select: {
+                                radius: 35,
+                                fillColor: 'white',
+                            }
+                        },
+                        symbol: icon_graph_v5,
+                    }
+                },
+            },
             {% if chapter.graphcolorone == 'coloration_1' %}
                 colors: coloring_1,
             {% endif %}
-    
             {% if chapter.graphcolorone == 'coloration_2' %}
                 colors: coloring_2,
             {% endif %}
-                 
             {% if chapter.graphcolorone == 'coloration_3' %}
                 colors: coloring_3,
             {% endif %}
-            
+
             series: [{
-                // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+                // Attention : dans ce chart, le sous-titre du graphique peut servir pour définir le nom de la série
                 name: '{{ chapter.graphsubtitle }}',
-                // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article : 
-                type: design_5[0],
+                type: design_v5[0],
                 data: []
-            }]
+                }]
         };
 
-        $.getJSON(url_Json[0], function(data) {
+        $.getJSON(url_json[0], function (data) {
             options.series[0].data = data;
-            
-                chart = new Highcharts.Chart(options);
-          
+            chart = new Highcharts.Chart(options);
         });
     });
- 
-{% endif %}
-
-</script>
-
-
-<script>
-/******************************************
-Graphique n°6 -> FILTERING JSON OBJECT
-*******************************************/
-    
-// Voir demo modified :http://jsfiddle.net/sujay/UMeGS/    
-/*
-
-$(function () {
-    var dataObject = [
-    {"records":
-     {"unit":50, "city_name":"Paris", "val":21.2022222222222222}
-    },
-    {"records":
-     {"unit":20, "city_name":"London", "val":21.2022222222222222}
-    },
-    {"records":
-     {"unit":10, "city_name":"Toulouse", "val":21.2022222222222222}
-    },
-    {"records":
-     {"unit":30, "city_name":"Marseille", "val":21.2022222222222222}
-    },
-    {"records":
-     {"unit":45, "city_name":"Lyon", "val":21.2022222222222222}
-    },
-{
-"datasetid":"co2-emissions-cities",
-"recordid":"40183e5b732e341a4765236fb556d5b44cfc9a4b",
-"records":{
-"val":12,
-"unit":52,
-"high_bua_population_density_2014_uex_people_km2":6263.73053752523,
-"population_uitp":5181659,
-"urban_area_name_uex":"Ayuntamiento de Madrid Urban Area",
-"evening_peak_tomtom_percent":"43%",
-"social_cohesion_iese_dimensionless":66,
-"emissions_quality_flag_cdp":"A",
-"peak_hours_spent_in_congestion_inrix_hours":40,
-"s1_mean_cdp_tco2":5597301.935385613,
-"high_bua_population_density_2000_uex_people_km2":6060.83515288673,
-"cimi_iese_dimensionless":77,
-"mean_one_way_travel_time_year_others":"2011",
-"emissions_protocol":"Global Protocol for Community-Scale Greenhouse Gas Emissions Inventories (GPC), (WRI, C40 and ICLEI)",
-"exports_others_m3":0,
-"average_congestion_rate_inrix_percent":"12.7%",
-"tot_lower_bound_tco2_cdp":9011663.46823987,
-"definition_cdp":"Administrative boundary of a local government",
-"increase_decrease_from_last_year_cdp":"Decreased",
-"reporting_year_cdp":"2016",
-"diesel_price_gea_usd_liter":1.28,
-"tot_upper_bound_tco2_cdp":9105882.402531356,
-"economy_iese_dimensionless":57,
-"international_impact_iese_dimensionless":15,
-"population_gea":5720000,
-"cdd_23c_clim_degrees_c_x_days":42,
-"low_bua_2014_uex_km2":402.375,
-"average_annual_temperature_cdp_degrees_celsius":15,
-"population_year_cdp":2015,
-"congestion_level_tomtom_x_100_percent":0.25,
-"high_bua_2014_uex_percent":0.692167925791336,
-"city_area_source_others":"(Municipality City), https://en.wikipedia.org/wiki/List_of_cities_proper_by_population",
-"low_bua_2000_uex_percent":0.34463187766041303,
-"water_bounded_gea":0,
-"population_others":3207247,
-"year_of_emission":"2013",
-"gdp_ppp_source_others":"[1]",
-"total_final_consumption_per_capita_gea_gj_capita_yr":74.78810572027972,
-"gdp_ppp_year_others":"2014",
-"household_size_year_gea":"2004.0",
-"high_bua_2000_uex_percent":0.6553681223395871,
-"household_size_others_people_household":2.5,
-"cimi_performance_iese_dimensionless":"RA",
-"ngdp_others_bn":259,
-"scope_1_source_dataset":"CDP",
-"high_bua_1990_uex_percent":0.600156306360466,
-"city_area_cdp_km2":604,
-"hqf_gea":1,
-"cdd_23c_gea_degrees_c_x_days":381,
-"human_capital_iese_dimensionless":43,
-"inrix_congestion_index_inrix_dimensionless":7.7,
-"natgas_export_production_ratio_others":0,
-"country":"Spain",
-"region":"Europe",
-"city_name_uitp":"Madrid",
-"ngdp_capita_others_usd_capita":40348.96401308615,
-"public_management_iese_dimensionless":50,
-"high_bua_2000_uex_km2":779.4375,
-"low_bua_population_density_2014_uex_people_km2":514.764029551624,
-"city_name_gea":"Madrid",
-"gdp_year_cdp":"2014",
-"average_altitude_m":655,
-"population_density_uitp_people_km2":8585,
-"population_source_others":"(Municipality City) https://en.wikipedia.org/wiki/List_of_cities_proper_by_population#cite_note-155",
-"high_bua_2014_uex_km2":904.75,
-"household_size_year_others":"2014",
-"urban_planning_iese_dimensionless":31,
-"population_year_others":"2013",
-"low_bua_2000_uex_km2":409.875,
-"weather_station_id_gea":"LEMD",
-"low_bua_population_density_1990_uex_people_km2":960.59002462174,
-"mobility_and_transportation_iese_dimensionless":6,
-"diesel_price_2014_others_usd_liter":1.55,
-"gasoline_price_2014_others_usd_liter":1.63,
-"low_bua_1990_uex_km2":415.6875,
-"hdd_15_5c_gea_degrees_c_x_days":1495,
-"morning_peak_tomtom_percent":"48%",
-"household_source_gea":"http://www.urbanaudit.org",
-"low_bua_2014_uex_percent":0.30783207420866404,
-"city_location_cdp_degrees":[
-40.1076253,
--3.3875673
-],
-"ch4_waste_natgas_capita_others_tch4_capita":0.0140906081,
-"aqf_cdp_others":1,
-"corrected_ch4_waste_natgas_capita_others_tch4_capita":0.0140906081,
-"population_density_gea_people_km2":5390,
-"governance_iese_dimensionless":48,
-"mean_one_way_travel_time_others_minutes":31.21,
-"gdp_cdp_multiple_units":125948386,
-"pqf_cdp":1,
-"gdp_ppp_capita_gea_usd_year":34725.03773115469,
-"ch4_waste_capita_others_tch4_capita":0.0130245903,
-"high_bua_1990_uex_km2":623.9375,
-"gdp_unit_cdp":"EUR Euro",
-"low_bua_population_density_2000_uex_people_km2":535.5266671446141,
-"high_bua_population_density_1990_uex_people_km2":8374.76405420518,
-"coordinate_source_others":"https://en.wikipedia.org/wiki/Madrid",
-"population_cdp":3156572,
-"ancillary_from_gea":1,
-"gases_included_cdp":"CO2;CH4;N2O;HFCs;PFCs;SF6",
-"gdp_ppp_capita_uitp_usd_year":17568.39,
-"production_others_m3":1,
-"household_size_gea_people_household":2.7,
-"ngdp_source_others":"[19]",
-"hqf_others":1,
-"scope_2_cdp_tco2_eq":3250803,
-"gdp_source_cdp":"Contabilidad Municipal Trimestral. Ciudad de Madrid. Base 2010. Serie 2000-2015",
-"technology_iese_dimensionless":59,
-"total_emissions_cdp_tco2_eq":10257048,
-"scope_1_ghg_emissions_tco2_or_tco2_eq":6795577,
-"scope_1_ghg_emissions_units":"tCO2-eq",
-"gasoline_price_gea_usd_liter":1.23,
-"gdp_ppp_capita_others_usd_capita":39288,
-"scope_fraction_cdp":0.9794611471058731,
-"center_of_commerce_index_gea_dimensionless":58.34,
-"congestion_rank_inrix_dimensionless":80,
-"city_name_cdp":"Ayuntamiento de Madrid",
-"urbanization_ratio_gea_percent":76.70100000000002,
-"tot_mean_cdp_tco2":9058772.935385613,
-"reason_for_increase_decrease_in_emissions_cdp":"Indirect (Scope 2 + Scope 3) emissions decreased by 24,86% in 2013 in comparison to 2012,whereas electricity consumption decreased by 5,19 % in that period. This trend is explained by a decrease of 24,86 % in the electricity EF,as a result of the increasing penetration of renewable energy in the national electricity mix.",
-"city_name":"Madrid",
-"low_bua_1990_uex_percent":0.39984369363953204,
-"congestion_rank_tomtom_dimensionless":"112",
-"household_size_source_others":"eurostat 2014 [http://ec.europa.eu/eurostat/cache/RCI/#?vis=city.statistics&lang=en]",
-"s1_lower_bound_tco2_cdp":5550192.46823987,
-"cimi_ranking_iese_dimensionless":28,
-"hdd_15_5c_clim_degrees_c_x_days":"1341",
-"gdp_ppp_others_bn":262.335,
-"s1_upper_bound_tco2_cdp":5644411.4025313575,
-"city_area_others_km2":605.77,
-"congestion_change_tomtom_x_100_percent":0.02
-},
-"geometry":{
-"type":"Point",
-"coordinates":[
--3.3875673,
-40.1076253
-]
-},
-"record_timestamp":"2019-02-28T20:13:40.938000+00:00"
-},        
-        
-        
-];
-    
-// Méthode String Split -> Cf. https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String/split    
-var api_selector = ['records','test','test2'] ;
-
-
-var seriesData = [];
-
-var i;
-
-for(i = 0; i < dataObject.length; i++){
-    
-    if(seriesData){
-        
-      var currSeries = seriesData.filter(function(seriesObject){
-          
-          return seriesObject.name == dataObject[i][api_selector[0]].city_name;
-      });
-        
-          seriesData[seriesData.length] = currSeries = {
-              name: dataObject[i].records.city_name, data: []
-          };
-   
-            var index = currSeries.data.length;
-        
-            currSeries.data[index] = dataObject[i].records.unit;
-        
-    } 
-}
-
-    var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container_Filter_Json_Object_Demo',
-                type: 'column'
-            },
-            tooltip: {
-                headerFormat: '',
-            },
-
-            series: seriesData
-        });
-    });
-    
-});
-
-*/
-
-
-</script>
-
-<script>
-/******************************************
-Graphique n°7 -> AJAX TEST 1
-*******************************************/ 
-    
-// When receiving data from a web server, the data is always a string. Parse the data with JSON.parse(), and the data becomes a JavaScript object
-    
-// Voir aussi explications en jQuery : https://api.jquery.com/jquery.parsejson/
-
-/*
-
-Highcharts.ajax({
-    url: 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/activity.json',
-    dataType: 'text',
-    success: function (newUrljson) {
-
-        newUrljson = JSON.parse(newUrljson);
-        
-        newUrljson.datasets.forEach(function (selection) {
-
-            var chartDiv;
-            
-            $(document).ready(function() {
-                
-            chartDiv = new Highcharts.Chart({
-                
-            chart: {
-                renderTo: 'container_Json_Object_Url',
-                type: 'column'
-            },
-            series: [{
-                    data: selection.data
-                    }]
-                });
-            });  
-        });
-    }
-});
-
-*/
-
-
-</script>
-
-
-
-<script>
-/******************************************
-Graphique n°8 -> SIMPLE AJAX REQUEST
-*******************************************/     
-
-/*
-$(document).ready(function(){
-		 $.ajax({
-             url: "{{ chapter.graphurlapi }}", 
-             success: function(resultAjax){
-			 Highcharts.chart('container_Ajax_Json_Datas_1', {
-				    series: resultAjax.datasets
-				});
-		    }});
-	});
-    
-*/
-
-</script>
-
-<script>
-/******************************************
-Graphique n°9 -> FILTERING AJAX REQUEST
-*******************************************/ 
-/*    
-var api_selector_2 = '{{ chapter.graphapifilters }}';
-
-var words_2 = api_selector_2.split('+++');
-
-// console.log(words_2[0]);
-    
-// Source de données pour tests :https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/activity.json    
-       
-$(document).ready(()=>{
-		 $.ajax({url: "{{ chapter.graphurlapi }}", success: function(result){
-             
-             // Bravo et merci Paolo !!
-			 const finalResults = result.datasets.filter(item=>item.name===words_2[0]);
-             
-             // C'est comme si on écrivait : "function(item){return item.name=='Speed'}"
-             Highcharts.chart('container_Ajax_Json_Datas_2', {
-				    series: finalResults
-				});
-		    }});
-	});
-*/
-</script>
-
-
-<script>
-/******************************************
-Graphique n°10 -> FETCHING URL JSON OBJECT 1
-*******************************************/        
-    /*    
-    
-    const url = "https://swapi.co/api/vehicles/";
- 
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then(data => {
-                // ici "results" correspond au début de l'array de l'API JSON (injecter un variable TWIG) :
-                const characters = data.results;
-                let characterData = [];
-            
-            
-                // ici "name" et "length" correspondent à des données de l'Objet JSON (injecter 2 variables TWIG)
-                characters.forEach(function(character) {
-                    characterData.push([character.name, parseInt(character.length)]);
-                });
-    
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_1', {
-                chart: {
-               type: 'pie'
-           },
-				    series: [{
-                        data: characterData 
-                    }]
-				});
-            })
-    
-            // Messages d'erreurs
-            .catch(err => {
-                console.log("Error");
-            });
-    
-  */ 
-    </script>
-
-<script>
-/******************************************
-Graphique n°11 -> FETCHING URL JSON OBJECT 2 (avec 3 mots clés)
-*******************************************/
-$('#container_Fetch_Api_2').hide();
-    
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-
-// Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
-    
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels_Bis = '{{ chapter.graphnamex }}';
-
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2_Bis = JSON.parse(valueLabels_Bis);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex_Bis = ' ';
-    
-    // alert(valueLabels_2_Bis);
-
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2_Bis = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex_Bis = '{{ chapter.graphnamex }}';
-};
-
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical_Bis = '{{ chapter.graphnamey }}';
-
-    var valueVertical_2_Bis = JSON.parse(valueVertical_Bis);
-    
-    var valueNamey_Bis = ' ';
-    
-    //alert(valueVertical_2_Bis);
-
-} else {
-    
-    var valueVertical_2_Bis = true;
-  
-    var valueNamey_Bis = '{{ chapter.graphnamey }}';
-};     
-
-
- // *** Array avec les nouvelles options de design du graphique :
- var design_selector_6 = '{{ chapter.graphtype }}';
-
- var design_6 = design_selector_6.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_6[1] === 'midnight-blue'){
-        var backGraph_6 = background_style_1;
-       
-           };
-
-     if(design_6[1] === 'light-grey'){
-        var backGraph_6 = background_style_2;
-      
-           };
-
-     if(design_6[1] === 'light-blue'){
-        var backGraph_6 = background_style_3;
-       
-           };
-
-     if(design_6[1] === 'red-orange'){
-        var backGraph_6 = background_style_4;
-       
-           };
-
-     if(design_6[1] === 'dark-green'){
-        var backGraph_6 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_6[2] === 'red-icon'){
-        var iconGraph_6 = icon_style_1;
-       
-           };
-
-     if(design_6[2] === 'blue-icon'){
-        var iconGraph_6 = icon_style_2;
-       
-           };
-
-    var api_selector_3 = '{{ chapter.graphapifilters }}';
-
-    var words_3 = api_selector_3.split('+++');
-
-    
-    //console.log(words_3[2]);
- 
- // Pour réguler les types de filtrages, on pourrait ajouter une condition sur le nombre de mots-clés ajoutés en Back Office ??? S'il y a par exemple 4 ou 5 filtres consécutifs, on pourrait désactiver ce graph et en activer un autre, adapté à 4 ou 5 filtres ???
- 
- // if (api_selector_3.includes('/+/')){
-     // alert("Caractères spéciaux, ne pas afficher ce graphique !");
- // };
- 
- // On régule l'affichage de ce grahique en fonction de la présence de 3 filtres et de l'absence des caractères spéciaux /+/ (censés filtrer pour d'autres graphiques (voir les n°13 et n°14)) :
- if (words_3.length === 3 && !api_selector_3.includes('/+/')){
-     
-     // alert("Il y a bien 3 mots clés");
-     
-     $('#container_Fetch_Api_2').show();
-     
-        const urlPlus = "{{ chapter.graphurlapi }}";
- 
-        fetch(urlPlus)
-            .then(resPlus => {
-                return resPlus.json();
-            })
-            .then(dataPlus => {
-                
-            // Boucle de filtrage de l'API (noms + valeurs numériques) recueillis dans un Array
-            
-                const charactersPlus = dataPlus[words_3[0]];
-            
-                let characterDataPlus = [];
-                charactersPlus.forEach(function(characterMore) {
-                    characterDataPlus.push([characterMore[words_3[1]], parseInt(characterMore[words_3[2]])]);
-                });
-            
-            // Boucle de filtrage de noms pour afficher les catégories sur l'AxeX
-            
-           const categoryFilter = dataPlus[words_3[0]];
-           
-           let categoryArray = [];
-            categoryFilter.forEach(function(characterMore_Bis) {
-                    categoryArray.push([characterMore_Bis[words_3[1]]]);
-                });
-      
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_2', {
-                
-        chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_6[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_6,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-             
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-                title: {
-                    text: graphNamex_Bis
-                },
-                labels: {
-                    enabled: valueLabels_2_Bis
-                },
-                categories: categoryArray
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey_Bis
-                },
-                labels: {
-                    enabled: valueVertical_2_Bis
-                }
-            },
-                
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        dashStyle: design_6[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_6,
-      }
-           
-        },
-    },
-				
-                {% if chapter.graphcolorone == 'coloration_1' %}
-                    colors: coloring_1,
-                {% endif %}
-    
-                {% if chapter.graphcolorone == 'coloration_2' %}
-                    colors: coloring_2,
-                {% endif %}
-                 
-                {% if chapter.graphcolorone == 'coloration_3' %}
-                    colors: coloring_3,
-                {% endif %}
-                
-                series: [{
-                        data: characterDataPlus,
-                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-                        name: '{{ chapter.graphsubtitle }}',
-                    }]
-				});
-            })
-    
-            // Messages d'erreurs
-            .catch(err => {
-                console.log("Error");
-            });
- };
- 
     {% endif %}
-    
-    // Utiliser Fetch : https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch
-   
-    </script>
-
-    <script>
-        
-/******************************************
-Graphique n°12 -> FETCHING URL JSON OBJECT (avec 4 mots clés)
-*******************************************/
-        
-    // https://api.jcdecaux.com/vls/v1/stations?contract=Marseille&apiKey=b4529f2225e9362b0192a7a7ea95e7c2b51c4588
-    
-    // https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=b4529f2225e9362b0192a7a7ea95e7c2b51c4588
-        
-    // Jeux de données qui marchent : 
-        // Avec plus de champs captés (il suffisait de rajouter un point entre les deux champs de données fetchées) !
-        // https://public.opendatasoft.com/api/datasets/1.0/search/?q=pollution
-        // datasets+++datasetid+++metas.records_count
-   
-$('#container_Fetch_Api_3').hide();
-        
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}
-
-// Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
-    
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels_Bis_2 = '{{ chapter.graphnamex }}';
-
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2_Bis_2 = JSON.parse(valueLabels_Bis_2);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex_Bis_2 = ' ';
-    
-    // alert(valueLabels_2_Bis_2);
-
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2_Bis_2 = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex_Bis_2 = '{{ chapter.graphnamex }}';
-};
-
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical_Bis_2 = '{{ chapter.graphnamey }}';
-
-    var valueVertical_2_Bis_2 = JSON.parse(valueVertical_Bis_2);
-    
-    var valueNamey_Bis_2 = ' ';
-    
-    //alert(valueVertical_2_Bis_2);
-
-} else {
-    
-    var valueVertical_2_Bis_2 = true;
-  
-    var valueNamey_Bis_2 = '{{ chapter.graphnamey }}';
-};     
-
-
- // *** Array avec les nouvelles options de design du graphique :
- var design_selector_7 = '{{ chapter.graphtype }}';
-
- var design_7 = design_selector_7.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_7[1] === 'midnight-blue'){
-        var backGraph_7 = background_style_1;
-       
-           };
-
-     if(design_7[1] === 'light-grey'){
-        var backGraph_7 = background_style_2;
-      
-           };
-
-     if(design_7[1] === 'light-blue'){
-        var backGraph_7 = background_style_3;
-       
-           };
-
-     if(design_7[1] === 'red-orange'){
-        var backGraph_7 = background_style_4;
-       
-           };
-
-     if(design_7[1] === 'dark-green'){
-        var backGraph_7 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_7[2] === 'red-icon'){
-        var iconGraph_7 = icon_style_1;
-       
-           };
-
-     if(design_7[2] === 'blue-icon'){
-        var iconGraph_7 = icon_style_2;
-       
-           };
-
-        
-        var api_selector_4 = '{{ chapter.graphapifilters }}';
-
-        var words_4 = api_selector_4.split('+++');
-        
-    if (words_4.length === 4){ 
-        
-        // alert("Il y a bien quatre mots clés");
-        
-        $('#container_Fetch_Api_3').show();
-        
-        const urlPlus2 = '{{ chapter.graphurlapi }}';
- 
-        fetch(urlPlus2)
-            .then(firstResult => {
-                return firstResult.json();
-            })
-            .then(scanAll => {
-             
-            // Boucle de filtrage de l'API (noms + valeurs numériques) recueillis dans un Array
-            
-            // On split les filtres de l'API édités en Back Office, pour pouvoir ensuite injecter chacun.. 
-            var deconstruct_0 = '{{ chapter.graphapifilters }}';
-
-            var deconstruct_1 = deconstruct_0.split('+++'); 
-            
-            //alert(deconstruct_1[3]);
-            
-            //var billy = ['records', 'fields','city', 'measurements_value'];
-            
-                const globalFilters = scanAll[deconstruct_1[0]] ;
-  
-                let globalArray = [];
-                globalFilters.forEach(function(scanFilter) {
-                 globalArray.push([scanFilter[deconstruct_1[1]][deconstruct_1[2]], parseInt(scanFilter[deconstruct_1[1]][deconstruct_1[3]])]);
-                  
-                });
-            
-
-            // Boucle de filtrage de noms pour afficher les catégories sur l'AxeX
-            
-            var categoryFilter_Bis = scanAll[deconstruct_1[0]];
-           
-           var categoryArray_Bis = [];
-            categoryFilter_Bis.forEach(function(scanFilter_2) {
-                    categoryArray_Bis.push([scanFilter_2[deconstruct_1[1]][deconstruct_1[2]]]);
-                });
-      
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_3', {
-                
-                chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_7[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_7,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-             
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-            
-                title: {
-                    text: graphNamex_Bis_2
-                },
-                labels: {
-                    enabled: valueLabels_2_Bis_2
-                },
-                categories: categoryArray_Bis
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey_Bis_2
-                },
-                labels: {
-                    enabled: valueVertical_2_Bis_2
-                }
-            },
-                
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        dashStyle: design_7[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_7,
-      }
-           
-        },
-    },
-				
-                {% if chapter.graphcolorone == 'coloration_1' %}
-                    colors: coloring_1,
-                {% endif %}
-    
-                {% if chapter.graphcolorone == 'coloration_2' %}
-                    colors: coloring_2,
-                {% endif %}
-                 
-                {% if chapter.graphcolorone == 'coloration_3' %}
-                    colors: coloring_3,
-                {% endif %}
-                
-                
-				    
-                    series: [{
-                        data: globalArray, 
-                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-                        name: '{{ chapter.graphsubtitle }}',
-                    }]
-				});
-            })
-    
-            // Messages d'erreurs
-            .catch(err => {
-                console.log("Error");
-            });
-    
-        };
-    
-   {% endif %}
-   
-    </script>
+</script>
 
 <script>
-/******************************************
-Graphique n°13 -> Filtrage Api avec les filtres de l'AxeX dans un sous-ensemble et le filtre de l'AxeY situé dans l'Array global
-*******************************************/        
-$('#container_Fetch_Api_4').hide();
-    
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}       
- 
- // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
-    
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels_Bis_3 = '{{ chapter.graphnamex }}';
+    /*** Graphique Version n°11 (v11) -> FETCHING URL JSON OBJECT 2 (avec 3 mots clés) ***/
+    $('#container_fetch_api_2').hide();
 
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2_Bis_3 = JSON.parse(valueLabels_Bis_3);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex_Bis_3 = ' ';
-    
-    // alert(valueLabels_2_Bis_3);
+    {% if (chapter.graphurlapi != '') or(chapter.graphapifilters != '') %} 
 
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2_Bis_3 = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex_Bis_3 = '{{ chapter.graphnamex }}';
-};
-
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical_Bis_3 = '{{ chapter.graphnamey }}';
-
-    var valueVertical_2_Bis_3 = JSON.parse(valueVertical_Bis_3);
-    
-    var valueNamey_Bis_3 = ' ';
-    
-    //alert(valueVertical_2_Bis_3);
-
-} else {
-    
-    var valueVertical_2_Bis_3 = true;
-  
-    var valueNamey_Bis_3 = '{{ chapter.graphnamey }}';
-};     
-
-
- // *** Array avec les nouvelles options de design du graphique :
- var design_selector_8 = '{{ chapter.graphtype }}';
-
- var design_8 = design_selector_8.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_8[1] === 'midnight-blue'){
-        var backGraph_8 = background_style_1;
-       
-           };
-
-     if(design_8[1] === 'light-grey'){
-        var backGraph_8 = background_style_2;
-      
-           };
-
-     if(design_8[1] === 'light-blue'){
-        var backGraph_8 = background_style_3;
-       
-           };
-
-     if(design_8[1] === 'red-orange'){
-        var backGraph_8 = background_style_4;
-       
-           };
-
-     if(design_8[1] === 'dark-green'){
-        var backGraph_8 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_8[2] === 'red-icon'){
-        var iconGraph_8 = icon_style_1;
-       
-           };
-
-     if(design_8[2] === 'blue-icon'){
-        var iconGraph_8 = icon_style_2;
-       
-           };
-       
- 
-        
-        var api_selector_5 = '{{ chapter.graphapifilters }}';
-
-        var words_5 = api_selector_5.split('+++');
-    
-        // Il faudra seulement injecter words_5[0] et words_5[2] car on va scinder ensuite words_5[1] par words_7[0] et words_7[1]
-    
-        // alert(words_5);
-        
-        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
-        // Exemple de format traité : list+++main/+/temp+++dt
-    
-        // Traitement de filtres similaire à cet exemple -> list+++main/+/temp+++dt : on souhaite obtenir dans l'Array de l'API "list", les valeurs "temp" du sous-ensemble "main" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "dt" de l'ensemble "list"
-    
-        // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ (2 barres liées par un +), ce qui signifie que l'on souhaite obtenir une donnée de l'Api définie dans un sous-ensemble) :
-        if (words_5[1].includes('/+/')){
-           var words_6 = words_5[1].split('/+/');
-            // alert(words_6[0]);
-            // alert(words_6[1]);
-            // Il faudra injecter words_6[0] et words_6[1] qui remplacent words_5[2]
-            // alert(words_6.length);
-        };
-
- // Condition d'activation de Fetch et du graphique
- // A condition que seulement le deuxième mot clé filtre contient les caractères spéciaux /+/
- if(words_5[1].includes('/+/') && !words_5[2] .includes('/+/')){
-     
-     $('#container_Fetch_Api_4').show();
-        
-    
-         const url_azerty = '{{ chapter.graphurlapi }}';
-    
-        fetch(url_azerty)
-            .then(res_azerty => {
-                return res_azerty.json();
-            })
-            .then(data_azerty => {
-                
-                const characters_azerty = data_azerty[words_5[0]];
-            
-                let characterData_azerty = [];
-            
-             characters_azerty.forEach(function(character_azerty) {
-           
-                 // if(words_6.length === 2 ){
-                     characterData_azerty.push([character_azerty[words_6[0]][words_6[1]], parseInt(character_azerty[words_5[2]])]);
-               
-                 // };
-      
-             });
-            
-            // Boucle de filtrage de catégories
-            
-              const azertyCategory = data_azerty[words_5[0]];
-            
-                let azertyCategArray = [];
-            
-             azertyCategory.forEach(function(scanCategory) {
-           
-                 // if(words_6.length === 2 ){
-                     azertyCategArray.push([scanCategory[words_6[0]][words_6[1]]]);
-               
-                 // };
-      
-             });
-    
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_4', {
-               chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_8[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_8,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-             
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-            
-                title: {
-                    text: graphNamex_Bis_3
-                },
-                labels: {
-                    enabled: valueLabels_2_Bis_3
-                },
-                categories: azertyCategArray
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey_Bis_3
-                },
-                labels: {
-                    enabled: valueVertical_2_Bis_3
-                }
-            },
-                
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        dashStyle: design_8[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
-                        }
-                    },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_8,
-      }
-           
-        },
-    },
-				
-                {% if chapter.graphcolorone == 'coloration_1' %}
-                    colors: coloring_1,
-                {% endif %}
-    
-                {% if chapter.graphcolorone == 'coloration_2' %}
-                    colors: coloring_2,
-                {% endif %}
-                 
-                {% if chapter.graphcolorone == 'coloration_3' %}
-                    colors: coloring_3,
-                {% endif %}
-            
-				    series: [{
-                        data: characterData_azerty,
-                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-                        name: '{{ chapter.graphsubtitle }}',
-                    }]
-				});
-            })
-    
-            // Messages d'erreurs
-            .catch(err => {
-                console.log("Error");
-            });
-    
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        var value_labels_v11 = '{{ chapter.graphnamex }}';
+        var value_labels_v11_2 = JSON.parse(value_labels_v11);
+        var graph_name_x_v11 = ' ';
+    } else {
+        var value_labels_v11_2 = true;
+        var graph_name_x_v11 = '{{ chapter.graphnamex }}';
     };
-    
- {% endif %}
- 
- 
-    </script>
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical_v11 = '{{ chapter.graphnamey }}';
+        var value_vertical_v11_2 = JSON.parse(value_vertical_v11);
+        var value_name_y_v11 = ' ';
+    } else {
+        var value_vertical_v11_2 = true;
+        var value_name_y_v11 = '{{ chapter.graphnamey }}';
+    };
 
-<script>
-/******************************************
-Graphique n°14 -> Filtrage Api avec le filtre de l'AxeX dans l'Array général et le filtre de l'AxeY situé dans un sous-ensemble
-*******************************************/       
-    
-$('#container_Fetch_Api_5').hide();
-    
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}       
- 
- // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
-    
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels_Bis_4 = '{{ chapter.graphnamex }}';
+    var design_selector_v11 = '{{ chapter.graphtype }}';
+    var design_v11 = design_selector_v11.split(' ');
 
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2_Bis_4 = JSON.parse(valueLabels_Bis_4);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex_Bis_4 = ' ';
-    
-    // alert(valueLabels_2_Bis_4);
+    if (design_v11[2] === 'red-icon') {
+        var icon_graph_v11 = icon_style_1;
+    };
+    if (design_v11[2] === 'blue-icon') {
+        var icon_graph_v11 = icon_style_2;
+    };
 
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2_Bis_4 = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex_Bis_4 = '{{ chapter.graphnamex }}';
-};
+    var api_selector_v11 = '{{ chapter.graphapifilters }}';
+    var words_v11 = api_selector_v11.split('+++');
 
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical_Bis_4 = '{{ chapter.graphnamey }}';
+    // On régule l'affichage de ce grahique en fonction de la présence de 3 filtres et de l'absence des caractères spéciaux /+/ (censés filtrer pour d'autres graphiques (voir les n°13 et n°14)) :
+    if (words_v11.length === 3 && !api_selector_v11.includes('/+/')) {
 
-    var valueVertical_2_Bis_4 = JSON.parse(valueVertical_Bis_4);
-    
-    var valueNamey_Bis_4 = ' ';
-    
-    //alert(valueVertical_2_Bis_3);
+        $('#container_fetch_api_2').show();
 
-} else {
-    
-    var valueVertical_2_Bis_4 = true;
-  
-    var valueNamey_Bis_4 = '{{ chapter.graphnamey }}';
-};     
+        const url_v11 = "{{ chapter.graphurlapi }}";
 
-
- // *** Array avec les nouvelles options de design du graphique :
- var design_selector_9 = '{{ chapter.graphtype }}';
-
- var design_9 = design_selector_9.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_9[1] === 'midnight-blue'){
-        var backGraph_9 = background_style_1;
-       
-           };
-
-     if(design_9[1] === 'light-grey'){
-        var backGraph_9 = background_style_2;
-      
-           };
-
-     if(design_9[1] === 'light-blue'){
-        var backGraph_9 = background_style_3;
-       
-           };
-
-     if(design_9[1] === 'red-orange'){
-        var backGraph_9 = background_style_4;
-       
-           };
-
-     if(design_9[1] === 'dark-green'){
-        var backGraph_9 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_9[2] === 'red-icon'){
-        var iconGraph_9 = icon_style_1;
-       
-           };
-
-     if(design_9[2] === 'blue-icon'){
-        var iconGraph_9 = icon_style_2;
-       
-           };
-    
-
-        var api_selector_5 = '{{ chapter.graphapifilters }}';
-
-        var words_5 = api_selector_5.split('+++');
-    
-        // Il faudra seulement injecter words_5[0] et words_5[1] car on va scinder ensuite words_5[2] par words_7[0] et words_7[1]
-    
-        // alert(words_5);
-        
-        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
-        // Exemple de format traité : list+++dt+++main/+/temp
-     
-    
-        // Traitement de filtres similaire à cet exemple -> list+++dt+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "dt" de l'ensemble "list" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
-    
-        // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
-        if (words_5[2].includes('/+/')){
-           var words_7 = words_5[2].split('/+/');
-            // alert(words_7[0]);
-            // alert(words_7[1]);
-            // Il faudra injecter words_7[0] et words_7[1] qui remplacent words_5[2]
-            // alert(words_7.length);
-        };
-    
-    // A condition que seulement le troisième mot clé filtre contient les caractères spéciaux /+/
-    if(words_5[2].includes('/+/') && !words_5[1] .includes('/+/')){
-    
-        $('#container_Fetch_Api_5').show();
-        
-    
-         const url_azerty_Bis = '{{ chapter.graphurlapi }}';
-    
-        fetch(url_azerty_Bis)
-            .then(res_azerty_Bis => {
-                return res_azerty_Bis.json();
+        fetch(url_v11)
+            .then(res_v11 => {
+                return res_v11.json();
             })
-            .then(data_azerty_Bis => {
-                
-                const characters_azerty_Bis = data_azerty_Bis[words_5[0]];
-            
-                let characterData_azerty_Bis = [];
-            
-             characters_azerty_Bis.forEach(function(character_azerty_Bis) {
-           
-                 // if(words_7.length === 2 ){
-                     characterData_azerty_Bis.push([character_azerty_Bis[words_5[1]], parseInt(character_azerty_Bis[words_7[0]][words_7[1]])]);
-               
-                     
-                 // };
-         
-             });
-            
-             // Boucle de filtrage de catégories
-            
-              const azertyCategory_Bis = data_azerty_Bis[words_5[0]];
-            
-                let azertyCategArray_Bis = [];
-            
-             azertyCategory_Bis.forEach(function(scanCategory_Bis) {
-           
-                 // if(words_7.length === 2 ){
-                     azertyCategArray_Bis.push([scanCategory_Bis[words_5[1]]]);
-               
-                 // };
-      
-             });
-    
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_5', {
-               chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_9[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_9,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-             
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-            
-                title: {
-                    text: graphNamex_Bis_4
-                },
-                labels: {
-                    enabled: valueLabels_2_Bis_4
-                },
-                categories: azertyCategArray_Bis
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey_Bis_4
-                },
-                labels: {
-                    enabled: valueVertical_2_Bis_4
-                }
-            },
-                
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        dashStyle: design_9[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
+            .then(data_v11 => {
+                // Boucle de filtrage de l'API (noms + valeurs numériques) recueillis dans un Array
+                const filtering_v11 = data_v11[words_v11[0]];
+
+                let gobal_array_v11 = [];
+
+                filtering_v11.forEach(function (items_v11) {
+                    gobal_array_v11.push([items_v11[words_v11[1]], parseInt(items_v11[words_v11[2]])]);
+                });
+
+                // Boucle de filtrage de noms pour afficher les catégories sur l'AxeX
+                const categories_v11 = data_v11[words_v11[0]];
+
+                let category_array_v11 = [];
+
+                categories_v11.forEach(function (items_category_v11) {
+                    category_array_v11.push([items_category_v11[words_v11[1]]]);
+                });
+
+                Highcharts.chart('container_fetch_api_2', {
+                    chart: {     
+                        type: design_v11[0],
+                        plotBackgroundImage: background_selection_v11(),
+                        style: {
+                            fontFamily: 'Quicksand'
                         }
                     },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_9,
-      }
-           
-        },
-    },
-				
-                {% if chapter.graphcolorone == 'coloration_1' %}
-                    colors: coloring_1,
-                {% endif %}
-    
-                {% if chapter.graphcolorone == 'coloration_2' %}
-                    colors: coloring_2,
-                {% endif %}
-                 
-                {% if chapter.graphcolorone == 'coloration_3' %}
-                    colors: coloring_3,
-                {% endif %}
-              
-				    series: [{
-                        data: characterData_azerty_Bis,
+                    credits: {
+                        enabled: false,
+                    },
+                    title: {
+                        text: '{{ chapter.graphtitle }}'
+                    },
+                    // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
+                    xAxis: {
+                        title: {
+                            text: graph_name_x_v11
+                        },
+                        labels: {
+                            enabled: value_labels_v11_2
+                        },
+                        categories: category_array_v11
+                    },
+                    // Idem pour l'Axe vertical
+                    yAxis: {
+                        title: {
+                            text: value_name_y_v11
+                        },
+                        labels: {
+                            enabled: value_vertical_v11_2
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' {{ chapter.graphvalue }} '
+                    },
+                    plotOptions: {   
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            allowPointSelect: true,
+                            dashStyle: design_v11[3],
+                            marker: {
+                                radius: 4,
+                                states: {
+                                    select: {
+                                        radius: 35,
+                                        fillColor: 'white',
+                                    }
+                                },
+                                symbol: icon_graph_v11,
+                            }
+                        },
+                    },
+                    {% if chapter.graphcolorone == 'coloration_1' %}
+                        colors: coloring_1,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_2' %}
+                        colors: coloring_2,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_3' %}
+                        colors: coloring_3,
+                    {% endif %}
+
+                    series: [{
+                        data: gobal_array_v11,
                         // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
                         name: '{{ chapter.graphsubtitle }}',
-                    }]
-				});
+                        }]
+                });
             })
-    
+            // Messages d'erreurs -> Cf. https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch
+            .catch(err => {
+                console.log("Error");
+            });
+    };
+    {% endif %}
+</script>
+
+<script>
+    /*** Graphique Version n°12 (v12) -> FETCHING URL JSON OBJECT (avec 4 mots clés) ***/
+    $('#container_fetch_api_3').hide();
+
+    {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        var value_labels_v12 = '{{ chapter.graphnamex }}';
+        var value_labels_v12_2 = JSON.parse(value_labels_v12);
+        var graph_name_x_v12 = ' ';
+    } else {
+        var value_labels_v12_2 = true;
+        var graph_name_x_v12 = '{{ chapter.graphnamex }}';
+    };
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical_v12 = '{{ chapter.graphnamey }}';
+        var value_vertical_v12_2 = JSON.parse(value_vertical_v12);
+        var value_name_y_v12 = ' ';
+    } else {
+        var value_vertical_v12_2 = true;
+        var value_name_y_v12 = '{{ chapter.graphnamey }}';
+    };
+
+    var design_selector_v12 = '{{ chapter.graphtype }}';
+    var design_v12 = design_selector_v12.split(' ');
+
+    if (design_v12[2] === 'red-icon') {
+        var icon_graph_v12 = icon_style_1;
+    };
+    if (design_v12[2] === 'blue-icon') {
+        var icon_graph_v12 = icon_style_2;
+    };
+
+    var api_selector_v12 = '{{ chapter.graphapifilters }}';
+    var words_v12 = api_selector_v12.split('+++');
+
+    if (words_v12.length === 4) {
+
+        $('#container_fetch_api_3').show();
+
+        const url_v12 = '{{ chapter.graphurlapi }}';
+
+        fetch(url_v12)
+            .then(res_v12 => {
+                return res_v12.json();
+            })
+            .then(data_v12 => {
+
+                const global_filters_v12 = data_v12[words_v12[0]];
+
+                let global_array_v12 = [];
+
+                global_filters_v12.forEach(function (scan_filter_v12) {
+                    global_array_v12.push([scan_filter_v12[words_v12[1]][words_v12[2]], parseInt(scan_filter_v12[words_v12[1]][words_v12[3]])]);
+
+                });
+
+                var category_filter_v12 = data_v12[words_v12[0]];
+
+                var category_array_v12 = [];
+
+                category_filter_v12.forEach(function (items_category_v12) {
+                    category_array_v12.push([items_category_v12[words_v12[1]][words_v12[2]]]);
+                });
+
+                Highcharts.chart('container_fetch_api_3', {
+                    chart: {      
+                        type: design_v12[0],
+                        plotBackgroundImage: background_selection_v12(),
+                        style: {
+                            fontFamily: 'Quicksand'
+                        }
+                    },
+                    credits: {
+                        enabled: false,
+                    },
+                    title: {
+                        text: '{{ chapter.graphtitle }}'
+                    },
+                    xAxis: {
+                        title: {
+                            text: graph_name_x_v12
+                        },
+                        labels: {
+                            enabled: value_labels_v12_2
+                        },
+                        categories: category_array_v12
+                    },
+                    yAxis: {
+                        title: {
+                            text: value_name_y_v12
+                        },
+                        labels: {
+                            enabled: value_vertical_v12_2
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' {{ chapter.graphvalue }} '
+                    },
+                    plotOptions: {  
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            allowPointSelect: true,
+                            dashStyle: design_v12[3],
+                            marker: {
+                                radius: 4,
+                                states: {
+                                    select: {
+                                        radius: 35,
+                                        fillColor: 'white',
+                                    }
+                                },
+                                symbol: icon_graph_v12,
+                            }
+                        },
+                    },
+                    {% if chapter.graphcolorone == 'coloration_1' %}
+                        colors: coloring_1,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_2' %}
+                        colors: coloring_2,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_3' %}
+                        colors: coloring_3,
+                    {% endif %}
+
+                    series: [{
+                        data: global_array_v12,
+                        name: '{{ chapter.graphsubtitle }}',
+                        }]
+                });
+            })
             // Messages d'erreurs
             .catch(err => {
                 console.log("Error");
             });
-    
-   };
-    
- {% endif %}
- 
-    </script>
+    };
+    {% endif %}
+
+</script>
 
 <script>
-/******************************************
-Graphique n°15 -> Filtrage Api avec le filtre de l'AxeX situé dans un sous-ensemble et le filtre de l'AxeY situé dans un sous-ensemble
-*******************************************/        
-$('#container_Fetch_Api_6').hide();
-    
-{% if (chapter.graphurlapi == '') or (chapter.graphapifilters == '') %}       
-{% else %}       
- 
- // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-// Voir -> Conversion string to boolean
-// Cf. https://stackoverflow.com/questions/263965/how-can-i-convert-a-string-to-boolean-in-javascript
- 
-if ('{{ chapter.graphnamex }}' === 'false'){
-    
-    // On récupère la valeur entrée dans l'éditeur de graphique
-    var valueLabels_Bis_5 = '{{ chapter.graphnamex }}';
+    /*** Graphique Version n°13 (v13) -> Filtrage Api avec les filtres de l'AxeX dans un sous-ensemble et le filtre de l'AxeY situé dans l'Array global ***/
+    $('#container_fetch_api_4').hide();
 
-    // On parse cette valeur en JSON pour l'injecter dans le code Highcharts
-    var valueLabels_2_Bis_5 = JSON.parse(valueLabels_Bis_5);
-    
-    // On retire la mention "false" du titre de l'axe horizontal
-    var graphNamex_Bis_5 = ' ';
-    
-    // alert(valueLabels_2_Bis_5);
+    {% if (chapter.graphurlapi != '') or(chapter.graphapifilters != '') %}
 
-} else {
-    // Sinon on active les labels par défaut..
-    var valueLabels_2_Bis_5 = true;
-    // Et bien sûr le titre choisi pour l'axe horizontal !
-    var graphNamex_Bis_5 = '{{ chapter.graphnamex }}';
-};
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        var value_labels_v13 = '{{ chapter.graphnamex }}';
+        var value_labels_v13_2 = JSON.parse(value_labels_v13);
+        var graph_name_x_v13 = ' ';
+    } else {
+        var value_labels_v13_2 = true;
+        var graph_name_x_v13 = '{{ chapter.graphnamex }}';
+    };
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical_v13 = '{{ chapter.graphnamey }}';
+        var value_vertical_v13_2 = JSON.parse(value_vertical_v13);
+        var value_name_y_v13 = ' ';
+    } else {
+        var value_vertical_v13_2 = true;
+        var value_name_y_v13 = '{{ chapter.graphnamey }}';
+    };
 
-// Idem -> Condition pour retirer les Labels de l'Axe vertical, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition :
-if ('{{ chapter.graphnamey }}' === 'false'){
-    
-    var valueVertical_Bis_5 = '{{ chapter.graphnamey }}';
+    var design_selector_v13 = '{{ chapter.graphtype }}';
+    var design_v13 = design_selector_v13.split(' ');
 
-    var valueVertical_2_Bis_5 = JSON.parse(valueVertical_Bis_5);
-    
-    var valueNamey_Bis_5 = ' ';
-    
-    //alert(valueVertical_2_Bis_5);
+    if (design_v13[2] === 'red-icon') {
+        var icon_graph_v13 = icon_style_1;
+    };
+    if (design_v13[2] === 'blue-icon') {
+        var icon_graph_v13 = icon_style_2;
+    };
 
-} else {
-    
-    var valueVertical_2_Bis_5 = true;
-  
-    var valueNamey_Bis_5 = '{{ chapter.graphnamey }}';
-};     
+    var api_selector_v13 = '{{ chapter.graphapifilters }}';
+    var words_v13 = api_selector_v13.split('+++');
 
+    // Exemple de format traité : list+++main/+/temp+++dt
+    // Traitement de filtres similaire à cet exemple -> list+++main/+/temp+++dt : on souhaite obtenir dans l'Array de l'API "list", les valeurs "temp" du sous-ensemble "main" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "dt" de l'ensemble "list"
+    // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ (2 barres liées par un +), ce qui signifie que l'on souhaite obtenir une donnée de l'Api définie dans un sous-ensemble) :
+    if (words_v13[1].includes('/+/')) {
+        var special_words_v13 = words_v13[1].split('/+/');
+        // Il faudra injecter special_words_v13[0] et special_words_v13[1] qui remplacent words_v13[2]
+        // alert(special_words_v13.length);
+    };
+    // Condition d'activation de Fetch et du graphique
+    // A condition que seulement le deuxième mot clé filtre contienne les caractères spéciaux /+/
+    if (words_v13[1].includes('/+/') && !words_v13[2].includes('/+/')) {
 
- // *** Array avec les nouvelles options de design du graphique :
- var design_selector_10 = '{{ chapter.graphtype }}';
+        $('#container_fetch_api_4').show();
 
- var design_10 = design_selector_10.split(' ');
- 
- // Sélection des fonds colorés des graphiques (5 options) :
- 
-     if(design_10[1] === 'midnight-blue'){
-        var backGraph_10 = background_style_1;
-       
-           };
+        const url_v13 = '{{ chapter.graphurlapi }}';
 
-     if(design_10[1] === 'light-grey'){
-        var backGraph_10 = background_style_2;
-      
-           };
+        fetch(url_v13)
+            .then(res_v13 => {
+                return res_v13.json();
+            })
+            .then(data_v13 => {
 
-     if(design_10[1] === 'light-blue'){
-        var backGraph_10 = background_style_3;
-       
-           };
+                const global_filters_v13 = data_v13[words_v13[0]];
 
-     if(design_10[1] === 'red-orange'){
-        var backGraph_10 = background_style_4;
-       
-           };
+                let global_array_v13 = [];
 
-     if(design_10[1] === 'dark-green'){
-        var backGraph_10 = background_style_5;
-       
-           };
- 
- // Sélection des icônes personnalisés (2 options) :
- 
-     if(design_10[2] === 'red-icon'){
-        var iconGraph_10 = icon_style_1;
-       
-           };
+                global_filters_v13.forEach(function (scan_filter_v13) {
+                    global_array_v13.push([scan_filter_v13[special_words_v13[0]][special_words_v13[1]], parseInt(scan_filter_v13[words_v13[2]])]);
 
-     if(design_10[2] === 'blue-icon'){
-        var iconGraph_10 = icon_style_2;
-       
-           };
-    
+                });
 
-        var api_selector_5 = '{{ chapter.graphapifilters }}';
+                const category_filter_v13 = data_v13[words_v13[0]];
 
-        var words_5 = api_selector_5.split('+++');
-   
-        // alert(words_5);
-        
-        // Url de l'Api locale : "/symfovue16/public/csv_files/demo_API_OpenWeather.json"
-        // Exemple de format traité : list+++wind/+/speed+++main/+/temp
-     
-    
-        // Traitement de filtres similaire à cet exemple -> list+++wind/+/speed+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "speed" de l'ensemble "wind" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
-    
-        // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ :
-        if (words_5[1].includes('/+/')){
-           var words_8 = words_5[1].split('/+/');
-            // alert(words_8[0]);
-            // alert(words_8[1]);
-            
-            // alert(words_8.length);
-        };
-        
-        // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
-        if (words_5[2].includes('/+/')){
-           var words_9 = words_5[2].split('/+/');
-            // alert(words_9[0]);
-            // alert(words_9[1]);
-            
-            // alert(words_9.length);
-        };
-    
+                let category_array_v13 = [];
+
+                category_filter_v13.forEach(function (items_category_v13) {
+                    category_array_v13.push([items_category_v13[special_words_v13[0]][special_words_v13[1]]]);
+
+                });
+                Highcharts.chart('container_fetch_api_4', {
+                    chart: {       
+                        type: design_v13[0],
+                        plotBackgroundImage: background_selection_v13(),
+                        style: {
+                            fontFamily: 'Quicksand'
+                        }
+                    },
+                    credits: {
+                        enabled: false,
+                    },
+                    title: {
+                        text: '{{ chapter.graphtitle }}'
+                    },
+                    xAxis: {
+                        title: {
+                            text: graph_name_x_v13
+                        },
+                        labels: {
+                            enabled: value_labels_v13_2
+                        },
+                        categories: category_array_v13
+                    },
+                    yAxis: {
+                        title: {
+                            text: value_name_y_v13
+                        },
+                        labels: {
+                            enabled: value_vertical_v13_2
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' {{ chapter.graphvalue }} '
+                    },
+                    plotOptions: {   
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            allowPointSelect: true,
+                            dashStyle: design_v13[3],
+                            marker: {
+                                radius: 4,
+                                states: {
+                                    select: {
+                                        radius: 35,
+                                        fillColor: 'white',
+                                    }
+                                },
+                                symbol: icon_graph_v13,
+                            }
+                        },
+                    },
+                    {% if chapter.graphcolorone == 'coloration_1' %}
+                        colors: coloring_1,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_2' %}
+                        colors: coloring_2,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_3' %}
+                        colors: coloring_3,
+                    {% endif %}
+
+                    series: [{
+                        data: global_array_v13,
+                        name: '{{ chapter.graphsubtitle }}',
+                        }]
+                });
+            })
+            .catch(err => {
+                console.log("Error");
+            });
+    };
+    {% endif %}
+</script>
+
+<script>
+    /*** Graphique Version n°14 (v14) -> Filtrage Api avec le filtre de l'AxeX dans l'Array général et le filtre de l'AxeY situé dans un sous-ensemble ***/
+    $('#container_fetch_api_5').hide();
+
+    {% if (chapter.graphurlapi != '') or(chapter.graphapifilters != '') %} 
+
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        var value_labels_v14 = '{{ chapter.graphnamex }}';
+        var value_labels_v14_2 = JSON.parse(value_labels_v14);
+        var graph_name_x_v14 = ' ';
+    } else {
+        var value_labels_v14_2 = true;
+        var graph_name_x_v14 = '{{ chapter.graphnamex }}';
+    };
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical_v14 = '{{ chapter.graphnamey }}';
+        var value_vertical_v14_2 = JSON.parse(value_vertical_v14);
+        var value_name_y_v14 = ' ';
+    } else {
+        var value_vertical_v14_2 = true;
+        var value_name_y_v14 = '{{ chapter.graphnamey }}';
+    };
+
+    var design_selector_v14 = '{{ chapter.graphtype }}';
+    var design_v14 = design_selector_v14.split(' ');
+
+    if (design_v14[2] === 'red-icon') {
+        var icon_graph_v14 = icon_style_1;
+    };
+    if (design_v14[2] === 'blue-icon') {
+        var icon_graph_v14 = icon_style_2;
+    };
+
+    var api_selector_v14 = '{{ chapter.graphapifilters }}';
+    var words_v14 = api_selector_v14.split('+++');
+    // Exemple de format traité : list+++dt+++main/+/temp
+    // Traitement de filtres similaire à cet exemple -> list+++dt+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "dt" de l'ensemble "list" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
+    // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
+    if (words_v14[2].includes('/+/')) {
+        var special_words_v14 = words_v14[2].split('/+/');
+    };
+    // A condition que seulement le troisième mot clé filtre contienne les caractères spéciaux /+/
+    if (words_v14[2].includes('/+/') && !words_v14[1].includes('/+/')) {
+
+        $('#container_fetch_api_5').show();
+
+        const url_v14 = '{{ chapter.graphurlapi }}';
+
+        fetch(url_v14)
+            .then(res_v14 => {
+                return res_v14.json();
+            })
+            .then(data_v14 => {
+
+                const global_filter_v14 = data_v14[words_v14[0]];
+
+                let global_array_v14 = [];
+
+                global_filter_v14.forEach(function (scan_filter_v14) {
+                    global_array_v14.push([scan_filter_v14[words_v14[1]], parseInt(scan_filter_v14[special_words_v14[0]][special_words_v14[1]])]);
+
+                });
+
+                const category_filter_v14 = data_v14[words_v14[0]];
+
+                let category_array_v14 = [];
+
+                category_filter_v14.forEach(function (items_category_v14) {
+                    category_array_v14.push([items_category_v14[words_v14[1]]]);
+
+                });
+                Highcharts.chart('container_fetch_api_5', {
+                    chart: {        
+                        type: design_v14[0],
+                        plotBackgroundImage: background_selection_v14(),
+                        style: {
+                            fontFamily: 'Quicksand'
+                        }
+                    },
+                    credits: {
+                        enabled: false,
+                    },
+                    title: {
+                        text: '{{ chapter.graphtitle }}'
+                    },
+                    xAxis: {
+                        title: {
+                            text: graph_name_x_v14
+                        },
+                        labels: {
+                            enabled: value_labels_v14_2
+                        },
+                        categories: category_array_v14
+                    },
+                    yAxis: {
+                        title: {
+                            text: value_name_y_v14
+                        },
+                        labels: {
+                            enabled: value_vertical_v14_2
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' {{ chapter.graphvalue }} '
+                    },
+                    plotOptions: {    
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            allowPointSelect: true,
+                            dashStyle: design_v14[3],
+                            marker: {
+                                radius: 4,
+                                states: {
+                                    select: {
+                                        radius: 35,
+                                        fillColor: 'white',
+                                    }
+                                },
+                                symbol: icon_graph_v14,
+                            }
+                        },
+                    },
+                    {% if chapter.graphcolorone == 'coloration_1' %}
+                        colors: coloring_1,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_2' %}
+                        colors: coloring_2,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_3' %}
+                        colors: coloring_3,
+                    {% endif %}
+
+                    series: [{
+                        data: global_array_v14,
+                        name: '{{ chapter.graphsubtitle }}',
+                        }]
+                });
+            })
+            .catch(err => {
+                console.log("Error");
+            });
+    };
+
+    {% endif %}
+</script>
+
+<script>
+    /*** Graphique Version n°15 (v15) -> Filtrage Api avec les données pour l'AxeX situées dans un sous-ensemble et les données pour l'AxeY situées dans un sous-ensemble ***/
+    $('#container_fetch_api_6').hide();
+
+    {% if (chapter.graphurlapi != '') or (chapter.graphapifilters != '') %}
+
+    if ('{{ chapter.graphnamex }}' === 'false') {
+        var value_labels_v15 = '{{ chapter.graphnamex }}';
+        var value_labels_v15_2 = JSON.parse(value_labels_v15);
+        var graph_name_x_v15 = ' ';
+    } else {
+        var value_labels_v15_2 = true;
+        var graph_name_x_v15 = '{{ chapter.graphnamex }}';
+    };
+    if ('{{ chapter.graphnamey }}' === 'false') {
+        var value_vertical_v15 = '{{ chapter.graphnamey }}';
+        var value_vertical_v15_2 = JSON.parse(value_vertical_v15);
+        var value_name_y_v15 = ' ';
+    } else {
+        var value_vertical_v15_2 = true;
+        var value_name_y_v15 = '{{ chapter.graphnamey }}';
+    };
+
+    var design_selector_v15 = '{{ chapter.graphtype }}';
+    var design_v15 = design_selector_v15.split(' ');
+
+    if (design_v15[2] === 'red-icon') {
+        var icon_graph_v15 = icon_style_1;
+    };
+    if (design_v15[2] === 'blue-icon') {
+        var icon_graph_v15 = icon_style_2;
+    };
+
+    var api_selector_v15 = '{{ chapter.graphapifilters }}';
+    var words_v15 = api_selector_v15.split('+++');
+    // Exemple de format traité : list+++wind/+/speed+++main/+/temp
+    // Traitement de filtres similaire à cet exemple -> list+++wind/+/speed+++main/+/temp : on souhaite obtenir dans l'Array de l'API "list", les valeurs "speed" de l'ensemble "wind" affichées sur l'Axe X, et sur l'Axe Y les valeurs numériques "temp" du sous-ensemble "main"
+    // Traitement du filtrage de l'Api au cas où le deuxième filtre contient les caractères spéciaux /+/ :
+    if (words_v15[1].includes('/+/')) {
+        var first_special_words_v15 = words_v15[1].split('/+/');
+    };
+    // Traitement du filtrage de l'Api au cas où le troisème filtre contient les caractères spéciaux /+/ :
+    if (words_v15[2].includes('/+/')) {
+        var second_special_words_v15 = words_v15[2].split('/+/');
+    };
     // A condition que le deuxième mot clé filtre et le troisième mot clé filtre contiennent les caractères spéciaux /+/
-    if(words_5[1].includes('/+/') && words_5[2].includes('/+/')){
-    
-        $('#container_Fetch_Api_6').show();
-        
-    
-         const url_azerty_Bis_Bis = '{{ chapter.graphurlapi }}';
-    
-        fetch(url_azerty_Bis_Bis)
-            .then(res_azerty_Bis_Bis => {
-                return res_azerty_Bis_Bis.json();
+    if (words_v15[1].includes('/+/') && words_v15[2].includes('/+/')) {
+
+        $('#container_fetch_api_6').show();
+
+        const url_v15 = '{{ chapter.graphurlapi }}';
+
+        fetch(url_v15)
+            .then(res_v15 => {
+                return res_v15.json();
             })
-            .then(data_azerty_Bis_Bis => {
-                
-                const characters_azerty_Bis_Bis = data_azerty_Bis_Bis[words_5[0]];
-            
-                let characterData_azerty_Bis_Bis = [];
-            
-             characters_azerty_Bis_Bis.forEach(function(character_azerty_Bis_Bis) {
-           
-                 
-                     characterData_azerty_Bis_Bis.push([character_azerty_Bis_Bis[words_8[0]][words_8[1]], parseInt(character_azerty_Bis_Bis[words_9[0]][words_9[1]])]);
-               
-                
-         
-             });
-            
-             // Boucle de filtrage de catégories
-            
-              const azertyCategory_Bis_Bis = data_azerty_Bis_Bis[words_5[0]];
-            
-                let azertyCategArray_Bis_Bis = [];
-            
-             azertyCategory_Bis_Bis.forEach(function(scanCategory_Bis_Bis) {
-           
-                 
-                     azertyCategArray_Bis_Bis.push([scanCategory_Bis_Bis[words_8[0]][words_8[1]]]);
-               
-                
-      
-             });
-    
-            // Initialisation de Highcharts
-            Highcharts.chart('container_Fetch_Api_6', {
-               chart: {
-        // design[0] -> Correspond à la première valeur entrée dans le champs graphtype de l'éditeur d'article :        
-        type: design_10[0],
-        
-        // Changer le fond du graphique avec des linear gradient
-        // backGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        plotBackgroundImage: backGraph_10,
-        
-        // Font-family
-        style: {
-            fontFamily: 'Quicksand'
-        }
-            },
-    
-        //Pour retirer le branding Highcharts
-        credits: {
-            enabled: false,
-        },
-    
-        title: {
-                text: '{{ chapter.graphtitle }}'
-            },
-        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
-        //subtitle: {
-                //text: '{{ chapter.graphsubtitle }}'
-            //},
-             
-            // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            xAxis: {
-            
-                title: {
-                    text: graphNamex_Bis_5
-                },
-                labels: {
-                    enabled: valueLabels_2_Bis_5
-                },
-                categories: azertyCategArray_Bis_Bis
-            },
-    
-            // Au cas où le champs d'édition du titre de l'axe vertical contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
-            yAxis: {
-                title: {
-                    text: valueNamey_Bis_5
-                },
-                labels: {
-                    enabled: valueVertical_2_Bis_5
-                }
-            },
-                
-        tooltip: {
-                    
-            valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-    
-    plotOptions: {
-    // Indiquer les valeurs sur chaque point (visible en "line" mais pas en "spline", ni "areaspline")    
-        line: {
-            dataLabels: {
-                enabled: true
-            }
-        },
-       
-        series: {
-            
-        // Curseur de main
-        cursor: 'pointer',
-            
-        // Autoriser la sélection de point
-        allowPointSelect: true,
-            
-        // Mettre un effet "dashed" & tester aussi "dot"
-        // iconGraph -> Correspond à la quatrième valeur entrée dans le champs graphtype de l'éditeur d'article :
-        dashStyle: design_10[3], 
-        
-        // Marqueur grossissant "popup" apparaît au clic sur un point (n'apparaît qu'en type de chart "line")
-        marker: {    
-            radius: 4,
-            states: {
-                select: {
-                    radius: 35,
-                    fillColor: 'white',
+            .then(data_v15 => {
+
+                const global_filters_v15 = data_v15[words_v15[0]];
+
+                let global_array_v15 = [];
+
+                global_filters_v15.forEach(function (scan_filters_v15) {
+                    global_array_v15.push([scan_filters_v15[first_special_words_v15[0]][first_special_words_v15[1]], parseInt(scan_filters_v15[second_special_words_v15[0]][second_special_words_v15[1]])]);
+
+                });
+
+                const category_filters_v15 = data_v15[words_v15[0]];
+
+                let category_array_v15 = [];
+
+                category_filters_v15.forEach(function (items_category_v15) {
+                    category_array_v15.push([items_category_v15[first_special_words_v15[0]][first_special_words_v15[1]]]);
+
+                });
+                Highcharts.chart('container_fetch_api_6', {
+                    chart: {        
+                        type: design_v15[0],
+                        plotBackgroundImage: background_selection_v15(),
+                        style: {
+                            fontFamily: 'Quicksand'
                         }
                     },
-            
-            // Mettre un symbole personnalisé
-            // iconGraph -> Correspond à la troisième valeur entrée dans le champs graphtype de l'éditeur d'article :
-            symbol: iconGraph_10,
-      }
-           
-        },
-    },
-				
-                {% if chapter.graphcolorone == 'coloration_1' %}
-                    colors: coloring_1,
-                {% endif %}
-    
-                {% if chapter.graphcolorone == 'coloration_2' %}
-                    colors: coloring_2,
-                {% endif %}
-                 
-                {% if chapter.graphcolorone == 'coloration_3' %}
-                    colors: coloring_3,
-                {% endif %}
-              
-				    series: [{
-                        data: characterData_azerty_Bis_Bis,
-                        // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
+                    credits: {
+                        enabled: false,
+                    },
+                    title: {
+                        text: '{{ chapter.graphtitle }}'
+                    },
+                    xAxis: {
+                        title: {
+                            text: graph_name_x_v15
+                        },
+                        labels: {
+                            enabled: value_labels_v15_2
+                        },
+                        categories: category_array_v15
+                    },
+                    yAxis: {
+                        title: {
+                            text: value_name_y_v15
+                        },
+                        labels: {
+                            enabled: value_vertical_v15_2
+                        }
+                    },
+                    tooltip: {
+
+                        valueSuffix: ' {{ chapter.graphvalue }} '
+                    },
+                    plotOptions: {   
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        series: {
+                            cursor: 'pointer',
+                            allowPointSelect: true,
+                            dashStyle: design_v15[3],
+                            marker: {
+                                radius: 4,
+                                states: {
+                                    select: {
+                                        radius: 35,
+                                        fillColor: 'white',
+                                    }
+                                },
+                                symbol: icon_graph_v15,
+                            }
+                        },
+                    },
+                    {% if chapter.graphcolorone == 'coloration_1' %}
+                        colors: coloring_1,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_2' %}
+                        colors: coloring_2,
+                    {% endif %}
+                    {% if chapter.graphcolorone == 'coloration_3' %}
+                        colors: coloring_3,
+                    {% endif %}
+
+                    series: [{
+                        data: global_array_v15,
                         name: '{{ chapter.graphsubtitle }}',
-                    }]
-				});
+                        }]
+                });
             })
-    
-            // Messages d'erreurs
             .catch(err => {
                 console.log("Error");
             });
-    
-   };
-    
- {% endif %}
- 
-    </script>
+    };
+    {% endif %}
+</script>
 
 <!-- ***** Script de pagination jQuery ***** -->
 <script src="/symfovue16/public/js/paginate.js"></script>
-
 
 {% endblock %}
