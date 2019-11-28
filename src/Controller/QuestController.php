@@ -15,8 +15,6 @@ class QuestController extends AbstractController
     {
         $bdd = new \PDO('mysql:host=localhost;dbname=projet5;charset=utf8', 'root', '');
 
-        $posts = $bdd->query('SELECT id, title, SUBSTRING(content, 1, 10) AS content FROM chapter WHERE title LIKE "article" ORDER BY id DESC');
-        
         $nothing = '';
         
         if(isset($_GET['q']) AND !empty($_GET['q'])) 
