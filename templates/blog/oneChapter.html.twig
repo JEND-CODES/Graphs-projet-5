@@ -181,6 +181,64 @@
 <script src="/public/js/colors.js"></script>
 
 <script>
+    // Highcharts Global configuration
+    Highcharts.setOptions({
+        // Options globales pour l'ensemble des graphiques
+        chart: {
+            // Font-family
+            style: {
+                fontFamily: 'Quicksand'
+            }
+        },
+        title: {
+            text: '{{ chapter.graphtitle }}'
+        },
+        // Retrait du branding Highcharts
+        credits: {
+            enabled: false,
+        },
+        tooltip: {
+            valueSuffix: ' {{ chapter.graphvalue }} '
+        },
+        // Jeux de couleurs sélectionnés en Back Office -> les variables "coloring" sont définies dans Form/ChapterType
+        {% if chapter.graphcolorone == 'coloration_1' %}
+            colors: coloring_1,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_2' %}
+            colors: coloring_2,
+        {% endif %}
+        {% if chapter.graphcolorone == 'coloration_3' %}
+            colors: coloring_3,
+        {% endif %}
+                          
+        plotOptions: {
+            // Indication des valeurs sur chaque point (par défaut visible en "line")   
+            line: {
+                dataLabels: {
+                    enabled: true
+                }
+            },
+            series: {
+                // Curseur de main
+                cursor: 'pointer',
+                // Autoriser la sélection de point
+                allowPointSelect: true,
+                // Marqueur grossissant "popup" apparaît au clic sur un point (par défaut, n'apparaît qu'en type de chart "line")
+                marker: {
+                    radius: 4,
+                    states: {
+                        select: {
+                            radius: 35,
+                            fillColor: 'white',
+                        }
+                    },              
+                }
+            },
+        }
+    });
+</script>
+
+<script>
     /*** Graphique Version n°1 -> CSV FROM FILE NAME ***/
     {% if chapter.graphcsvfilename != '' %}
     // *** Au cas où la désactivation des labels sur l'axe X et Y a lieu (choix pour certains graphiques) 
@@ -216,17 +274,6 @@
             type: design[0],
             // Appel de la fonction du fichier colors.js -> background_graph -> correspond à la troisième valeur entrée dans le champs graph_type de l'éditeur d'article
             plotBackgroundImage: background_selection(),
-            // Font-family
-            style: {
-                fontFamily: 'Quicksand'
-            }
-        },
-        // Retrait du branding Highcharts
-        credits: {
-            enabled: false,
-        },
-        title: {
-            text: '{{ chapter.graphtitle }}'
         },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
@@ -241,48 +288,16 @@
                 text: hide_result_y
             }
         },
-        tooltip: {
-            valueSuffix: ' {{ chapter.graphvalue }} '
-        },
         plotOptions: {
-            // Indication des valeurs sur chaque point (par défaut visible en "line")   
-            line: {
-                dataLabels: {
-                    enabled: true
-                }
-            },
             series: {
-                // Curseur de main
-                cursor: 'pointer',
-                // Autoriser la sélection de point
-                allowPointSelect: true,
                 // Effet de ligne (options modifiables en back office)
                 dashStyle: design[3],
-                // Marqueur grossissant "popup" apparaît au clic sur un point (par défaut, n'apparaît qu'en type de chart "line")
                 marker: {
-                    radius: 4,
-                    states: {
-                        select: {
-                            radius: 35,
-                            fillColor: 'white',
-                        }
-                    },
                     // Symbole personnalisé -> icon_graph -> troisième valeur entrée dans le champs graph_type de l'éditeur d'article
                     symbol: icon_graph,
                 }
             },
         },
-        // Jeux de couleurs sélectionnés en Back Office -> les variables "coloring" sont définies dans Form/ChapterType
-        {% if chapter.graphcolorone == 'coloration_1' %}
-            colors: coloring_1,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_2' %}
-            colors: coloring_2,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_3' %}
-            colors: coloring_3,
-        {% endif %}
-
         data: {
             csvURL: 'http://localhost/projet5/public/csv_files/' + csv_file_name + '.csv',
             beforeParse: function (csv) {
@@ -326,15 +341,6 @@
         chart: {
             type: design_v2[0],
             plotBackgroundImage: background_selection_v2(),
-            style: {
-                fontFamily: 'Quicksand'
-            }
-        },
-        credits: {
-            enabled: false,
-        },
-        title: {
-            text: '{{ chapter.graphtitle }}'
         },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
@@ -349,41 +355,14 @@
                 text: hide_result_y_v2
             }
         },
-        tooltip: {
-            valueSuffix: ' {{ chapter.graphvalue }} '
-        },
-        plotOptions: {    
-            line: {
-                dataLabels: {
-                    enabled: true
-                }
-            },
+        plotOptions: {
             series: {
-                cursor: 'pointer',
-                allowPointSelect: true,
                 dashStyle: design_v2[3],
                 marker: {
-                    radius: 4,
-                    states: {
-                        select: {
-                            radius: 35,
-                            fillColor: 'white',
-                        }
-                    },
                     symbol: icon_graph_v2,
                 }
             },
         },
-        {% if chapter.graphcolorone == 'coloration_1' %}
-            colors: coloring_1,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_2' %}
-            colors: coloring_2,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_3' %}
-            colors: coloring_3,
-        {% endif %}
-
         data: {
             csv: document.getElementById('data').innerHTML
         }
@@ -422,15 +401,6 @@
         chart: {      
             type: design_v3[0],
             plotBackgroundImage: background_selection_v3(),
-            style: {
-                fontFamily: 'Quicksand'
-            }
-        },
-        credits: {
-            enabled: false,
-        },
-        title: {
-            text: '{{ chapter.graphtitle }}'
         },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
@@ -445,41 +415,14 @@
                 text: hide_result_y_v3
             }
         },
-        tooltip: {
-            valueSuffix: ' {{ chapter.graphvalue }} '
-        },
-        plotOptions: {  
-            line: {
-                dataLabels: {
-                    enabled: true
-                }
-            },
+        plotOptions: {
             series: {
-                cursor: 'pointer',
-                allowPointSelect: true,
                 dashStyle: design_v3[3],
                 marker: {
-                    radius: 4,
-                    states: {
-                        select: {
-                            radius: 35,
-                            fillColor: 'white',
-                        }
-                    },
                     symbol: icon_graph_v3,
                 }
             },
         },
-        {% if chapter.graphcolorone == 'coloration_1' %}
-            colors: coloring_1,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_2' %}
-            colors: coloring_2,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_3' %}
-            colors: coloring_3,
-        {% endif %}
-
         data: {
             csvURL: '{{ chapter.graphcsvurl }}',
             beforeParse: function (csv) {
@@ -546,15 +489,6 @@
         chart: {       
             type: design_v4[0],
             plotBackgroundImage: background_selection_v4(),
-            style: {
-                fontFamily: 'Quicksand'
-            }
-        },
-        credits: {
-            enabled: false,
-        },
-        title: {
-            text: '{{ chapter.graphtitle }}'
         },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
@@ -578,40 +512,15 @@
         tooltip: {
             // Retrait du header du tooltip
             headerFormat: null,
-            valueSuffix: ' {{ chapter.graphvalue }} '
         },
-        plotOptions: {   
-            line: {
-                dataLabels: {
-                    enabled: true
-                }
-            },
+        plotOptions: {
             series: {
-                cursor: 'pointer',
-                allowPointSelect: true,
                 dashStyle: design_v4[3],
                 marker: {
-                    radius: 4,
-                    states: {
-                        select: {
-                            radius: 35,
-                            fillColor: 'white',
-                        }
-                    },
                     symbol: icon_graph_v4,
                 }
             },
         },
-        {% if chapter.graphcolorone == 'coloration_1' %}
-            colors: coloring_1,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_2' %}
-            colors: coloring_2,
-        {% endif %}
-        {% if chapter.graphcolorone == 'coloration_3' %}
-            colors: coloring_3,
-        {% endif %}
-
         series: series_array
     });
     // Boucle qui actualise les données éditées en Back Office, puis récupérées dans un Array, puis affectés à la zone "series" du Chart:
@@ -661,15 +570,6 @@
             chart: {
                 renderTo: 'container_json_multiple',
                 plotBackgroundImage: background_selection_v5(),
-                style: {
-                    fontFamily: 'Quicksand'
-                }
-            },
-            credits: {
-                enabled: false,
-            },
-            title: {
-                text: '{{ chapter.graphtitle }}'
             },
             xAxis: {
                 title: {
@@ -681,41 +581,14 @@
                     text: hide_result_y_v5
                 }
             },
-            tooltip: {
-                valueSuffix: ' {{ chapter.graphvalue }} '
-            },
-            plotOptions: {   
-                line: {
-                    dataLabels: {
-                        enabled: true
-                    }
-                },
+            plotOptions: {
                 series: {
-                    cursor: 'pointer',
-                    allowPointSelect: true,
                     dashStyle: design_v5[3],
                     marker: {
-                        radius: 4,
-                        states: {
-                            select: {
-                                radius: 35,
-                                fillColor: 'white',
-                            }
-                        },
                         symbol: icon_graph_v5,
                     }
                 },
             },
-            {% if chapter.graphcolorone == 'coloration_1' %}
-                colors: coloring_1,
-            {% endif %}
-            {% if chapter.graphcolorone == 'coloration_2' %}
-                colors: coloring_2,
-            {% endif %}
-            {% if chapter.graphcolorone == 'coloration_3' %}
-                colors: coloring_3,
-            {% endif %}
-
             series: [{
                 // Attention : dans ce chart, le sous-titre du graphique peut servir pour définir le nom de la série
                 name: '{{ chapter.graphsubtitle }}',
@@ -802,15 +675,6 @@
                     chart: {     
                         type: design_v11[0],
                         plotBackgroundImage: background_selection_v11(),
-                        style: {
-                            fontFamily: 'Quicksand'
-                        }
-                    },
-                    credits: {
-                        enabled: false,
-                    },
-                    title: {
-                        text: '{{ chapter.graphtitle }}'
                     },
                     // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
                     xAxis: {
@@ -831,41 +695,14 @@
                             enabled: value_vertical_v11_2
                         }
                     },
-                    tooltip: {
-                        valueSuffix: ' {{ chapter.graphvalue }} '
-                    },
-                    plotOptions: {   
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            }
-                        },
+                    plotOptions: {
                         series: {
-                            cursor: 'pointer',
-                            allowPointSelect: true,
                             dashStyle: design_v11[3],
                             marker: {
-                                radius: 4,
-                                states: {
-                                    select: {
-                                        radius: 35,
-                                        fillColor: 'white',
-                                    }
-                                },
                                 symbol: icon_graph_v11,
                             }
                         },
                     },
-                    {% if chapter.graphcolorone == 'coloration_1' %}
-                        colors: coloring_1,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_2' %}
-                        colors: coloring_2,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_3' %}
-                        colors: coloring_3,
-                    {% endif %}
-
                     series: [{
                         data: gobal_array_v11,
                         // Attention : dans ce chart, le sous-titre du graphique définit le nom de la série..!!
@@ -950,15 +787,6 @@
                     chart: {      
                         type: design_v12[0],
                         plotBackgroundImage: background_selection_v12(),
-                        style: {
-                            fontFamily: 'Quicksand'
-                        }
-                    },
-                    credits: {
-                        enabled: false,
-                    },
-                    title: {
-                        text: '{{ chapter.graphtitle }}'
                     },
                     xAxis: {
                         title: {
@@ -977,41 +805,14 @@
                             enabled: value_vertical_v12_2
                         }
                     },
-                    tooltip: {
-                        valueSuffix: ' {{ chapter.graphvalue }} '
-                    },
-                    plotOptions: {  
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            }
-                        },
+                    plotOptions: {
                         series: {
-                            cursor: 'pointer',
-                            allowPointSelect: true,
                             dashStyle: design_v12[3],
                             marker: {
-                                radius: 4,
-                                states: {
-                                    select: {
-                                        radius: 35,
-                                        fillColor: 'white',
-                                    }
-                                },
                                 symbol: icon_graph_v12,
                             }
                         },
                     },
-                    {% if chapter.graphcolorone == 'coloration_1' %}
-                        colors: coloring_1,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_2' %}
-                        colors: coloring_2,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_3' %}
-                        colors: coloring_3,
-                    {% endif %}
-
                     series: [{
                         data: global_array_v12,
                         name: '{{ chapter.graphsubtitle }}',
@@ -1024,7 +825,6 @@
             });
     };
     {% endif %}
-
 </script>
 
 <script>
@@ -1102,19 +902,11 @@
                     category_array_v13.push([items_category_v13[special_words_v13[0]][special_words_v13[1]]]);
 
                 });
+            
                 Highcharts.chart('container_fetch_api_4', {
                     chart: {       
                         type: design_v13[0],
                         plotBackgroundImage: background_selection_v13(),
-                        style: {
-                            fontFamily: 'Quicksand'
-                        }
-                    },
-                    credits: {
-                        enabled: false,
-                    },
-                    title: {
-                        text: '{{ chapter.graphtitle }}'
                     },
                     xAxis: {
                         title: {
@@ -1133,41 +925,14 @@
                             enabled: value_vertical_v13_2
                         }
                     },
-                    tooltip: {
-                        valueSuffix: ' {{ chapter.graphvalue }} '
-                    },
-                    plotOptions: {   
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            }
-                        },
+                    plotOptions: {
                         series: {
-                            cursor: 'pointer',
-                            allowPointSelect: true,
                             dashStyle: design_v13[3],
                             marker: {
-                                radius: 4,
-                                states: {
-                                    select: {
-                                        radius: 35,
-                                        fillColor: 'white',
-                                    }
-                                },
                                 symbol: icon_graph_v13,
                             }
                         },
                     },
-                    {% if chapter.graphcolorone == 'coloration_1' %}
-                        colors: coloring_1,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_2' %}
-                        colors: coloring_2,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_3' %}
-                        colors: coloring_3,
-                    {% endif %}
-
                     series: [{
                         data: global_array_v13,
                         name: '{{ chapter.graphsubtitle }}',
@@ -1252,19 +1017,11 @@
                     category_array_v14.push([items_category_v14[words_v14[1]]]);
 
                 });
+            
                 Highcharts.chart('container_fetch_api_5', {
                     chart: {        
                         type: design_v14[0],
                         plotBackgroundImage: background_selection_v14(),
-                        style: {
-                            fontFamily: 'Quicksand'
-                        }
-                    },
-                    credits: {
-                        enabled: false,
-                    },
-                    title: {
-                        text: '{{ chapter.graphtitle }}'
                     },
                     xAxis: {
                         title: {
@@ -1283,41 +1040,14 @@
                             enabled: value_vertical_v14_2
                         }
                     },
-                    tooltip: {
-                        valueSuffix: ' {{ chapter.graphvalue }} '
-                    },
-                    plotOptions: {    
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            }
-                        },
+                    plotOptions: {
                         series: {
-                            cursor: 'pointer',
-                            allowPointSelect: true,
                             dashStyle: design_v14[3],
                             marker: {
-                                radius: 4,
-                                states: {
-                                    select: {
-                                        radius: 35,
-                                        fillColor: 'white',
-                                    }
-                                },
                                 symbol: icon_graph_v14,
                             }
                         },
                     },
-                    {% if chapter.graphcolorone == 'coloration_1' %}
-                        colors: coloring_1,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_2' %}
-                        colors: coloring_2,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_3' %}
-                        colors: coloring_3,
-                    {% endif %}
-
                     series: [{
                         data: global_array_v14,
                         name: '{{ chapter.graphsubtitle }}',
@@ -1328,7 +1058,6 @@
                 console.log("Error");
             });
     };
-
     {% endif %}
 </script>
 
@@ -1407,19 +1136,11 @@
                     category_array_v15.push([items_category_v15[first_special_words_v15[0]][first_special_words_v15[1]]]);
 
                 });
+            
                 Highcharts.chart('container_fetch_api_6', {
                     chart: {        
                         type: design_v15[0],
                         plotBackgroundImage: background_selection_v15(),
-                        style: {
-                            fontFamily: 'Quicksand'
-                        }
-                    },
-                    credits: {
-                        enabled: false,
-                    },
-                    title: {
-                        text: '{{ chapter.graphtitle }}'
                     },
                     xAxis: {
                         title: {
@@ -1438,42 +1159,14 @@
                             enabled: value_vertical_v15_2
                         }
                     },
-                    tooltip: {
-
-                        valueSuffix: ' {{ chapter.graphvalue }} '
-                    },
-                    plotOptions: {   
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            }
-                        },
+                    plotOptions: {
                         series: {
-                            cursor: 'pointer',
-                            allowPointSelect: true,
                             dashStyle: design_v15[3],
                             marker: {
-                                radius: 4,
-                                states: {
-                                    select: {
-                                        radius: 35,
-                                        fillColor: 'white',
-                                    }
-                                },
                                 symbol: icon_graph_v15,
                             }
                         },
                     },
-                    {% if chapter.graphcolorone == 'coloration_1' %}
-                        colors: coloring_1,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_2' %}
-                        colors: coloring_2,
-                    {% endif %}
-                    {% if chapter.graphcolorone == 'coloration_3' %}
-                        colors: coloring_3,
-                    {% endif %}
-
                     series: [{
                         data: global_array_v15,
                         name: '{{ chapter.graphsubtitle }}',
