@@ -17,8 +17,20 @@
   // Le Bleu :
   const icon_style_2 = 'url(http://localhost/projet5/public/backgrounds/icon-graph-2.png)';
 
+  
+  const icon_style_3 = 'url(http://localhost/projet5/public/backgrounds/icon-graph-3.png)';
 
-  // 5 images linear-gradient en options pour le fond des graphs :   
+  
+  const icon_style_4 = 'url(http://localhost/projet5/public/backgrounds/icon-graph-4.png)';
+
+  
+  const icon_style_5 = 'url(http://localhost/projet5/public/backgrounds/icon-graph-5.png)';
+
+  
+  const icon_style_6 = 'url(http://localhost/projet5/public/backgrounds/icon-graph-6.png)';
+
+
+  // 8 images linear-gradient en options pour le fond des graphs :   
 
   const background_style_1 = '/public/backgrounds/linearGradient-1.jpg';
 
@@ -29,6 +41,12 @@
   const background_style_4 = '/public/backgrounds/linearGradient-4.jpg';
 
   const background_style_5 = '/public/backgrounds/linearGradient-5.jpg';
+
+  const background_style_6 = '/public/backgrounds/linearGradient-6.jpg';
+
+  const background_style_7 = '/public/backgrounds/linearGradient-7.jpg';
+
+  const background_style_8 = '/public/backgrounds/linearGradient-8.jpg';
 
   // Choix des fonds colorés des graphiques -> Fonctions injectées dans les graphiques
   function background_selection() {
@@ -53,250 +71,47 @@
               var background_graph = background_style_5;
               return background_graph;
               break;
-          default:
+          case design[1] === 'light-yellow':
+              var background_graph = background_style_6;
+              return background_graph;
               break;
-      };
-  };
-
-  function background_selection_v2() {
-      switch (true) {
-          case design_v2[1] === 'midnight-blue':
-              var background_graph_v2 = background_style_1;
-              return background_graph_v2;
+          case design[1] === 'light-red':
+              var background_graph = background_style_7;
+              return background_graph;
               break;
-          case design_v2[1] === 'light-grey':
-              var background_graph_v2 = background_style_2;
-              return background_graph_v2;
-              break;
-          case design_v2[1] === 'light-blue':
-              var background_graph_v2 = background_style_3;
-              return background_graph_v2;
-              break;
-          case design_v2[1] === 'red-orange':
-              var background_graph_v2 = background_style_4;
-              return background_graph_v2;
-              break;
-          case design_v2[1] === 'dark-green':
-              var background_graph_v2 = background_style_5;
-              return background_graph_v2;
+          case design[1] === 'light-green':
+              var background_graph = background_style_8;
+              return background_graph;
               break;
           default:
               break;
       };
   };
 
-  function background_selection_v3() {
-      switch (true) {
-          case design_v3[1] === 'midnight-blue':
-              var background_graph_v3 = background_style_1;
-              return background_graph_v3;
-              break;
-          case design_v3[1] === 'light-grey':
-              var background_graph_v3 = background_style_2;
-              return background_graph_v3;
-              break;
-          case design_v3[1] === 'light-blue':
-              var background_graph_v3 = background_style_3;
-              return background_graph_v3;
-              break;
-          case design_v3[1] === 'red-orange':
-              var background_graph_v3 = background_style_4;
-              return background_graph_v3;
-              break;
-          case design_v3[1] === 'dark-green':
-              var background_graph_v3 = background_style_5;
-              return background_graph_v3;
-              break;
-          default:
-              break;
+  function icon_selection() {
+      // Sélection des icônes personnalisés (6 options)
+      if (design[2] === 'red-icon') {
+          var icon_graph = icon_style_1;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v4() {
-      switch (true) {
-          case design_v4[1] === 'midnight-blue':
-              var background_graph_v4 = background_style_1;
-              return background_graph_v4;
-              break;
-          case design_v4[1] === 'light-grey':
-              var background_graph_v4 = background_style_2;
-              return background_graph_v4;
-              break;
-          case design_v4[1] === 'light-blue':
-              var background_graph_v4 = background_style_3;
-              return background_graph_v4;
-              break;
-          case design_v4[1] === 'red-orange':
-              var background_graph_v4 = background_style_4;
-              return background_graph_v4;
-              break;
-          case design_v4[1] === 'dark-green':
-              var background_graph_v4 = background_style_5;
-              return background_graph_v4;
-              break;
-          default:
-              break;
+      if (design[2] === 'blue-icon') {
+          var icon_graph = icon_style_2;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v5() {
-      switch (true) {
-          case design_v5[1] === 'midnight-blue':
-              var background_graph_v5 = background_style_1;
-              return background_graph_v5;
-              break;
-          case design_v5[1] === 'light-grey':
-              var background_graph_v5 = background_style_2;
-              return background_graph_v5;
-              break;
-          case design_v5[1] === 'light-blue':
-              var background_graph_v5 = background_style_3;
-              return background_graph_v5;
-              break;
-          case design_v5[1] === 'red-orange':
-              var background_graph_v5 = background_style_4;
-              return background_graph_v5;
-              break;
-          case design_v5[1] === 'dark-green':
-              var background_graph_v5 = background_style_5;
-              return background_graph_v5;
-              break;
-          default:
-              break;
+      if (design[2] === 'green-icon') {
+          var icon_graph = icon_style_3;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v11() {
-      switch (true) {
-          case design_v11[1] === 'midnight-blue':
-              var background_graph_v11 = background_style_1;
-              return background_graph_v11;
-              break;
-          case design_v11[1] === 'light-grey':
-              var background_graph_v11 = background_style_2;
-              return background_graph_v11;
-              break;
-          case design_v11[1] === 'light-blue':
-              var background_graph_v11 = background_style_3;
-              return background_graph_v11;
-              break;
-          case design_v11[1] === 'red-orange':
-              var background_graph_v11 = background_style_4;
-              return background_graph_v11;
-              break;
-          case design_v11[1] === 'dark-green':
-              var background_graph_v11 = background_style_5;
-              return background_graph_v11;
-              break;
-          default:
-              break;
+      if (design[2] === 'purple-icon') {
+          var icon_graph = icon_style_4;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v12() {
-      switch (true) {
-          case design_v12[1] === 'midnight-blue':
-              var background_graph_v12 = background_style_1;
-              return background_graph_v12;
-              break;
-          case design_v12[1] === 'light-grey':
-              var background_graph_v12 = background_style_2;
-              return background_graph_v12;
-              break;
-          case design_v12[1] === 'light-blue':
-              var background_graph_v12 = background_style_3;
-              return background_graph_v12;
-              break;
-          case design_v12[1] === 'red-orange':
-              var background_graph_v12 = background_style_4;
-              return background_graph_v12;
-              break;
-          case design_v12[1] === 'dark-green':
-              var background_graph_v12 = background_style_5;
-              return background_graph_v12;
-              break;
-          default:
-              break;
+      if (design[2] === 'orange-icon') {
+          var icon_graph = icon_style_5;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v13() {
-      switch (true) {
-          case design_v13[1] === 'midnight-blue':
-              var background_graph_v13 = background_style_1;
-              return background_graph_v13;
-              break;
-          case design_v13[1] === 'light-grey':
-              var background_graph_v13 = background_style_2;
-              return background_graph_v13;
-              break;
-          case design_v13[1] === 'light-blue':
-              var background_graph_v13 = background_style_3;
-              return background_graph_v13;
-              break;
-          case design_v13[1] === 'red-orange':
-              var background_graph_v13 = background_style_4;
-              return background_graph_v13;
-              break;
-          case design_v13[1] === 'dark-green':
-              var background_graph_v13 = background_style_5;
-              return background_graph_v13;
-              break;
-          default:
-              break;
+      if (design[2] === 'yellow-icon') {
+          var icon_graph = icon_style_6;
+          return icon_graph;
       };
-  };
-
-  function background_selection_v14() {
-      switch (true) {
-          case design_v14[1] === 'midnight-blue':
-              var background_graph_v14 = background_style_1;
-              return background_graph_v14;
-              break;
-          case design_v14[1] === 'light-grey':
-              var background_graph_v14 = background_style_2;
-              return background_graph_v14;
-              break;
-          case design_v14[1] === 'light-blue':
-              var background_graph_v14 = background_style_3;
-              return background_graph_v14;
-              break;
-          case design_v14[1] === 'red-orange':
-              var background_graph_v14 = background_style_4;
-              return background_graph_v14;
-              break;
-          case design_v14[1] === 'dark-green':
-              var background_graph_v14 = background_style_5;
-              return background_graph_v14;
-              break;
-          default:
-              break;
-      };
-  };
-
-  function background_selection_v15() {
-      switch (true) {
-          case design_v15[1] === 'midnight-blue':
-              var background_graph_v15 = background_style_1;
-              return background_graph_v15;
-              break;
-          case design_v15[1] === 'light-grey':
-              var background_graph_v15 = background_style_2;
-              return background_graph_v15;
-              break;
-          case design_v15[1] === 'light-blue':
-              var background_graph_v15 = background_style_3;
-              return background_graph_v15;
-              break;
-          case design_v15[1] === 'red-orange':
-              var background_graph_v15 = background_style_4;
-              return background_graph_v15;
-              break;
-          case design_v15[1] === 'dark-green':
-              var background_graph_v15 = background_style_5;
-              return background_graph_v15;
-              break;
-          default:
-              break;
-      };
-  };
+  }
