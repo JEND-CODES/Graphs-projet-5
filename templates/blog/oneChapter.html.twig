@@ -53,7 +53,7 @@
 
                 {% if chapter.graphcsvtextdatas != '' %}
                 <div id="container_csv_longtext" class="responsive-highcharts"></div>
-                <pre id="data" style="display:none;">
+                <pre id="data_hidden" style="display:none;">
                 {{ chapter.graphcsvtextdatas }}
                 </pre>
                 {% endif %}
@@ -181,10 +181,17 @@
 <script src="/public/js/colors.js"></script>
 
 <script>
+    // Array avec les nouvelles options de design du graphique
+    var design_selector = '{{ chapter.graphtype }}';
+    var design = design_selector.split(' ');
     // Highcharts Global configuration
     Highcharts.setOptions({
         // Options globales pour l'ensemble des graphiques
         chart: {
+            // design[0] -> correspond à la première valeur entrée dans le champs graph_type de l'éditeur d'article     
+            type: design[0],
+            // Appel de la fonction du fichier colors.js -> background_graph -> correspond à la troisième valeur entrée dans le champs graph_type de l'éditeur d'article
+            plotBackgroundImage: background_selection(),
             // Font-family
             style: {
                 fontFamily: 'Quicksand'
@@ -219,6 +226,8 @@
                 }
             },
             series: {
+                // Effet de ligne (options modifiables en back office)
+                dashStyle: design[3],
                 // Curseur de main
                 cursor: 'pointer',
                 // Autoriser la sélection de point
@@ -231,7 +240,9 @@
                             radius: 35,
                             fillColor: 'white',
                         }
-                    },              
+                    },
+                    // Symbole personnalisé -> icon_graph -> troisième valeur entrée dans le champs graph_type de l'éditeur d'article
+                    symbol: icon_selection(),
                 }
             },
         }
@@ -257,24 +268,8 @@
     };
     // *** Récupération des champs édités en Back Office pour les graphiques
     var csv_file_name = '{{ chapter.graphcsvfilename }}';
-    // Array avec les nouvelles options de design du graphique
-    var design_selector = '{{ chapter.graphtype }}';
-    var design = design_selector.split(' ');
-    // Sélection des icônes personnalisés (2 options)
-    if (design[2] === 'red-icon') {
-        var icon_graph = icon_style_1;
-    };
-    if (design[2] === 'blue-icon') {
-        var icon_graph = icon_style_2;
-    };
 
     Highcharts.chart('container_csv_file', {
-        chart: {
-            // design[0] -> correspond à la première valeur entrée dans le champs graph_type de l'éditeur d'article     
-            type: design[0],
-            // Appel de la fonction du fichier colors.js -> background_graph -> correspond à la troisième valeur entrée dans le champs graph_type de l'éditeur d'article
-            plotBackgroundImage: background_selection(),
-        },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
         },
@@ -287,16 +282,6 @@
             title: {
                 text: hide_result_y
             }
-        },
-        plotOptions: {
-            series: {
-                // Effet de ligne (options modifiables en back office)
-                dashStyle: design[3],
-                marker: {
-                    // Symbole personnalisé -> icon_graph -> troisième valeur entrée dans le champs graph_type de l'éditeur d'article
-                    symbol: icon_graph,
-                }
-            },
         },
         data: {
             csvURL: 'http://localhost/projet5/public/csv_files/' + csv_file_name + '.csv',
@@ -327,21 +312,7 @@
         var hide_result_y_v2 = '{{ chapter.graphnamey }}';
     };
      
-    var design_selector_2 = '{{ chapter.graphtype }}';
-    var design_v2 = design_selector_2.split(' ');
-     
-    if (design_v2[2] === 'red-icon') {
-        var icon_graph_v2 = icon_style_1;
-    };
-    if (design_v2[2] === 'blue-icon') {
-        var icon_graph_v2 = icon_style_2;
-    };
-
     Highcharts.chart('container_csv_longtext', {
-        chart: {
-            type: design_v2[0],
-            plotBackgroundImage: background_selection_v2(),
-        },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
         },
@@ -355,16 +326,8 @@
                 text: hide_result_y_v2
             }
         },
-        plotOptions: {
-            series: {
-                dashStyle: design_v2[3],
-                marker: {
-                    symbol: icon_graph_v2,
-                }
-            },
-        },
         data: {
-            csv: document.getElementById('data').innerHTML
+            csv: document.getElementById('data_hidden').innerHTML
         }
     });
     {% endif %}
@@ -387,21 +350,7 @@
         var hide_result_y_v3 = '{{ chapter.graphnamey }}';
     };
      
-    var design_selector_3 = '{{ chapter.graphtype }}';
-    var design_v3 = design_selector_3.split(' ');
-
-    if (design_v3[2] === 'red-icon') {
-        var icon_graph_v3 = icon_style_1;
-    };
-    if (design_v3[2] === 'blue-icon') {
-        var icon_graph_v3 = icon_style_2;
-    };
-     
     Highcharts.chart('container_csv_from_url', {
-        chart: {      
-            type: design_v3[0],
-            plotBackgroundImage: background_selection_v3(),
-        },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
         },
@@ -414,14 +363,6 @@
             title: {
                 text: hide_result_y_v3
             }
-        },
-        plotOptions: {
-            series: {
-                dashStyle: design_v3[3],
-                marker: {
-                    symbol: icon_graph_v3,
-                }
-            },
         },
         data: {
             csvURL: '{{ chapter.graphcsvurl }}',
@@ -438,16 +379,6 @@
 <script>
     /*** Graphique Version n°4 (v4) -> JSON FROM longtext ARRAY ***/
     {% if (chapter.grapharrayjson != '') or(chapter.graphseriesnamejson != '') %}
-    
-    var design_selector_4 = '{{ chapter.graphtype }}';
-    var design_v4 = design_selector_4.split(' ');
-
-    if (design_v4[2] === 'red-icon') {
-        var icon_graph_v4 = icon_style_1;
-    };
-    if (design_v4[2] === 'blue-icon') {
-        var icon_graph_v4 = icon_style_2;
-    };
 
     // Condition pour retirer les Labels de l'Axe horizontal, ainsi que le mot "false" édité en backOffice -> mot qui commande l'activation de cette condition (Conversion string to boolean)
     if ('{{ chapter.graphnamex }}' === 'false') {
@@ -486,10 +417,6 @@
     });
 
     var chart = Highcharts.chart('container_json_longtext', {
-        chart: {       
-            type: design_v4[0],
-            plotBackgroundImage: background_selection_v4(),
-        },
         subtitle: {
             text: '{{ chapter.graphsubtitle }}'
         },
@@ -512,14 +439,6 @@
         tooltip: {
             // Retrait du header du tooltip
             headerFormat: null,
-        },
-        plotOptions: {
-            series: {
-                dashStyle: design_v4[3],
-                marker: {
-                    symbol: icon_graph_v4,
-                }
-            },
         },
         series: series_array
     });
@@ -553,23 +472,12 @@
         var hide_result_y_v5 = '{{ chapter.graphnamey }}';
     };
 
-    var design_selector_5 = '{{ chapter.graphtype }}';
-    var design_v5 = design_selector_5.split(' ');
-
-    if (design_v5[2] === 'red-icon') {
-        var icon_graph_v5 = icon_style_1;
-    };
-    if (design_v5[2] === 'blue-icon') {
-        var icon_graph_v5 = icon_style_2;
-    };
-
     var url_json = ['{{ chapter.graphurljson }}'];
 
     $(document).ready(function () {
         options = {
             chart: {
                 renderTo: 'container_json_multiple',
-                plotBackgroundImage: background_selection_v5(),
             },
             xAxis: {
                 title: {
@@ -581,18 +489,9 @@
                     text: hide_result_y_v5
                 }
             },
-            plotOptions: {
-                series: {
-                    dashStyle: design_v5[3],
-                    marker: {
-                        symbol: icon_graph_v5,
-                    }
-                },
-            },
             series: [{
                 // Attention : dans ce chart, le sous-titre du graphique peut servir pour définir le nom de la série
                 name: '{{ chapter.graphsubtitle }}',
-                type: design_v5[0],
                 data: []
                 }]
         };
@@ -626,16 +525,6 @@
     } else {
         var value_vertical_v11_2 = true;
         var value_name_y_v11 = '{{ chapter.graphnamey }}';
-    };
-
-    var design_selector_v11 = '{{ chapter.graphtype }}';
-    var design_v11 = design_selector_v11.split(' ');
-
-    if (design_v11[2] === 'red-icon') {
-        var icon_graph_v11 = icon_style_1;
-    };
-    if (design_v11[2] === 'blue-icon') {
-        var icon_graph_v11 = icon_style_2;
     };
 
     var api_selector_v11 = '{{ chapter.graphapifilters }}';
@@ -672,10 +561,6 @@
                 });
 
                 Highcharts.chart('container_fetch_api_2', {
-                    chart: {     
-                        type: design_v11[0],
-                        plotBackgroundImage: background_selection_v11(),
-                    },
                     // Au cas où le champs d'édition du titre de l'axe horizontal contient le mot "false", cela désactive le titre de cet axe ainsi que les Labels :
                     xAxis: {
                         title: {
@@ -694,14 +579,6 @@
                         labels: {
                             enabled: value_vertical_v11_2
                         }
-                    },
-                    plotOptions: {
-                        series: {
-                            dashStyle: design_v11[3],
-                            marker: {
-                                symbol: icon_graph_v11,
-                            }
-                        },
                     },
                     series: [{
                         data: gobal_array_v11,
@@ -741,16 +618,6 @@
         var value_name_y_v12 = '{{ chapter.graphnamey }}';
     };
 
-    var design_selector_v12 = '{{ chapter.graphtype }}';
-    var design_v12 = design_selector_v12.split(' ');
-
-    if (design_v12[2] === 'red-icon') {
-        var icon_graph_v12 = icon_style_1;
-    };
-    if (design_v12[2] === 'blue-icon') {
-        var icon_graph_v12 = icon_style_2;
-    };
-
     var api_selector_v12 = '{{ chapter.graphapifilters }}';
     var words_v12 = api_selector_v12.split('+++');
 
@@ -784,10 +651,6 @@
                 });
 
                 Highcharts.chart('container_fetch_api_3', {
-                    chart: {      
-                        type: design_v12[0],
-                        plotBackgroundImage: background_selection_v12(),
-                    },
                     xAxis: {
                         title: {
                             text: graph_name_x_v12
@@ -804,14 +667,6 @@
                         labels: {
                             enabled: value_vertical_v12_2
                         }
-                    },
-                    plotOptions: {
-                        series: {
-                            dashStyle: design_v12[3],
-                            marker: {
-                                symbol: icon_graph_v12,
-                            }
-                        },
                     },
                     series: [{
                         data: global_array_v12,
@@ -848,16 +703,6 @@
     } else {
         var value_vertical_v13_2 = true;
         var value_name_y_v13 = '{{ chapter.graphnamey }}';
-    };
-
-    var design_selector_v13 = '{{ chapter.graphtype }}';
-    var design_v13 = design_selector_v13.split(' ');
-
-    if (design_v13[2] === 'red-icon') {
-        var icon_graph_v13 = icon_style_1;
-    };
-    if (design_v13[2] === 'blue-icon') {
-        var icon_graph_v13 = icon_style_2;
     };
 
     var api_selector_v13 = '{{ chapter.graphapifilters }}';
@@ -904,10 +749,6 @@
                 });
             
                 Highcharts.chart('container_fetch_api_4', {
-                    chart: {       
-                        type: design_v13[0],
-                        plotBackgroundImage: background_selection_v13(),
-                    },
                     xAxis: {
                         title: {
                             text: graph_name_x_v13
@@ -924,14 +765,6 @@
                         labels: {
                             enabled: value_vertical_v13_2
                         }
-                    },
-                    plotOptions: {
-                        series: {
-                            dashStyle: design_v13[3],
-                            marker: {
-                                symbol: icon_graph_v13,
-                            }
-                        },
                     },
                     series: [{
                         data: global_array_v13,
@@ -967,16 +800,6 @@
     } else {
         var value_vertical_v14_2 = true;
         var value_name_y_v14 = '{{ chapter.graphnamey }}';
-    };
-
-    var design_selector_v14 = '{{ chapter.graphtype }}';
-    var design_v14 = design_selector_v14.split(' ');
-
-    if (design_v14[2] === 'red-icon') {
-        var icon_graph_v14 = icon_style_1;
-    };
-    if (design_v14[2] === 'blue-icon') {
-        var icon_graph_v14 = icon_style_2;
     };
 
     var api_selector_v14 = '{{ chapter.graphapifilters }}';
@@ -1019,10 +842,6 @@
                 });
             
                 Highcharts.chart('container_fetch_api_5', {
-                    chart: {        
-                        type: design_v14[0],
-                        plotBackgroundImage: background_selection_v14(),
-                    },
                     xAxis: {
                         title: {
                             text: graph_name_x_v14
@@ -1039,14 +858,6 @@
                         labels: {
                             enabled: value_vertical_v14_2
                         }
-                    },
-                    plotOptions: {
-                        series: {
-                            dashStyle: design_v14[3],
-                            marker: {
-                                symbol: icon_graph_v14,
-                            }
-                        },
                     },
                     series: [{
                         data: global_array_v14,
@@ -1082,16 +893,6 @@
     } else {
         var value_vertical_v15_2 = true;
         var value_name_y_v15 = '{{ chapter.graphnamey }}';
-    };
-
-    var design_selector_v15 = '{{ chapter.graphtype }}';
-    var design_v15 = design_selector_v15.split(' ');
-
-    if (design_v15[2] === 'red-icon') {
-        var icon_graph_v15 = icon_style_1;
-    };
-    if (design_v15[2] === 'blue-icon') {
-        var icon_graph_v15 = icon_style_2;
     };
 
     var api_selector_v15 = '{{ chapter.graphapifilters }}';
@@ -1138,10 +939,6 @@
                 });
             
                 Highcharts.chart('container_fetch_api_6', {
-                    chart: {        
-                        type: design_v15[0],
-                        plotBackgroundImage: background_selection_v15(),
-                    },
                     xAxis: {
                         title: {
                             text: graph_name_x_v15
@@ -1158,14 +955,6 @@
                         labels: {
                             enabled: value_vertical_v15_2
                         }
-                    },
-                    plotOptions: {
-                        series: {
-                            dashStyle: design_v15[3],
-                            marker: {
-                                symbol: icon_graph_v15,
-                            }
-                        },
                     },
                     series: [{
                         data: global_array_v15,
