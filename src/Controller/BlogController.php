@@ -155,102 +155,38 @@ class BlogController extends AbstractController
         ]);
     }
     
-    /**
+     /**
      * @Route("/backcom/delete/{id}", name="delete_comment")
      * @Method({"DELETE"})
      */
-    public function deleteComment(CommentRepository $repoComment, Request $request, $id, PaginatorInterface $paginator) 
+    public function deleteComment(Comment $comment) 
     {
-       
-        $entityManager = $this->getDoctrine()->getManager();
         
-        $comment = $entityManager->getRepository(Comment::class)->find($id);
-      
+        $entityManager = $this->getDoctrine()->getManager();
+
         $entityManager->remove($comment);
         
         $entityManager->flush();
-        
-        $response = new Response();
-        
-        $response->send();
-        
+
         return $this->redirect($this->generateUrl('backcom'));
         
-        // Chercher le moyen de rafraîchir les pages de la pagination...??
-        
-        // return $this->redirectToRoute('backcom');
-
-        $comments = $repoComment->findAll();
-        
-                // Rappel de la fonction backcom
-                $queryComment = $this->getDoctrine()->getManager();
-
-                $pagingComment = $queryComment->getRepository(Comment::class);
-
-                $commentQB = $pagingComment->createQueryBuilder('c')
-                ->getQuery();
-
-                $commentlists = $paginator->paginate(
-                $commentQB,
-                $request->query->getInt('page', 1),
-                3,
-                [
-                'defaultSortFieldName' => 'c.id',
-                'defaultSortDirection' => 'desc',
-                ]
-            );
-        
-       return $this->render('paging/commentOffice.html.twig', array('comments' => $comments, 'commentlists' => $commentlists));
-
     }
     
     /**
      * @Route("/office/delete/{id}", name="delete_chapter")
      * @Method({"DELETE"})
      */
-    public function delete(ChapterRepository $repoChapter, Request $request, $id, PaginatorInterface $paginator) 
+    public function delete(Chapter $chapter) 
     {
-       
-      $entityManager = $this->getDoctrine()->getManager();
         
-      $chapter = $entityManager->getRepository(Chapter::class)->find($id);
-      
-      $entityManager->remove($chapter);
+        $entityManager = $this->getDoctrine()->getManager();
+ 
+        $entityManager->remove($chapter);
         
-      $entityManager->flush();
-        
-      $response = new Response();
-        
-      $response->send();
-        
-      return $this->redirect($this->generateUrl('office'));
-        
-      // Chercher le moyen de rafraîchir les pages de la pagination...??
-        
-      // return $this->redirectToRoute('office');
+        $entityManager->flush();
 
-                $chapters = $repoChapter->findAll();
-
-                $queryList = $this->getDoctrine()->getManager();
-
-                $backChapter = $queryList->getRepository(Chapter::class);
-
-                $chapterQB = $backChapter->createQueryBuilder('o')
-                    ->getQuery();
-
-                $backlists = $paginator->paginate(
-                    $chapterQB,
-                    $request->query->getInt('page', 1),
-                    3,
-                    [
-                    'defaultSortFieldName' => 'o.id',
-                    'defaultSortDirection' => 'desc',
-                    ]
-                );
-                // Fin d'intégration de la fonction "chapterBackOffice" avec Paginator
+        return $this->redirect($this->generateUrl('office'));
         
-       return $this->render('paging/backOffice.html.twig', array('chapters' => $chapters, 'backlists' => $backlists));
-
     }
     
     /**
@@ -269,7 +205,7 @@ class BlogController extends AbstractController
         $backlists = $paginator->paginate(
             $chapterQB,
             $request->query->getInt('page', 1),
-            3,
+            6,
             [
             'defaultSortFieldName' => 'o.id',
             'defaultSortDirection' => 'desc',
@@ -286,41 +222,5 @@ class BlogController extends AbstractController
     // 4. Créer la fonction suivante de "pagination"
     // 5. Faire une boucle "for" dans le fichier TWIG concerné pour l'affichage des articles
     // 6. Ajouter ensuite dans le fichier TWIG "{{ knp_pagination_render(appointments) }}" en dessous de la boucle "for" -> cela génère alors une pagination avec des numéros !!
-        
-    /**
-     * @Route("/paging", name="paging")
-     */
-    public function chapterPagination(Request $request, PaginatorInterface $paginator) 
-    {
-
-        // Retrieve the entity manager of Doctrine
-      $chapterList = $this->getDoctrine()->getManager();
-        
-        $pageChapter = $chapterList->getRepository(Chapter::class);
-       
-        // Find all the data on the Appointments table, filter your query as you need
-        // voir https://symfony.com/doc/current/doctrine.html#querying-with-the-query-builder
-        $chapterQuery = $pageChapter->createQueryBuilder('n')
-            ->getQuery();
-
-        // Paginate the results of the query
-        $limitations = $paginator->paginate(
-            // Doctrine Query, not results
-            $chapterQuery,
-            // Define the page parameter
-            $request->query->getInt('page', 1),
-            // Items per page
-            3,
-            [
-            'defaultSortFieldName' => 'n.id',
-            'defaultSortDirection' => 'desc',
-            ]
-        );
-
-        
-      return $this->render('paging/postList.html.twig', array('limitations' => $limitations));
-    }
-   
-
-    
+           
 }
