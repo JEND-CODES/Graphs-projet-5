@@ -1,4 +1,4 @@
-
+/*
 const articles = document.getElementById('articles');
 
 if (articles) {
@@ -43,10 +43,11 @@ if (commentaires) {
 
         fetch(`/public/index.php/backcom/delete/${id}`, {
           method: 'DELETE'
-        }).then(res => window.location.assign("http://localhost/symfovue16/public/index.php/backcom"));
+        }).then(res => window.location.reload());
         
         
     }
      
   });
 }
+*/
