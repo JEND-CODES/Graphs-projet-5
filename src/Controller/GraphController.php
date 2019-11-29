@@ -21,6 +21,7 @@ class GraphController extends AbstractController
         DAY(created_at) AS day, COUNT(*) AS counter
         FROM comment
         WHERE Day(created_at) > 0
+        AND created_at >= current_date - interval 30 DAY
         GROUP BY DAY(created_at) 
         ORDER BY created_at
         ');
