@@ -119,11 +119,11 @@
 
                     <v-btn class="mb-2" color="blue lighten-2" width="100%" href="{{ path('blog_edit', {'id': backlist.id}) }}"><i class="fas fa-pen-fancy"></i>&nbsp;&nbsp;Modifier</v-btn>
 
-                    <div id="chapters" class="text-center">               
+                    <!--<div id="chapters" class="text-center">               
                     <a href="/projet5/public/index.php/office/delete/{{ backlist.id }}" class="suppress-post" suppress-id="{{ backlist.id }}"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Supprimer</a>
-                    </div>
+                    </div>-->
                     
-                    <!--<v-btn class="mb-2" color="blue lighten-3" width="100%" href="{{ path('delete_chapter', {'id': backlist.id}) }}"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Supprimer</v-btn>-->
+                    <v-btn class="mb-2" color="blue lighten-3" width="100%" href="{{ path('delete_chapter', {'id': backlist.id}) }}"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Supprimer</v-btn>
                             
                 </v-card>
                 </v-col>
