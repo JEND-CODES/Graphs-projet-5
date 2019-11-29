@@ -173,6 +173,12 @@ class BlogController extends AbstractController
         $response = new Response();
         
         $response->send();
+        
+        return $this->redirect($this->generateUrl('backcom'));
+        
+        // Chercher le moyen de rafraîchir les pages de la pagination...??
+        
+        // return $this->redirectToRoute('backcom');
 
         $comments = $repoComment->findAll();
         
@@ -216,6 +222,12 @@ class BlogController extends AbstractController
       $response = new Response();
         
       $response->send();
+        
+      return $this->redirect($this->generateUrl('office'));
+        
+      // Chercher le moyen de rafraîchir les pages de la pagination...??
+        
+      // return $this->redirectToRoute('office');
 
                 $chapters = $repoChapter->findAll();
 
