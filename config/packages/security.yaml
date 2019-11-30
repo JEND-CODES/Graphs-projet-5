@@ -3,9 +3,7 @@ security:
     
         App\Entity\User:
             algorithm: bcrypt
-        App\Entity\Administrator:
-            algorithm: bcrypt
-            
+           
     providers:
         in_memory: { memory: null }
         
@@ -14,17 +12,11 @@ security:
                 class: App\Entity\User
                 property: email
                 
-        in_globalbase:
-            entity:
-                class: App\Entity\Administrator
-                property: username
-                
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-      
-      
+          
         main:
             anonymous: true
             
