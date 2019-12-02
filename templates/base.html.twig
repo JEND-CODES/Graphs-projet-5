@@ -616,6 +616,8 @@
 
     {{ include('inc/footer.html.twig') }}
 
+
+    {% block javascripts %}
     <!-- Vue.JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
@@ -809,7 +811,7 @@
 
     </script>
 
-    {% block javascripts %}{% endblock %}
+    {% endblock %}
 
 </body>
 
