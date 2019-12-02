@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <title>{% block title %}CHARTS{% endblock %}</title>
-    <!--<link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">-->
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -36,10 +35,12 @@
     <!-- Polices du site -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
 
-    <!-- Load Leaflet: zie voor instructies en laatste versie http://leafletjs.com/download.html -->
+    {% if app.request.get('_route') == 'leafletMap' %}
+    <!-- Load Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="anonymous" />
-
-    {% block stylesheets %}{% endblock %}
+    {% endif %}
+    
+    {% block stylesheets %}
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap');
@@ -598,6 +599,8 @@
         }
 
     </style>
+    
+    {% endblock %}
 
 </head>
 
