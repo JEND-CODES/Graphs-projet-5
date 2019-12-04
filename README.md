@@ -2,4 +2,4 @@ Ce site, développé avec les frameworks Symfony et Vue.js, explore la programma
 
 Avancées du projet -> https://github.com/JEND-CODES/Details-Projet-5
 
-Url de présentation du projet -> http://symfony2.planetcode.fr
+Url de présentation du projet -> http://dataviz.planetcode.fr
