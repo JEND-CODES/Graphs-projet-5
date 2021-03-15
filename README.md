@@ -6,28 +6,28 @@ Url de présentation du projet -> http://dataviz.planetcode.fr
 
 ## CLI COMMANDS
 
-- Créer un projet : "composer create-project symfony/website-skeleton my_project_name"
+- Créer un projet : " composer create-project symfony/website-skeleton my_project_name "
 
-- Création BDD : "php bin/console doctrine:database:create"
+- Création BDD : " php bin/console doctrine:database:create "
 
-- Créer un Controller -> "php bin/console make:controller"
+- Créer un Controller -> " php bin/console make:controller "
 
-- Créer une nouvelle Entity : "php bin/console make:entity"
+- Créer une nouvelle Entity : " php bin/console make:entity "
 
-- Faire une migration -> "php bin/console make:migration"
+- Faire une migration -> " php bin/console make:migration "
 
-- Ensuite -> "php bin/console doctrine:migrations:migrate"
+- Ensuite -> " php bin/console doctrine:migrations:migrate "
 
-- Mettre à jour une Entité -> "php bin/console make:entity --regenerate App" (getters/setters sont générés)
+- Mettre à jour une Entité -> " php bin/console make:entity --regenerate App " (getters/setters sont générés)
 
-- Ensuite : "php bin/console doctrine:schema:update --dump-sql" 
+- Ensuite : " php bin/console doctrine:schema:update --dump-sql " 
 
-- Et "php bin/console doctrine:schema:update --force"
+- Et " php bin/console doctrine:schema:update --force "
 
-- Vérifier si les Entités sont conformes : "php bin/console doctrine:schema:validate"
+- Vérifier si les Entités sont conformes : " php bin/console doctrine:schema:validate "
 
-- Clear the cache ! "php bin/console cache:clear"
+- Clear the cache ! " php bin/console cache:clear "
 
-- Lancer le live, exemple : php -S localhost:8000 -t public
+- Lancer le live, exemple : " php -S localhost:8000 -t public "
 
-- Générer des Fixtures entrer : "php bin/console doctrine:fixtures:load"
+- Générer des Fixtures entrer : " php bin/console doctrine:fixtures:load "
