@@ -6,6 +6,8 @@ Url de présentation du projet -> http://dataviz.planetcode.fr
 
 ## CLI COMMANDS
 
+- Créer un projet : "composer create-project symfony/website-skeleton my_project_name"
+
 - Création BDD : "php bin/console doctrine:database:create"
 
 - Créer un Controller -> "php bin/console make:controller"
