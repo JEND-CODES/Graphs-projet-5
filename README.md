@@ -16,6 +16,8 @@ Url de présentation du projet -> http://dataviz.planetcode.fr
 
 - Faire une migration -> " php bin/console make:migration "
 
+- Migration par comparaison -> " php bin/console doctrine:migrations:diff "
+
 - Ensuite -> " php bin/console doctrine:migrations:migrate "
 
 - Mettre à jour une Entité -> " php bin/console make:entity --regenerate App " (getters/setters sont générés)
